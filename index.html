@@ -452,7 +452,7 @@ body.lang-ko .ob-hour { font-family: 'Jua', sans-serif; }
   </div>
   <div class="theme-strip-wrap" id="theme-strip-wrap"><div class="theme-strip" id="theme-strip">
     <button class="theme-swatch auto-swatch active" id="sw-auto" onclick="selectTheme('auto')" title="Auto"><i class="ph ph-clock"></i></button>
-  </div>
+  </div></div>
   <div class="install-bar hidden" id="install-bar">
     <div class="install-txt"><i class="ph ph-device-mobile" style="font-size:15px"></i> <span data-i18n="install_msg"></span></div>
     <div style="display:flex;gap:8px;align-items:center">
@@ -1288,7 +1288,7 @@ const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_co
   {src:'./icon-192.png',sizes:'192x192',type:'image/png'}
 ]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v35';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v36';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== SETTINGS =====
 function openSettings(){
