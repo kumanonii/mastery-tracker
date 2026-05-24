@@ -1,6 +1,18 @@
 # Mastery Tracker
 
-スキルの習熟時間を記録・可視化するPWAアプリです。
+ピアノの練習を100時間したくて作った、スキルの習熟時間を記録できる習熟トラッカーアプリです。
+A tiny tracker I made for practicing piano for 100 hours.
+
+![main](./.github/images/dashboard.png)
+
+## Screens
+
+<img src="./.github/images/onboarding.png" width="600" />
+
+<img src="./.github/images/timer.png" width="600" />
+
+<img src="./.github/images/create-skill.png" width="600" />
+
 
 ## 特徴
 
