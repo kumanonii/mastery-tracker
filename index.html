@@ -1201,6 +1201,24 @@ function logSession(skillId,minutes,note){
 // ===== TIMER =====
 let timerPaused=false;
 
+// ===== WAKE LOCK =====
+let _wakeLock=null;
+async function requestWakeLock(){
+  try{
+    if('wakeLock' in navigator){
+      _wakeLock=await navigator.wakeLock.request('screen');
+    }
+  }catch(e){}
+}
+function releaseWakeLock(){
+  if(_wakeLock){ _wakeLock.release().catch(()=>{}); _wakeLock=null; }
+}
+document.addEventListener('visibilitychange',async()=>{
+  if(document.visibilityState==='visible'&&timerInterval&&!_wakeLock){
+    await requestWakeLock();
+  }
+});
+
 function startTimer(skillId){
   timerSkillId=skillId; timerSeconds=0; timerPaused=false;
   const sk=data.skills.find(s=>s.id===skillId);
@@ -1217,6 +1235,7 @@ function startTimer(skillId){
   // also show banner for background
   document.getElementById('timer-skill-nm').innerHTML=`${iconEl(sk?.icon||'target',13)} ${sk?.name||''}`;
   document.getElementById('timer-banner').classList.remove('hidden');
+  requestWakeLock();
   timerInterval=setInterval(()=>{
     if(timerPaused) return;
     timerSeconds++;
