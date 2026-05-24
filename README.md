@@ -7,11 +7,11 @@ A tiny tracker I made for practicing piano for 100 hours.
 
 ## Screens
 
-<img src="./.github/images/onboarding.jpg" width="600" />
+<img src="./.github/images/onboarding.PNG" width="600" />
 
 <img src="./.github/images/timer.jpg" width="600" />
 
-<img src="./.github/images/create-skill.jpg" width="600" />
+<img src="./.github/images/create-skill.PNG" width="600" />
 
 
 ## 特徴
