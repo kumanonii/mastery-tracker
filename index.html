@@ -153,8 +153,10 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .palette-btn.open { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
 
 /* ===== THEME STRIP ===== */
-.theme-strip { display: flex; gap: 6px; padding: 10px 20px; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; align-items: center; max-height: 0; overflow: hidden; padding: 0 20px; border-bottom: none; transition: max-height 0.35s ease, padding 0.35s ease; }
-.theme-strip.open { max-height: 60px; padding: 10px 20px; border-bottom: 1px solid var(--border); }
+.theme-strip-wrap { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: var(--bg2); border-bottom: none; }
+.theme-strip-wrap.open { max-height: 60px; border-bottom: 1px solid var(--border); }
+.theme-strip { display: flex; gap: 6px; padding: 10px 20px; overflow-x: auto; overflow-y: visible; scrollbar-width: none; -webkit-overflow-scrolling: touch; align-items: center; white-space: nowrap; }
+.theme-strip::-webkit-scrollbar { display: none; }
 .theme-swatch { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; transition: transform 0.2s, border-color 0.2s; overflow: hidden; }
 .theme-swatch.active { border-color: var(--text); transform: scale(1.2); box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
 .auto-swatch { display: flex; align-items: center; justify-content: center; background: var(--bg3); border: 2px solid var(--border2); color: var(--text2); font-size: 13px; }
@@ -448,7 +450,7 @@ body.lang-ko .ob-hour { font-family: 'Jua', sans-serif; }
       </div>
     </div>
   </div>
-  <div class="theme-strip" id="theme-strip">
+  <div class="theme-strip-wrap" id="theme-strip-wrap"><div class="theme-strip" id="theme-strip">
     <button class="theme-swatch auto-swatch active" id="sw-auto" onclick="selectTheme('auto')" title="Auto"><i class="ph ph-clock"></i></button>
   </div>
   <div class="install-bar hidden" id="install-bar">
@@ -1286,7 +1288,7 @@ const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_co
   {src:'./icon-192.png',sizes:'192x192',type:'image/png'}
 ]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v34';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v35';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== SETTINGS =====
 function openSettings(){
@@ -1436,10 +1438,10 @@ function cardSwipeEnd(e,id){
 
 // ===== THEME TOGGLE =====
 function toggleTheme(){
-  const strip=document.getElementById('theme-strip');
+  const wrap=document.getElementById('theme-strip-wrap');
   const btn=document.getElementById('palette-btn');
-  const isOpen=strip.classList.contains('open');
-  strip.classList.toggle('open',!isOpen);
+  const isOpen=wrap.classList.contains('open');
+  wrap.classList.toggle('open',!isOpen);
   btn.classList.toggle('open',!isOpen);
 }
 
