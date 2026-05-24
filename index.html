@@ -5,47 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="習熟">
-<title>習熟 Tracker</title>
+<meta name="apple-mobile-web-app-title" content="Mastery">
+<title>Mastery Tracker</title>
 <link rel="manifest" href="#" id="manifest-link">
-<!-- Fonts: preconnect + preload for reliability -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
-<!-- Phosphor Icons: fixed URL (no /src/index.js) -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Zen+Maru+Gothic:wght@400;500;700&family=Jua&family=DM+Sans:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-body {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 300;
-  min-height: 100dvh;
-  transition: background 1.4s ease, color 0.8s ease;
-  overflow-x: hidden;
+/* ===== BASE FONTS ===== */
+body { font-family: 'DM Sans','Noto Sans JP',sans-serif; font-weight: 300; min-height: 100dvh; transition: background 1.4s ease, color 0.8s ease; overflow-x: hidden; }
+body.lang-ja { font-family: 'DM Sans','Noto Sans JP',sans-serif; }
+body.lang-en { font-family: 'DM Sans',sans-serif; }
+body.lang-pt { font-family: 'DM Sans',sans-serif; }
+body.lang-zh { font-family: 'DM Sans','Noto Sans TC',sans-serif; }
+body.lang-ko { font-family: 'DM Sans','Noto Sans KR',sans-serif; }
+
+/* Display font switches per language */
+.font-display { font-family: 'Pacifico', cursive; }
+body.lang-ja .font-display,
+body.lang-zh .font-display { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; }
+body.lang-ko .font-display { font-family: 'Jua', sans-serif; }
+
+/* Apply display font to all headings/labels */
+.header-app-name,
+.header-subtitle,
+.timer-label,
+.timer-display,
+.tab-btn,
+.sk-h,
+.sk-goal,
+.stat-v,
+.sec-label,
+.form-label,
+.modal-title,
+.cel-tag,
+.cel-title,
+.done-banner-tt,
+.hall-h,
+.weekly-val,
+.forecast-pace,
+.sess-t,
+.d-lv,
+.weekly-lbl,
+.goal-chip-h,
+[data-display] {
+  font-family: 'Pacifico', cursive;
 }
-.font-en { font-family: 'Pacifico', cursive; }
-input, button { font-family: 'Noto Sans JP', sans-serif; }
+body.lang-ja .timer-display, body.lang-zh .timer-display,
+body.lang-ja .stat-v, body.lang-zh .stat-v,
+body.lang-ja .sec-label, body.lang-zh .sec-label,
+body.lang-ja .form-label, body.lang-zh .form-label,
+body.lang-ja .modal-title, body.lang-zh .modal-title,
+body.lang-ja .cel-title, body.lang-zh .cel-title,
+body.lang-ja .done-banner-tt, body.lang-zh .done-banner-tt,
+body.lang-ja .hall-h, body.lang-zh .hall-h,
+body.lang-ja .weekly-val, body.lang-zh .weekly-val,
+body.lang-ja .forecast-pace, body.lang-zh .forecast-pace,
+body.lang-ja .sess-t, body.lang-zh .sess-t,
+body.lang-ja .sk-h, body.lang-zh .sk-h,
+body.lang-ja .goal-chip-h, body.lang-zh .goal-chip-h,
+body.lang-ja .timer-label, body.lang-zh .timer-label
+{ font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; }
+
+body.lang-ko .timer-display,
+body.lang-ko .stat-v,
+body.lang-ko .sec-label,
+body.lang-ko .form-label,
+body.lang-ko .modal-title,
+body.lang-ko .cel-title,
+body.lang-ko .done-banner-tt,
+body.lang-ko .hall-h,
+body.lang-ko .weekly-val,
+body.lang-ko .forecast-pace,
+body.lang-ko .sess-t,
+body.lang-ko .sk-h,
+body.lang-ko .goal-chip-h,
+body.lang-ko .timer-label
+{ font-family: 'Jua', sans-serif; }
+
+input, button { font-family: inherit; }
 button { cursor: pointer; border: none; background: none; }
 input { outline: none; border: none; }
 ::-webkit-scrollbar { display: none; }
 
-/* ===================== THEMES ===================== */
-body.t1  { --bg:#f8f4f0;--bg2:#f0e8e2;--bg3:#ecddd5;--border:#d4c4b0;--border2:#c8b4a0;--text:#5a3a2a;--text2:#8a6050;--text3:#b89880;--accent:#c47878;--accent2:#a05858;--accentText:#fff;--card:#fdfaf7;--cardBorder:#ddd0c0;--progress:#c47878;--grad:linear-gradient(160deg,#f8f4f0 0%,#f0e4dc 100%); }
-body.t2  { --bg:#f5f0ee;--bg2:#ede5e0;--bg3:#e8dcd6;--border:#d4c0b8;--border2:#c8b0a8;--text:#5a3a35;--text2:#8a6058;--text3:#b89888;--accent:#c4877a;--accent2:#a06860;--accentText:#fff;--card:#faf7f5;--cardBorder:#dcccc4;--progress:#c4877a;--grad:linear-gradient(160deg,#f5f0ee 0%,#ede0da 100%); }
-body.t3  { --bg:#f8f5e8;--bg2:#f0edd8;--bg3:#e8e4cc;--border:#d0c8a8;--border2:#c0b898;--text:#4a4030;--text2:#7a6a50;--text3:#a89878;--accent:#a8c0b8;--accent2:#7a9c90;--accentText:#2a3c38;--card:#fdfbf0;--cardBorder:#d8d0b0;--progress:#8ab0a8;--grad:linear-gradient(160deg,#f8f5e8 0%,#ede8d0 100%); }
-body.t4  { --bg:#f0f8f8;--bg2:#e4f0f0;--bg3:#d8e8e8;--border:#b0d0d8;--border2:#98c0ca;--text:#2a4048;--text2:#4a6878;--text3:#789098;--accent:#70a8b8;--accent2:#4a8898;--accentText:#fff;--card:#f8fcfc;--cardBorder:#c0d8e0;--progress:#78b8cc;--grad:linear-gradient(160deg,#eef7f8 0%,#ddeef2 100%); }
-body.t5  { --bg:#f4f8f0;--bg2:#e8f0e4;--bg3:#dce8d8;--border:#b8d4b0;--border2:#a0c498;--text:#2a4025;--text2:#4a6845;--text3:#7a9870;--accent:#6a9a35;--accent2:#508025;--accentText:#fff;--card:#f8fcf5;--cardBorder:#c8dcc0;--progress:#80b840;--grad:linear-gradient(160deg,#f0f8ec 0%,#e4f0dc 100%); }
-body.t6  { --bg:#f0f4f0;--bg2:#e4ece4;--bg3:#d8e4d8;--border:#a8c8b8;--border2:#90b8a8;--text:#2a4035;--text2:#4a6855;--text3:#789878;--accent:#4a7a6a;--accent2:#3a6058;--accentText:#f0f8f4;--card:#f5f8f5;--cardBorder:#bcd4c8;--progress:#5a8a78;--grad:linear-gradient(160deg,#edf4ef 0%,#ddeae2 100%); }
-body.t7  { --bg:#1a3a1a;--bg2:#243a24;--bg3:#2a4a2a;--border:#3a5a3a;--border2:#4a6a4a;--text:#e8f4e8;--text2:#b0d0b0;--text3:#7aa07a;--accent:#7a9a5a;--accent2:#6a8a48;--accentText:#e8f4e8;--card:#223422;--cardBorder:#3a5a38;--progress:#6a9a4a;--grad:linear-gradient(160deg,#1a3a1a 0%,#243824 100%); }
-body.t8  { --bg:#f5ede8;--bg2:#ede0d8;--bg3:#e0d0c4;--border:#b8a898;--border2:#a89888;--text:#1e3a5f;--text2:#2d5282;--text3:#5b7fa6;--accent:#1e3a5f;--accent2:#4a6a8a;--accentText:#f5ede8;--card:#faf5f0;--cardBorder:#cbbda8;--progress:#3a6080;--grad:linear-gradient(160deg,#f5ede8 0%,#e8ddd0 100%); }
-body.t9  { --bg:#f5f0e8;--bg2:#ece8d8;--bg3:#e0dac8;--border:#c0b898;--border2:#b0a888;--text:#2a3a58;--text2:#4a5a78;--text3:#7890b0;--accent:#7090c0;--accent2:#5070a0;--accentText:#fff;--card:#faf8f2;--cardBorder:#ccc4a8;--progress:#6888b8;--grad:linear-gradient(160deg,#f5f0e8 0%,#eae4d4 100%); }
-body.t10 { --bg:#e8eef4;--bg2:#dce4ee;--bg3:#d0dae8;--border:#a0b8d0;--border2:#88a8c8;--text:#1e3a5f;--text2:#2d5282;--text3:#5b7fa6;--accent:#2d5282;--accent2:#1e3a5f;--accentText:#e8f0f8;--card:#f0f5f8;--cardBorder:#b0c8dc;--progress:#2d5282;--grad:linear-gradient(160deg,#e8eef8 0%,#dce6f4 100%); }
-body.t11 { --bg:#f4f8fc;--bg2:#e8f0f8;--bg3:#dce8f4;--border:#b0c8e0;--border2:#98b8d8;--text:#2a3a58;--text2:#4a5a78;--text3:#8090b0;--accent:#5a98b8;--accent2:#4080a0;--accentText:#fff;--card:#f8fbff;--cardBorder:#c0d4e8;--progress:#6aaac0;--grad:linear-gradient(160deg,#f0f6fc 0%,#e8f2f8 100%); }
-body.t12 { --bg:#2a2530;--bg2:#342e3a;--bg3:#3c3545;--border:#504858;--border2:#605868;--text:#e8e4e0;--text2:#c0b8b0;--text3:#908880;--accent:#b0a090;--accent2:#c8b8a8;--accentText:#2a2530;--card:#322c38;--cardBorder:#504858;--progress:#988070;--grad:linear-gradient(160deg,#2a2530 0%,#302a38 100%); }
-body.t13 { --bg:#1a2e4a;--bg2:#22384e;--bg3:#2a4460;--border:#3a5478;--border2:#4a6488;--text:#f0eae4;--text2:#c8b8a8;--text3:#908070;--accent:#6a8aaa;--accent2:#8aaac8;--accentText:#f0eae4;--card:#20344c;--cardBorder:#3a5270;--progress:#5a7a98;--grad:linear-gradient(160deg,#1a2e4a 0%,#1e3456 100%); }
-body.t14 { --bg:#f0f0ee;--bg2:#e4e4e0;--bg3:#d8d8d4;--border:#c0b8b0;--border2:#b0a8a0;--text:#3a3530;--text2:#5a5550;--text3:#908880;--accent:#807870;--accent2:#605850;--accentText:#f8f6f4;--card:#f8f8f6;--cardBorder:#ccc8c0;--progress:#908078;--grad:linear-gradient(160deg,#f0f0ee 0%,#e8e8e4 100%); }
-
+/* ===== THEMES ===== */
+body.t1  { --bg:#f8f4f0;--bg2:#f0e8e2;--bg3:#ecddd5;--border:#d4c4b0;--border2:#c8b4a0;--text:#5a3a2a;--text2:#8a6050;--text3:#b89880;--accent:#c47878;--accent2:#a05858;--accentText:#fff;--card:#fdfaf7;--cardBorder:#ddd0c0;--grad:linear-gradient(160deg,#f8f4f0 0%,#f0e4dc 100%); }
+body.t2  { --bg:#f5f0ee;--bg2:#ede5e0;--bg3:#e8dcd6;--border:#d4c0b8;--border2:#c8b0a8;--text:#5a3a35;--text2:#8a6058;--text3:#b89888;--accent:#c4877a;--accent2:#a06860;--accentText:#fff;--card:#faf7f5;--cardBorder:#dcccc4;--grad:linear-gradient(160deg,#f5f0ee 0%,#ede0da 100%); }
+body.t3  { --bg:#f8f5e8;--bg2:#f0edd8;--bg3:#e8e4cc;--border:#d0c8a8;--border2:#c0b898;--text:#4a4030;--text2:#7a6a50;--text3:#a89878;--accent:#a8c0b8;--accent2:#7a9c90;--accentText:#2a3c38;--card:#fdfbf0;--cardBorder:#d8d0b0;--grad:linear-gradient(160deg,#f8f5e8 0%,#ede8d0 100%); }
+body.t4  { --bg:#f0f8f8;--bg2:#e4f0f0;--bg3:#d8e8e8;--border:#b0d0d8;--border2:#98c0ca;--text:#2a4048;--text2:#4a6878;--text3:#789098;--accent:#70a8b8;--accent2:#4a8898;--accentText:#fff;--card:#f8fcfc;--cardBorder:#c0d8e0;--grad:linear-gradient(160deg,#eef7f8 0%,#ddeef2 100%); }
+body.t5  { --bg:#f4f8f0;--bg2:#e8f0e4;--bg3:#dce8d8;--border:#b8d4b0;--border2:#a0c498;--text:#2a4025;--text2:#4a6845;--text3:#7a9870;--accent:#6a9a35;--accent2:#508025;--accentText:#fff;--card:#f8fcf5;--cardBorder:#c8dcc0;--grad:linear-gradient(160deg,#f0f8ec 0%,#e4f0dc 100%); }
+body.t6  { --bg:#f0f4f0;--bg2:#e4ece4;--bg3:#d8e4d8;--border:#a8c8b8;--border2:#90b8a8;--text:#2a4035;--text2:#4a6855;--text3:#789878;--accent:#4a7a6a;--accent2:#3a6058;--accentText:#f0f8f4;--card:#f5f8f5;--cardBorder:#bcd4c8;--grad:linear-gradient(160deg,#edf4ef 0%,#ddeae2 100%); }
+body.t7  { --bg:#1a3a1a;--bg2:#243a24;--bg3:#2a4a2a;--border:#3a5a3a;--border2:#4a6a4a;--text:#e8f4e8;--text2:#b0d0b0;--text3:#7aa07a;--accent:#7a9a5a;--accent2:#6a8a48;--accentText:#e8f4e8;--card:#223422;--cardBorder:#3a5a38;--grad:linear-gradient(160deg,#1a3a1a 0%,#243824 100%); }
+body.t8  { --bg:#f5ede8;--bg2:#ede0d8;--bg3:#e0d0c4;--border:#b8a898;--border2:#a89888;--text:#1e3a5f;--text2:#2d5282;--text3:#5b7fa6;--accent:#1e3a5f;--accent2:#4a6a8a;--accentText:#f5ede8;--card:#faf5f0;--cardBorder:#cbbda8;--grad:linear-gradient(160deg,#f5ede8 0%,#e8ddd0 100%); }
+body.t9  { --bg:#f5f0e8;--bg2:#ece8d8;--bg3:#e0dac8;--border:#c0b898;--border2:#b0a888;--text:#2a3a58;--text2:#4a5a78;--text3:#7890b0;--accent:#7090c0;--accent2:#5070a0;--accentText:#fff;--card:#faf8f2;--cardBorder:#ccc4a8;--grad:linear-gradient(160deg,#f5f0e8 0%,#eae4d4 100%); }
+body.t10 { --bg:#e8eef4;--bg2:#dce4ee;--bg3:#d0dae8;--border:#a0b8d0;--border2:#88a8c8;--text:#1e3a5f;--text2:#2d5282;--text3:#5b7fa6;--accent:#2d5282;--accent2:#1e3a5f;--accentText:#e8f0f8;--card:#f0f5f8;--cardBorder:#b0c8dc;--grad:linear-gradient(160deg,#e8eef8 0%,#dce6f4 100%); }
+body.t11 { --bg:#f4f8fc;--bg2:#e8f0f8;--bg3:#dce8f4;--border:#b0c8e0;--border2:#98b8d8;--text:#2a3a58;--text2:#4a5a78;--text3:#8090b0;--accent:#5a98b8;--accent2:#4080a0;--accentText:#fff;--card:#f8fbff;--cardBorder:#c0d4e8;--grad:linear-gradient(160deg,#f0f6fc 0%,#e8f2f8 100%); }
+body.t12 { --bg:#2a2530;--bg2:#342e3a;--bg3:#3c3545;--border:#504858;--border2:#605868;--text:#e8e4e0;--text2:#c0b8b0;--text3:#908880;--accent:#b0a090;--accent2:#c8b8a8;--accentText:#2a2530;--card:#322c38;--cardBorder:#504858;--grad:linear-gradient(160deg,#2a2530 0%,#302a38 100%); }
+body.t13 { --bg:#1a2e4a;--bg2:#22384e;--bg3:#2a4460;--border:#3a5478;--border2:#4a6488;--text:#f0eae4;--text2:#c8b8a8;--text3:#908070;--accent:#6a8aaa;--accent2:#8aaac8;--accentText:#f0eae4;--card:#20344c;--cardBorder:#3a5270;--grad:linear-gradient(160deg,#1a2e4a 0%,#1e3456 100%); }
+body.t14 { --bg:#f0f0ee;--bg2:#e4e4e0;--bg3:#d8d8d4;--border:#c0b8b0;--border2:#b0a8a0;--text:#3a3530;--text2:#5a5550;--text3:#908880;--accent:#807870;--accent2:#605850;--accentText:#f8f6f4;--card:#f8f8f6;--cardBorder:#ccc8c0;--grad:linear-gradient(160deg,#f0f0ee 0%,#e8e8e4 100%); }
 body { background: var(--grad); color: var(--text); }
 
 /* ===== LAYOUT ===== */
@@ -55,12 +115,21 @@ body { background: var(--grad); color: var(--text); }
 
 /* ===== HEADER ===== */
 .header-inner { padding: 14px 0 10px; border-bottom: 1px solid var(--border); }
-.header-app-name { font-family: 'Pacifico', cursive; font-size: 22px; color: var(--accent); letter-spacing: 1px; margin-bottom: 2px; }
-.header-subtitle { font-size: 11px; color: var(--text3); letter-spacing: 3px; font-weight: 300; margin-bottom: 10px; }
+.header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
+.header-app-name { font-size: 22px; color: var(--accent); letter-spacing: 1px; font-family: 'Pacifico', cursive !important; }
+.add-section-title { color: var(--accent); font-family: 'Pacifico', cursive; }
+body.lang-ja .add-section-title, body.lang-zh .add-section-title { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; }
+body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
+.header-subtitle { font-size: 11px; color: var(--text3); letter-spacing: 3px; font-weight: 300; margin-bottom: 10px; font-family: 'DM Sans', sans-serif; }
 .header-tabs { display: flex; gap: 16px; }
-.tab-btn { font-size: 11px; letter-spacing: 1px; color: var(--text3); padding: 3px 0; border-bottom: 2px solid transparent; transition: all 0.3s; background: none; border-left: none; border-right: none; border-top: none; font-weight: 400; display: flex; align-items: center; gap: 4px; }
+.tab-btn { font-size: 11px; letter-spacing: 1px; color: var(--text3); padding: 3px 0; border-bottom: 2px solid transparent; transition: all 0.3s; background: none; border-left: none; border-right: none; border-top: none; font-weight: 400; display: flex; align-items: center; gap: 4px; font-family: 'DM Sans','Noto Sans JP','Noto Sans TC','Noto Sans KR',sans-serif; }
 .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 .tab-btn i { font-size: 14px; }
+
+/* ===== LANG SWITCHER ===== */
+.lang-switcher { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
+.lang-btn { font-size: 10px; padding: 3px 6px; border-radius: 8px; color: var(--text3); background: none; border: 1px solid transparent; cursor: pointer; transition: all 0.2s; line-height: 1.4; font-family: 'DM Sans','Noto Sans JP','Noto Sans TC','Noto Sans KR',sans-serif; }
+.lang-btn.active { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
 
 /* ===== THEME STRIP ===== */
 .theme-strip { display: flex; gap: 6px; padding: 10px 20px; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; align-items: center; }
@@ -70,11 +139,10 @@ body { background: var(--grad); color: var(--text); }
 
 /* ===== TIMER BANNER ===== */
 .timer-banner { background: var(--bg2); border-bottom: 2px solid var(--accent); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
-.timer-label { font-family: 'Pacifico', cursive; font-size: 10px; color: var(--accent); letter-spacing: 1px; }
-.timer-display { font-family: 'Pacifico', cursive; font-size: 24px; color: var(--accent); letter-spacing: 2px; }
+.timer-label { font-size: 10px; color: var(--accent); letter-spacing: 1px; }
+.timer-display { font-size: 24px; color: var(--accent); letter-spacing: 2px; }
 .timer-skill-nm { font-size: 11px; color: var(--text2); margin-top: 2px; display: flex; align-items: center; gap: 5px; }
 .btn-stop { background: var(--accent); color: var(--accentText); padding: 9px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
-.btn-stop i { font-size: 14px; }
 
 /* ===== INSTALL BAR ===== */
 .install-bar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 9px 20px; display: flex; align-items: center; justify-content: space-between; }
@@ -82,8 +150,22 @@ body { background: var(--grad); color: var(--text); }
 .install-btn { background: var(--accent); color: var(--accentText); padding: 5px 12px; border-radius: 14px; font-size: 11px; font-weight: 700; }
 .install-x { color: var(--text3); font-size: 18px; padding: 0 4px; }
 
+/* ===== SORT BAR ===== */
+.sort-bar { display: flex; gap: 6px; padding: 10px 0 4px; align-items: center; flex-wrap: wrap; }
+.sort-bar span { font-size: 10px; color: var(--text3); letter-spacing: 1px; }
+.sort-chip { font-size: 10px; padding: 3px 10px; border-radius: 12px; border: 1px solid var(--border); color: var(--text3); background: var(--bg2); cursor: pointer; letter-spacing: 0.5px; }
+.sort-chip.active { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
+
+/* ===== WEEKLY SUMMARY ===== */
+.weekly-bar { background: var(--card); border: 1px solid var(--cardBorder); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; display: flex; }
+.weekly-stat { flex: 1; text-align: center; }
+.weekly-stat + .weekly-stat { border-left: 1px solid var(--border); }
+.weekly-lbl { font-size: 9px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; font-family: 'DM Sans',sans-serif; }
+.weekly-val { font-size: 20px; color: var(--accent); }
+.weekly-sub { font-size: 9px; color: var(--text3); font-family: 'DM Sans',sans-serif; }
+
 /* ===== SKILL CARDS ===== */
-.skill-card { background: var(--card); border: 1px solid var(--cardBorder); border-radius: 14px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: box-shadow 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+.skill-card { background: var(--card); border: 1px solid var(--cardBorder); border-radius: 14px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: box-shadow 0.2s; position: relative; overflow: hidden; }
 .skill-card:active { opacity: 0.82; }
 .skill-card.done { border-color: var(--accent); }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
@@ -92,8 +174,8 @@ body { background: var(--grad); color: var(--text); }
 .sk-icon i { font-size: 20px; color: var(--accent); }
 .sk-name { font-weight: 500; font-size: 14px; color: var(--text); }
 .sk-lv { font-size: 10px; margin-top: 2px; color: var(--text3); letter-spacing: 1px; }
-.sk-h { font-family: 'Pacifico', cursive; font-size: 18px; text-align: right; }
-.sk-goal { font-size: 9px; color: var(--text3); margin-top: 1px; text-align: right; }
+.sk-h { font-size: 18px; text-align: right; color: var(--accent); }
+.sk-goal { font-size: 9px; color: var(--text3); margin-top: 1px; text-align: right; font-family: 'DM Sans',sans-serif; }
 .prog-track { background: var(--border); border-radius: 3px; height: 4px; overflow: hidden; }
 .prog-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
 .card-foot { display: flex; justify-content: space-between; margin-top: 5px; }
@@ -107,10 +189,8 @@ body { background: var(--grad); color: var(--text); }
 .btn-sec { flex: 1; padding: 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; color: var(--accent); font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 5px; }
 .btn-sec i { font-size: 15px; }
 .btn-danger { background: none; color: #b05050; font-size: 11px; display: flex; align-items: center; gap: 4px; }
-.btn-danger i { font-size: 14px; }
-.btn-back { background: none; color: var(--accent); font-size: 12px; display: flex; align-items: center; gap: 4px; font-weight: 400; }
-.btn-back i { font-size: 16px; }
-.btn-add { width: 100%; padding: 14px; background: var(--bg2); border: 1.5px dashed var(--border2); border-radius: 14px; color: var(--text3); font-size: 13px; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-back { background: none; color: var(--accent); font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.btn-add { width: 100%; padding: 14px; background: var(--bg2); border: 1.5px dashed var(--border2); border-radius: 14px; color: var(--text3); font-size: 13px; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .btn-add i { font-size: 18px; color: var(--accent); }
 
 /* ===== DETAIL ===== */
@@ -118,41 +198,57 @@ body { background: var(--grad); color: var(--text); }
 .detail-hero { text-align: center; margin-bottom: 18px; }
 .d-icon { width: 72px; height: 72px; border-radius: 20px; background: var(--bg2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
 .d-icon i { font-size: 36px; color: var(--accent); }
-.d-name { font-weight: 700; font-size: 19px; color: var(--text); margin-bottom: 4px; }
-.d-lv { font-size: 10px; letter-spacing: 3px; color: var(--text3); }
+.d-name { font-weight: 500; font-size: 19px; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-edit-name { color: var(--text3); padding: 2px; }
+.btn-edit-name i { font-size: 14px; }
+.d-lv { font-size: 10px; letter-spacing: 3px; color: var(--text3); text-transform: uppercase; font-family: 'DM Sans',sans-serif; }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
 .stat-c { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 11px; }
-.stat-l { font-size: 9px; color: var(--text3); margin-bottom: 3px; letter-spacing: 2px; }
-.stat-v { font-family: 'Pacifico', cursive; font-size: 15px; color: var(--text); }
+.stat-l { font-size: 9px; color: var(--text3); margin-bottom: 3px; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Sans',sans-serif; }
+.stat-v { font-size: 15px; color: var(--text); }
 .action-row { display: flex; gap: 8px; margin-bottom: 18px; }
 .sess-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); }
-.sess-t { font-family: 'Pacifico', cursive; font-size: 13px; color: var(--accent); }
+.sess-t { font-size: 13px; color: var(--accent); }
 .sess-n { font-size: 10px; color: var(--text3); margin-top: 2px; }
 .sess-d { font-size: 10px; color: var(--text3); }
-.sec-label { font-family: 'Pacifico', cursive; font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+.sess-del { color: var(--text3); padding: 4px 6px; font-size: 13px; }
+.sess-del:active { color: #b05050; }
+.sec-label { font-size: 11px; color: var(--text3); margin-bottom: 8px; letter-spacing: 1px; }
+
+/* ===== FORECAST ===== */
+.forecast-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+.forecast-title { font-size: 9px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; font-family: 'DM Sans',sans-serif; }
+.forecast-main { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+.forecast-pace { font-size: 22px; color: var(--accent); }
+.forecast-pace-lbl { font-size: 10px; color: var(--text3); font-family: 'DM Sans',sans-serif; }
+.forecast-date { font-size: 11px; color: var(--text2); margin-bottom: 12px; }
+.forecast-sim-lbl { font-size: 9px; color: var(--text3); letter-spacing: 1px; margin-bottom: 6px; }
+.forecast-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 6px; }
+.forecast-chip { padding: 4px 10px; font-size: 10px; border-radius: 12px; border: 1px solid var(--border); color: var(--text2); background: var(--bg); cursor: pointer; transition: all 0.15s; }
+.forecast-chip.active { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
+.forecast-result { font-size: 11px; color: var(--accent); font-weight: 500; min-height: 18px; }
 
 /* ===== COMPLETE BANNER ===== */
 .done-banner { border: 1px solid var(--accent); border-radius: 14px; padding: 14px; margin-bottom: 18px; text-align: center; background: var(--bg2); }
 .done-banner-ic { font-size: 28px; margin-bottom: 4px; color: var(--accent); }
-.done-banner-tt { font-family: 'Pacifico', cursive; font-size: 14px; color: var(--accent); margin-bottom: 4px; }
+.done-banner-tt { font-size: 14px; color: var(--accent); margin-bottom: 4px; }
 .done-banner-sb { font-size: 11px; color: var(--text3); margin-bottom: 12px; }
 .done-actions { display: flex; gap: 8px; }
 .btn-hall { flex: 1; padding: 10px; background: var(--accent); color: var(--accentText); border-radius: 18px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 5px; }
-.btn-hall i { font-size: 14px; }
-.btn-ext { flex: 1; padding: 10px; background: var(--bg); border: 1px solid var(--accent); border-radius: 18px; color: var(--accent); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 5px; }
-.btn-ext i { font-size: 14px; }
+.btn-ext { flex: 1; padding: 10px; background: var(--bg); border: 1px solid var(--accent); border-radius: 18px; color: var(--accent); font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
 /* ===== FORM ===== */
-.form-label { font-family: 'Pacifico', cursive; font-size: 10px; color: var(--text3); letter-spacing: 1px; display: block; margin-bottom: 6px; }
-.form-input { width: 100%; background: var(--bg2); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px; font-size: 13px; }
+.form-label { font-size: 10px; color: var(--text3); letter-spacing: 1px; display: block; margin-bottom: 6px; }
+.form-input { width: 100%; background: var(--bg2); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px; font-size: 13px; font-family: inherit; }
 .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-.chip { padding: 5px 12px; font-size: 10px; border-radius: 14px; border: 1px solid var(--border); color: var(--text2); background: var(--bg2); cursor: pointer; transition: all 0.15s; letter-spacing: 1px; }
+.chip { padding: 5px 12px; font-size: 10px; border-radius: 14px; border: 1px solid var(--border); color: var(--text2); background: var(--bg2); cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
 .chip.active { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
-
-/* Icon picker grid */
+.goal-chip { display: flex; flex-direction: column; align-items: center; padding: 7px 10px; }
+.goal-chip-h { font-size: 15px; line-height: 1.2; }
+.goal-chip-lbl { font-size: 8px; opacity: 0.75; margin-top: 2px; font-family: 'DM Sans','Noto Sans JP','Noto Sans TC','Noto Sans KR',sans-serif; }
 .icon-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 8px; }
 .icon-btn { aspect-ratio: 1; border-radius: 10px; background: var(--bg2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; }
-.icon-btn i { font-size: 20px; color: var(--text2); transition: color 0.15s; }
+.icon-btn i { font-size: 20px; color: var(--text2); }
 .icon-btn.active { background: var(--bg3); border-color: var(--accent); }
 .icon-btn.active i { color: var(--accent); }
 
@@ -162,17 +258,18 @@ body { background: var(--grad); color: var(--text); }
 .hall-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .hall-icon i { font-size: 24px; color: var(--accent); }
 .hall-info { flex: 1; }
-.hall-nm { font-weight: 700; font-size: 14px; color: var(--accent); }
-.hall-sb { font-size: 10px; color: var(--text2); margin-top: 2px; letter-spacing: 1px; }
+.hall-nm { font-weight: 500; font-size: 14px; color: var(--accent); }
+.hall-sb { font-size: 10px; color: var(--text2); margin-top: 2px; }
 .hall-dt { font-size: 10px; color: var(--text3); }
-.hall-h { font-family: 'Pacifico', cursive; font-size: 20px; color: var(--accent); text-align: right; }
-.hall-sc { font-size: 9px; color: var(--text3); text-align: right; letter-spacing: 1px; }
+.hall-h { font-size: 20px; color: var(--accent); text-align: right; }
+.hall-sc { font-size: 9px; color: var(--text3); text-align: right; }
 .hall-bg { position: absolute; top: -8px; right: -8px; font-size: 56px; opacity: 0.05; color: var(--accent); }
+.hall-del { position: absolute; top: 8px; right: 8px; color: var(--text3); font-size: 13px; padding: 4px; }
 
 /* ===== MODAL ===== */
 .modal-ov { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 998; display: flex; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(4px); }
 .modal-box { background: var(--bg2); border: 1px solid var(--border2); border-radius: 18px; padding: 22px; width: 100%; max-width: 340px; }
-.modal-title { font-family: 'Pacifico', cursive; font-size: 14px; color: var(--accent); margin-bottom: 14px; }
+.modal-title { font-size: 14px; color: var(--accent); margin-bottom: 14px; }
 .modal-row { display: flex; gap: 8px; margin-top: 18px; }
 .modal-cancel { flex: 1; padding: 11px; background: var(--bg); border: 1px solid var(--border); border-radius: 18px; color: var(--text2); }
 .modal-ok { flex: 1; padding: 11px; background: var(--accent); border: none; border-radius: 18px; color: var(--accentText); font-weight: 700; }
@@ -181,358 +278,431 @@ body { background: var(--grad); color: var(--text); }
 .celebration { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 32px; backdrop-filter: blur(5px); }
 .cel-icon { width: 96px; height: 96px; border-radius: 28px; background: var(--bg2); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; animation: bounceIcon 0.7s infinite alternate; }
 .cel-icon i { font-size: 48px; color: var(--accent); }
-.cel-tag { font-family: 'Pacifico', cursive; font-size: 11px; letter-spacing: 2px; color: var(--accent2,#aaa); margin-bottom: 6px; }
-.cel-title { font-family: 'Pacifico', cursive; font-size: 26px; color: #f0ede8; margin-bottom: 8px; }
+.cel-tag { font-size: 11px; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; font-family: 'Pacifico',cursive; }
+.cel-title { font-size: 26px; color: #f0ede8; margin-bottom: 8px; }
 .cel-sub { font-size: 15px; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
-.cel-hint { font-size: 10px; color: #666; letter-spacing: 2px; }
-@keyframes bounceIcon { from { transform: scale(1) rotate(-3deg); } to { transform: scale(1.08) rotate(3deg); } }
+.cel-hint { font-size: 10px; color: #666; letter-spacing: 2px; font-family: 'DM Sans',sans-serif; }
+@keyframes bounceIcon { from{transform:scale(1) rotate(-3deg);}to{transform:scale(1.08) rotate(3deg);} }
 
 /* ===== EMPTY ===== */
 .empty { text-align: center; padding: 52px 20px; color: var(--text3); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; color: var(--border2); }
 .empty-txt { font-size: 13px; line-height: 1.7; }
-
-/* ===== CIRCLE SVG ===== */
 .circle-wrap { display: flex; justify-content: center; margin-bottom: 18px; }
-
-/* ===== MISC ===== */
 #confetti-canvas { position: fixed; top:0;left:0;width:100%;height:100%; pointer-events:none; z-index:1000; }
 .pad { padding: 14px 20px; }
-.mb8{margin-bottom:8px} .mb12{margin-bottom:12px} .mb16{margin-bottom:16px} .mb18{margin-bottom:18px} .mb20{margin-bottom:20px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}.mb18{margin-bottom:18px}.mb20{margin-bottom:20px}
 .hidden { display: none !important; }
 </style>
 </head>
-<body class="t1">
+<body class="t1 lang-ja">
 <canvas id="confetti-canvas" class="hidden"></canvas>
-
 <div id="app">
   <div id="header">
     <div class="header-inner">
-      <div class="header-app-name">Mastery Tracker</div>
-      <div class="header-subtitle">習熟時間記録</div>
+      <div class="header-top">
+        <div>
+          <div class="header-app-name" style="font-family:'Pacifico',cursive!important">Mastery</div>
+          <div class="header-subtitle" id="hdr-subtitle">skill tracker</div>
+        </div>
+        <div class="lang-switcher">
+          <button class="lang-btn active" onclick="setLang('ja',this)">日</button>
+          <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+          <button class="lang-btn" onclick="setLang('pt',this)">PT</button>
+          <button class="lang-btn" onclick="setLang('zh',this)">繁</button>
+          <button class="lang-btn" onclick="setLang('ko',this)">한</button>
+        </div>
+      </div>
       <div class="header-tabs">
         <button class="tab-btn active" onclick="switchView('list')" id="tab-list">
-          <i class="ph ph-list-checks"></i> スキル一覧
+          <i class="ph ph-list-checks"></i> <span data-i18n="tab_skills"></span>
         </button>
         <button class="tab-btn" onclick="switchView('hall')" id="tab-hall">
-          <i class="ph ph-trophy"></i> 殿堂 (0)
+          <i class="ph ph-trophy"></i> <span id="tab-hall-text"></span>
         </button>
       </div>
     </div>
   </div>
-
-  <!-- Theme strip -->
   <div class="theme-strip" id="theme-strip">
-    <button class="theme-swatch auto-swatch active" id="sw-auto" onclick="selectTheme('auto')" title="自動">
-      <i class="ph ph-clock"></i>
-    </button>
+    <button class="theme-swatch auto-swatch active" id="sw-auto" onclick="selectTheme('auto')" title="Auto"><i class="ph ph-clock"></i></button>
   </div>
-
-  <!-- Install bar -->
   <div class="install-bar hidden" id="install-bar">
-    <div class="install-txt"><i class="ph ph-device-mobile" style="font-size:15px"></i> ホーム画面に追加できます</div>
+    <div class="install-txt"><i class="ph ph-device-mobile" style="font-size:15px"></i> <span data-i18n="install_msg"></span></div>
     <div style="display:flex;gap:8px;align-items:center">
-      <button class="install-btn" id="install-btn">追加</button>
+      <button class="install-btn" id="install-btn" data-i18n="install_btn"></button>
       <button class="install-x" onclick="document.getElementById('install-bar').classList.add('hidden')">×</button>
     </div>
   </div>
-
-  <!-- Timer banner -->
   <div class="timer-banner hidden" id="timer-banner">
     <div>
-      <div class="timer-label">timer running</div>
+      <div class="timer-label" data-i18n="timer_now"></div>
       <div class="timer-display" id="timer-display">00:00:00</div>
       <div class="timer-skill-nm" id="timer-skill-nm"></div>
     </div>
-    <button class="btn-stop" onclick="stopTimer()">
-      <i class="ph ph-stop-circle"></i> 停止・記録
-    </button>
+    <button class="btn-stop" onclick="stopTimer()"><i class="ph ph-stop-circle"></i> <span data-i18n="timer_stop"></span></button>
   </div>
-
   <div id="content">
-    <!-- LIST -->
     <div id="view-list" class="pad">
+      <div id="weekly-summary"></div>
+      <div class="sort-bar">
+        <span data-i18n="sort_label"></span>
+        <button class="sort-chip active" id="sort-added" onclick="setSort('added',this)" data-i18n="sort_added"></button>
+        <button class="sort-chip" id="sort-progress" onclick="setSort('progress',this)" data-i18n="sort_progress"></button>
+        <button class="sort-chip" id="sort-recent" onclick="setSort('recent',this)" data-i18n="sort_recent"></button>
+      </div>
       <div id="skills-list"></div>
-      <button class="btn-add" onclick="switchView('add')">
-        <i class="ph ph-plus-circle"></i> 新しいスキルを追加
-      </button>
+      <button class="btn-add" onclick="switchView('add')"><i class="ph ph-plus-circle"></i> <span data-i18n="add_skill_btn"></span></button>
     </div>
-
-    <!-- HALL -->
     <div id="view-hall" class="pad hidden"><div id="hall-list"></div></div>
-
-    <!-- ADD -->
     <div id="view-add" class="pad hidden">
-      <button class="btn-back mb18" onclick="switchView('list')"><i class="ph ph-arrow-left"></i> 戻る</button>
-      <div style="font-family:'Pacifico',cursive;font-size:16px;color:var(--accent);margin-bottom:18px">新しいスキルを登録</div>
-      <div class="mb16">
-        <label class="form-label">アイコンを選ぶ</label>
-        <div class="icon-grid" id="icon-grid"></div>
-      </div>
-      <div class="mb16"><label class="form-label">スキル名</label><input class="form-input" id="new-name" placeholder="例：ギター、プログラミング..." oninput="updateAddBtn()"></div>
+      <button class="btn-back mb18" onclick="switchView('list')"><i class="ph ph-arrow-left"></i> <span data-i18n="back"></span></button>
+      <div class="add-section-title" style="font-size:18px;margin-bottom:18px" data-i18n="add_title"></div>
+      <div class="mb16"><label class="form-label" data-i18n="add_icon"></label><div class="icon-grid" id="icon-grid"></div></div>
+      <div class="mb16"><label class="form-label" data-i18n="add_name"></label><input class="form-input" id="new-name" oninput="updateAddBtn()"></div>
       <div class="mb18">
-        <label class="form-label">目標時間</label>
+        <label class="form-label" data-i18n="add_goal"></label>
         <div class="chip-row" id="goal-chips"></div>
-        <div style="display:flex;align-items:center;gap:8px"><input class="form-input" type="number" id="new-goal" value="10000" style="flex:1"><span style="color:var(--text3);font-size:12px">時間</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px"><input class="form-input" type="number" id="new-goal" value="1000" style="flex:1"><span style="color:var(--text3);font-size:12px" data-i18n="hours"></span></div>
       </div>
-      <button class="btn-primary" id="add-btn" onclick="addSkill()" disabled>
-        <i class="ph ph-check-circle"></i> 追加する
-      </button>
+      <button class="btn-primary" id="add-btn" onclick="addSkill()" disabled><i class="ph ph-check-circle"></i> <span data-i18n="add_btn"></span></button>
     </div>
-
-    <!-- DETAIL -->
     <div id="view-detail" class="pad hidden">
       <div class="detail-hd">
-        <button class="btn-back" onclick="switchView('list')"><i class="ph ph-arrow-left"></i> 戻る</button>
-        <button class="btn-danger" onclick="deleteCurrentSkill()"><i class="ph ph-trash"></i> 削除</button>
+        <button class="btn-back" onclick="switchView('list')"><i class="ph ph-arrow-left"></i> <span data-i18n="back"></span></button>
+        <button class="btn-danger" onclick="deleteCurrentSkill()"><i class="ph ph-trash"></i> <span data-i18n="delete"></span></button>
       </div>
       <div id="detail-content"></div>
     </div>
-
-    <!-- LOG -->
     <div id="view-log" class="pad hidden">
-      <button class="btn-back mb18" onclick="switchView('detail')"><i class="ph ph-arrow-left"></i> 戻る</button>
-      <div id="log-header" style="font-family:'Pacifico',cursive;font-size:14px;color:var(--accent);margin-bottom:18px"></div>
-      <div class="mb16"><label class="form-label">練習時間（分）</label><div class="chip-row" id="minute-chips"></div><input class="form-input" type="number" id="log-minutes" value="60"></div>
-      <div class="mb18"><label class="form-label">メモ（任意）</label><input class="form-input" id="log-note" placeholder="今日の練習内容..."></div>
-      <button class="btn-primary" onclick="submitLog()"><i class="ph ph-pencil-simple"></i> 記録する</button>
+      <button class="btn-back mb18" onclick="switchView('detail')"><i class="ph ph-arrow-left"></i> <span data-i18n="back"></span></button>
+      <div id="log-header" class="add-section-title" style="font-size:16px;margin-bottom:18px"></div>
+      <div class="mb16"><label class="form-label" data-i18n="log_time"></label><div class="chip-row" id="minute-chips"></div><input class="form-input" type="number" id="log-minutes" value="60"></div>
+      <div class="mb18"><label class="form-label" data-i18n="log_note"></label><input class="form-input" id="log-note"></div>
+      <button class="btn-primary" onclick="submitLog()"><i class="ph ph-pencil-simple"></i> <span data-i18n="log_btn"></span></button>
     </div>
   </div>
 </div>
 
 <!-- Celebration -->
 <div class="celebration hidden" id="celebration" onclick="closeCelebration()">
-  <div class="cel-icon" id="cel-icon"><i class="ph ph-star" id="cel-ph-icon"></i></div>
+  <div class="cel-icon"><i class="ph ph-star" id="cel-ph-icon"></i></div>
   <div class="cel-tag">achievement unlocked</div>
-  <div class="cel-title">目標達成！</div>
+  <div class="cel-title" data-i18n="cel_title"></div>
   <div class="cel-sub" id="cel-text"></div>
-  <div class="cel-hint">tap to close</div>
+  <div class="cel-hint" data-i18n="cel_hint"></div>
 </div>
 
 <!-- Extend Modal -->
 <div class="modal-ov hidden" id="extend-modal">
   <div class="modal-box">
-    <div class="modal-title">次の目標を設定</div>
+    <div class="modal-title" data-i18n="ext_title"></div>
+    <p style="font-size:11px;color:var(--text3);margin-bottom:12px" data-i18n="ext_sub"></p>
     <div class="chip-row" id="extend-chips"></div>
-    <div style="display:flex;align-items:center;gap:8px"><input class="form-input" type="number" id="extend-hours" style="flex:1"><span style="color:var(--text3);font-size:12px">時間</span></div>
-    <div class="modal-row">
-      <button class="modal-cancel" onclick="closeExtend()">キャンセル</button>
-      <button class="modal-ok" onclick="confirmExtend()">設定する</button>
-    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:8px"><input class="form-input" type="number" id="extend-hours" style="flex:1"><span style="color:var(--text3);font-size:12px" data-i18n="hours"></span></div>
+    <div class="modal-row"><button class="modal-cancel" onclick="closeExtend()" data-i18n="cancel"></button><button class="modal-ok" onclick="confirmExtend()" data-i18n="ext_ok"></button></div>
+  </div>
+</div>
+
+<!-- Edit Name Modal -->
+<div class="modal-ov hidden" id="edit-name-modal">
+  <div class="modal-box">
+    <div class="modal-title" data-i18n="edit_name_title"></div>
+    <input class="form-input" id="edit-name-input">
+    <div class="modal-row"><button class="modal-cancel" onclick="closeEditName()" data-i18n="cancel"></button><button class="modal-ok" onclick="confirmEditName()" data-i18n="save"></button></div>
   </div>
 </div>
 
 <script>
-// ===== PHOSPHOR ICON MAP =====
-const SKILL_ICONS = [
-  { key:'target',    ph:'ph-target',           label:'目標' },
-  { key:'guitar',    ph:'ph-guitar',            label:'音楽' },
-  { key:'code',      ph:'ph-code',              label:'コード' },
-  { key:'book',      ph:'ph-book-open',         label:'読書' },
-  { key:'palette',   ph:'ph-paint-brush',       label:'アート' },
-  { key:'football',  ph:'ph-soccer-ball',       label:'スポーツ' },
-  { key:'piano',     ph:'ph-piano-keys',        label:'ピアノ' },
-  { key:'pen',       ph:'ph-pencil-line',       label:'書く' },
-  { key:'dumbbell',  ph:'ph-barbell',           label:'筋トレ' },
-  { key:'mic',       ph:'ph-microphone',        label:'歌・話す' },
-  { key:'flask',     ph:'ph-flask',             label:'研究' },
-  { key:'violin',    ph:'ph-music-notes',       label:'楽器' },
-  { key:'swim',      ph:'ph-waves',             label:'水泳' },
-  { key:'yoga',      ph:'ph-person-simple',     label:'ヨガ' },
-  { key:'theater',   ph:'ph-mask-happy',        label:'演技' },
-  { key:'leaf',      ph:'ph-leaf',              label:'自然' },
-  { key:'coffee',    ph:'ph-coffee',            label:'カフェ' },
-  { key:'camera',    ph:'ph-camera',            label:'写真' },
-  { key:'chess',     ph:'ph-crown-simple',      label:'ゲーム' },
-  { key:'language',  ph:'ph-chats-circle',      label:'語学' },
-  { key:'cook',      ph:'ph-cooking-pot',       label:'料理' },
-  { key:'run',       ph:'ph-person-simple-run', label:'ランニング' },
-  { key:'brain',     ph:'ph-brain',             label:'学習' },
-  { key:'heart',     ph:'ph-heart',             label:'ヘルス' },
-];
+// ===== i18n =====
+const I18N={
+  ja:{
+    tab_skills:'スキル一覧',tab_hall:'殿堂',install_msg:'ホーム画面に追加できます',install_btn:'追加',
+    timer_now:'練習中',timer_stop:'停止・記録',sort_label:'並び替え',sort_added:'追加順',
+    sort_progress:'進捗順',sort_recent:'最近順',add_skill_btn:'新しいスキルを追加',
+    add_title:'新しいスキルを登録',add_icon:'アイコンを選ぶ',add_name:'スキル名',
+    add_name_ph:'例：ギター、プログラミング…',add_goal:'目標時間',add_btn:'追加する',
+    back:'戻る',delete:'削除',log_time:'練習時間（分）',log_note:'メモ（任意）',
+    log_note_ph:'今日の練習内容…',log_btn:'記録する',hours:'時間',
+    cel_title:'目標達成！',cel_hint:'タップして閉じる',
+    cel_sub_tpl:(n)=>`「${n}」\nを習熟しました`,
+    ext_title:'次の目標を設定',ext_sub:'モチベーションが続く目標を選んでね ✨',
+    ext_ok:'設定する',cancel:'キャンセル',save:'保存',edit_name_title:'スキル名を編集',
+    week:'今週',month:'今月',skills_lbl:'スキル',active:'進行中',
+    goal_lbl:'目標',remaining_lbl:'残り',exceeded_lbl:'超過',sessions_lbl:'セッション',
+    avg_lbl:'平均/回',forecast_lbl:'予測',pace_lbl:'/ 日（最近の平均）',
+    forecast_date_tpl:(d,dur)=>`🗓 ${d}（約${dur}）`,
+    if_practice:'もし毎日練習したら',yrs:'年',mos:'ヶ月',days:'日',
+    sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）✨`,
+    no_sessions:'まだ記録がありません',recent_sessions:'最近のセッション',
+    empty_txt:'スキルを追加して\n習熟の旅を始めよう',empty_hall:'目標を達成したスキルが\nここに殿堂入りします',
+    hall_achieved:'達成',timer_session:'タイマー記録',confirm_del_skill:'このスキルを削除しますか？',
+    confirm_del_sess:'このセッションを削除しますか？',confirm_del_hall:'殿堂から削除しますか？',
+    done_title:'目標達成おめでとうございます！',done_sub:'次のステップを選んでください',
+    btn_hall:'殿堂入り',btn_extend:'目標を延長',start_timer:'タイマー開始',log_session:'手動記録',
+    forecast_no_data:'セッションを記録すると予測が表示されます ✨',
+    min_unit:'分',h_unit:'時間',times_unit:'回',
+    lv_beginner:'見習い',lv_novice:'初級者',lv_intermediate:'中級者',lv_advanced:'上級者',
+    lv_expert:'エキスパート',lv_master:'マスター',lv_legend:'達人',
+    gr_100:'趣味入門',gr_500:'基礎習得',gr_1000:'中級者',gr_3000:'上級者',gr_10000:'マスター',
+    er_500:'次のマイルストーン',er_1000:'着実な積み上げ',er_3000:'上級者レベル',er_10000:'真のマスター',
+    subtitle:'skill tracker',
+  },
+  en:{
+    tab_skills:'Skills',tab_hall:'Hall of Fame',install_msg:'Add to Home Screen',install_btn:'Add',
+    timer_now:'now practicing',timer_stop:'Stop & Save',sort_label:'Sort',sort_added:'Added',
+    sort_progress:'Progress',sort_recent:'Recent',add_skill_btn:'Add new skill',
+    add_title:'Register a new skill',add_icon:'Choose an icon',add_name:'Skill name',
+    add_name_ph:'e.g. Guitar, Programming…',add_goal:'Goal hours',add_btn:'Add skill',
+    back:'Back',delete:'Delete',log_time:'Practice time (min)',log_note:'Note (optional)',
+    log_note_ph:'What did you practice today?',log_btn:'Save session',hours:'hours',
+    cel_title:'Goal Reached!',cel_hint:'tap to close',
+    cel_sub_tpl:(n)=>`"${n}"\nhas been mastered!`,
+    ext_title:'Set next goal',ext_sub:'Choose a milestone that keeps you motivated ✨',
+    ext_ok:'Set goal',cancel:'Cancel',save:'Save',edit_name_title:'Edit skill name',
+    week:'This Week',month:'This Month',skills_lbl:'Skills',active:'active',
+    goal_lbl:'Goal',remaining_lbl:'Remaining',exceeded_lbl:'Exceeded',sessions_lbl:'Sessions',
+    avg_lbl:'Avg / session',forecast_lbl:'Forecast',pace_lbl:'/ day (recent avg)',
+    forecast_date_tpl:(d,dur)=>`🗓 ${d} (about ${dur})`,
+    if_practice:'If I practice…',yrs:'yr',mos:'mo',days:'d',
+    sim_result_tpl:(d,dur)=>`→ ${d} (about ${dur}) ✨`,
+    no_sessions:'No sessions yet',recent_sessions:'Recent sessions',
+    empty_txt:'Add a skill and begin\nyour mastery journey',empty_hall:'Skills you\'ve mastered\nwill appear here',
+    hall_achieved:'achieved',timer_session:'Timer session',confirm_del_skill:'Delete this skill?',
+    confirm_del_sess:'Delete this session?',confirm_del_hall:'Remove from Hall of Fame?',
+    done_title:'Goal Achieved! 🎉',done_sub:'What\'s next?',
+    btn_hall:'Hall of Fame',btn_extend:'Extend goal',start_timer:'Start timer',log_session:'Log session',
+    forecast_no_data:'Record sessions to see your forecast ✨',
+    min_unit:'min',h_unit:'h',times_unit:'',
+    lv_beginner:'Beginner',lv_novice:'Novice',lv_intermediate:'Intermediate',lv_advanced:'Advanced',
+    lv_expert:'Expert',lv_master:'Master',lv_legend:'Legend',
+    gr_100:'Beginner',gr_500:'Foundation',gr_1000:'Intermediate',gr_3000:'Advanced',gr_10000:'Mastery',
+    er_500:'Next milestone',er_1000:'Solid foundation',er_3000:'Advanced level',er_10000:'True mastery',
+    subtitle:'skill tracker',
+  },
+  pt:{
+    tab_skills:'Habilidades',tab_hall:'Hall da Fama',install_msg:'Adicionar à Tela Inicial',install_btn:'Adicionar',
+    timer_now:'praticando agora',timer_stop:'Parar & Salvar',sort_label:'Ordenar',sort_added:'Adicionado',
+    sort_progress:'Progresso',sort_recent:'Recente',add_skill_btn:'Adicionar habilidade',
+    add_title:'Registrar nova habilidade',add_icon:'Escolher ícone',add_name:'Nome da habilidade',
+    add_name_ph:'ex: Violão, Programação…',add_goal:'Meta em horas',add_btn:'Adicionar',
+    back:'Voltar',delete:'Excluir',log_time:'Tempo de prática (min)',log_note:'Nota (opcional)',
+    log_note_ph:'O que você praticou hoje?',log_btn:'Salvar sessão',hours:'horas',
+    cel_title:'Meta Alcançada!',cel_hint:'toque para fechar',
+    cel_sub_tpl:(n)=>`"${n}"\nfoi dominada!`,
+    ext_title:'Definir próxima meta',ext_sub:'Escolha uma meta motivadora ✨',
+    ext_ok:'Definir meta',cancel:'Cancelar',save:'Salvar',edit_name_title:'Editar nome',
+    week:'Esta Semana',month:'Este Mês',skills_lbl:'Habilidades',active:'ativo',
+    goal_lbl:'Meta',remaining_lbl:'Restante',exceeded_lbl:'Excedido',sessions_lbl:'Sessões',
+    avg_lbl:'Média / sessão',forecast_lbl:'Previsão',pace_lbl:'/ dia (média recente)',
+    forecast_date_tpl:(d,dur)=>`🗓 ${d} (cerca de ${dur})`,
+    if_practice:'Se eu praticar…',yrs:'ano',mos:'mês',days:'d',
+    sim_result_tpl:(d,dur)=>`→ ${d} (cerca de ${dur}) ✨`,
+    no_sessions:'Sem sessões ainda',recent_sessions:'Sessões recentes',
+    empty_txt:'Adicione uma habilidade e\ncomece sua jornada',empty_hall:'As habilidades dominadas\naparecerão aqui',
+    hall_achieved:'alcançado',timer_session:'Sessão de timer',confirm_del_skill:'Excluir esta habilidade?',
+    confirm_del_sess:'Excluir esta sessão?',confirm_del_hall:'Remover do Hall da Fama?',
+    done_title:'Meta Alcançada! 🎉',done_sub:'O que vem a seguir?',
+    btn_hall:'Hall da Fama',btn_extend:'Ampliar meta',start_timer:'Iniciar timer',log_session:'Registrar sessão',
+    forecast_no_data:'Registre sessões para ver sua previsão ✨',
+    min_unit:'min',h_unit:'h',times_unit:'',
+    lv_beginner:'Iniciante',lv_novice:'Novato',lv_intermediate:'Intermediário',lv_advanced:'Avançado',
+    lv_expert:'Especialista',lv_master:'Mestre',lv_legend:'Lenda',
+    gr_100:'Iniciante',gr_500:'Base sólida',gr_1000:'Intermediário',gr_3000:'Avançado',gr_10000:'Maestria',
+    er_500:'Próximo marco',er_1000:'Acumulação gradual',er_3000:'Nível avançado',er_10000:'Maestria real',
+    subtitle:'rastreador de habilidades',
+  },
+  zh:{
+    tab_skills:'技能列表',tab_hall:'名人堂',install_msg:'加入主畫面',install_btn:'加入',
+    timer_now:'練習中',timer_stop:'停止並儲存',sort_label:'排序',sort_added:'加入順序',
+    sort_progress:'進度',sort_recent:'最近',add_skill_btn:'新增技能',
+    add_title:'登錄新技能',add_icon:'選擇圖示',add_name:'技能名稱',
+    add_name_ph:'例：吉他、程式設計…',add_goal:'目標時數',add_btn:'新增',
+    back:'返回',delete:'刪除',log_time:'練習時間（分）',log_note:'備注（選填）',
+    log_note_ph:'今天練習了什麼？',log_btn:'儲存記錄',hours:'小時',
+    cel_title:'達成目標！',cel_hint:'點擊關閉',
+    cel_sub_tpl:(n)=>`「${n}」\n已精通！`,
+    ext_title:'設定下一個目標',ext_sub:'選擇能持續激勵你的目標 ✨',
+    ext_ok:'設定目標',cancel:'取消',save:'儲存',edit_name_title:'編輯技能名稱',
+    week:'本週',month:'本月',skills_lbl:'技能',active:'進行中',
+    goal_lbl:'目標',remaining_lbl:'剩餘',exceeded_lbl:'超出',sessions_lbl:'練習次數',
+    avg_lbl:'平均/次',forecast_lbl:'預測',pace_lbl:'/ 天（近期平均）',
+    forecast_date_tpl:(d,dur)=>`🗓 ${d}（約${dur}）`,
+    if_practice:'如果每天練習…',yrs:'年',mos:'個月',days:'天',
+    sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）✨`,
+    no_sessions:'尚無記錄',recent_sessions:'最近記錄',
+    empty_txt:'新增技能\n開始你的精通之旅',empty_hall:'達成目標的技能\n將出現在這裡',
+    hall_achieved:'已達成',timer_session:'計時器記錄',confirm_del_skill:'刪除此技能？',
+    confirm_del_sess:'刪除此記錄？',confirm_del_hall:'從名人堂移除？',
+    done_title:'恭喜達成目標！🎉',done_sub:'接下來要做什麼？',
+    btn_hall:'加入名人堂',btn_extend:'延伸目標',start_timer:'開始計時',log_session:'手動記錄',
+    forecast_no_data:'記錄練習後即可查看預測 ✨',
+    min_unit:'分',h_unit:'小時',times_unit:'次',
+    lv_beginner:'初學者',lv_novice:'新手',lv_intermediate:'中級者',lv_advanced:'進階者',
+    lv_expert:'專家',lv_master:'達人',lv_legend:'傳奇',
+    gr_100:'入門',gr_500:'基礎習得',gr_1000:'中級',gr_3000:'進階',gr_10000:'精通',
+    er_500:'下一里程碑',er_1000:'穩步積累',er_3000:'進階水準',er_10000:'真正精通',
+    subtitle:'技能追蹤',
+  },
+  ko:{
+    tab_skills:'스킬 목록',tab_hall:'명예의 전당',install_msg:'홈 화면에 추가',install_btn:'추가',
+    timer_now:'연습 중',timer_stop:'중지 & 저장',sort_label:'정렬',sort_added:'추가순',
+    sort_progress:'진도순',sort_recent:'최근순',add_skill_btn:'새 스킬 추가',
+    add_title:'새 스킬 등록',add_icon:'아이콘 선택',add_name:'스킬 이름',
+    add_name_ph:'예: 기타, 프로그래밍…',add_goal:'목표 시간',add_btn:'추가하기',
+    back:'돌아가기',delete:'삭제',log_time:'연습 시간 (분)',log_note:'메모 (선택)',
+    log_note_ph:'오늘 무엇을 연습했나요?',log_btn:'기록하기',hours:'시간',
+    cel_title:'목표 달성!',cel_hint:'탭하여 닫기',
+    cel_sub_tpl:(n)=>`「${n}」\n을(를) 습득했습니다!`,
+    ext_title:'다음 목표 설정',ext_sub:'동기를 유지할 목표를 선택하세요 ✨',
+    ext_ok:'목표 설정',cancel:'취소',save:'저장',edit_name_title:'스킬 이름 편집',
+    week:'이번 주',month:'이번 달',skills_lbl:'스킬',active:'진행 중',
+    goal_lbl:'목표',remaining_lbl:'남은 시간',exceeded_lbl:'초과',sessions_lbl:'세션 수',
+    avg_lbl:'평균/회',forecast_lbl:'예측',pace_lbl:'/ 일 (최근 평균)',
+    forecast_date_tpl:(d,dur)=>`🗓 ${d} (약 ${dur})`,
+    if_practice:'매일 연습한다면…',yrs:'년',mos:'개월',days:'일',
+    sim_result_tpl:(d,dur)=>`→ ${d} (약 ${dur}) ✨`,
+    no_sessions:'아직 기록 없음',recent_sessions:'최근 세션',
+    empty_txt:'스킬을 추가하고\n습득의 여정을 시작하세요',empty_hall:'달성한 스킬이\n여기 나타납니다',
+    hall_achieved:'달성',timer_session:'타이머 기록',confirm_del_skill:'이 스킬을 삭제할까요?',
+    confirm_del_sess:'이 세션을 삭제할까요?',confirm_del_hall:'명예의 전당에서 삭제할까요?',
+    done_title:'목표 달성을 축하합니다! 🎉',done_sub:'다음 단계를 선택하세요',
+    btn_hall:'명예의 전당',btn_extend:'목표 연장',start_timer:'타이머 시작',log_session:'수동 기록',
+    forecast_no_data:'세션을 기록하면 예측을 볼 수 있어요 ✨',
+    min_unit:'분',h_unit:'시간',times_unit:'회',
+    lv_beginner:'초보자',lv_novice:'입문자',lv_intermediate:'중급자',lv_advanced:'상급자',
+    lv_expert:'전문가',lv_master:'마스터',lv_legend:'레전드',
+    gr_100:'입문',gr_500:'기초 습득',gr_1000:'중급자',gr_3000:'상급자',gr_10000:'마스터',
+    er_500:'다음 이정표',er_1000:'착실한 쌓기',er_3000:'상급자 수준',er_10000:'진정한 마스터',
+    subtitle:'스킬 트래커',
+  }
+};
 
-function iconEl(key, size=20, extraClass='') {
-  const found = SKILL_ICONS.find(x => x.key === key) || SKILL_ICONS[0];
-  return `<i class="ph ${found.ph}${extraClass?' '+extraClass:''}" style="font-size:${size}px"></i>`;
+let currentLang='ja';
+function t(key,...args){ const v=I18N[currentLang][key]; return typeof v==='function'?v(...args):(v||I18N.en[key]||key); }
+
+function setLang(lang,btn){
+  currentLang=lang; data.lang=lang; saveData();
+  document.body.className=document.body.className.replace(/lang-\w+/,'lang-'+lang);
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  applyI18n(); renderList(); if(currentSkillId)renderDetail();
+  // Re-render goal/extend chips in current language
+  const addView = document.getElementById('view-add');
+  if(addView && !addView.classList.contains('hidden')) setupAdd();
+  const extModal = document.getElementById('extend-modal');
+  if(extModal && !extModal.classList.contains('hidden')) {
+    // re-render extend chips
+    const sk = data.skills.find(s=>s.id===currentSkillId);
+    if(sk) openExtend(currentSkillId, sk.goalMinutes);
+  }
 }
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const v=t(el.getAttribute('data-i18n')); if(typeof v==='string')el.textContent=v; });
+  document.getElementById('hdr-subtitle').textContent=t('subtitle');
+  document.getElementById('tab-hall-text').textContent=`${t('tab_hall')} (${data.hall.length})`;
+  const nn=document.getElementById('new-name'); if(nn) nn.placeholder=t('add_name_ph');
+  const ln=document.getElementById('log-note'); if(ln) ln.placeholder=t('log_note_ph');
+}
+
+// ===== ICONS =====
+const SKILL_ICONS=[
+  {key:'target',ph:'ph-target'},{key:'guitar',ph:'ph-guitar'},{key:'code',ph:'ph-code'},
+  {key:'book',ph:'ph-book-open'},{key:'palette',ph:'ph-paint-brush'},{key:'football',ph:'ph-soccer-ball'},
+  {key:'piano',ph:'ph-piano-keys'},{key:'pen',ph:'ph-pencil-line'},{key:'dumbbell',ph:'ph-barbell'},
+  {key:'mic',ph:'ph-microphone'},{key:'flask',ph:'ph-flask'},{key:'violin',ph:'ph-music-notes'},
+  {key:'swim',ph:'ph-waves'},{key:'yoga',ph:'ph-person-simple'},{key:'theater',ph:'ph-mask-happy'},
+  {key:'leaf',ph:'ph-leaf'},{key:'coffee',ph:'ph-coffee'},{key:'camera',ph:'ph-camera'},
+  {key:'chess',ph:'ph-crown-simple'},{key:'language',ph:'ph-chats-circle'},{key:'cook',ph:'ph-cooking-pot'},
+  {key:'run',ph:'ph-person-simple-run'},{key:'brain',ph:'ph-brain'},{key:'heart',ph:'ph-heart'},
+];
+function iconEl(key,size=20){ const f=SKILL_ICONS.find(x=>x.key===key)||SKILL_ICONS[0]; return `<i class="ph ${f.ph}" style="font-size:${size}px"></i>`; }
 
 // ===== THEMES =====
-const THEMES = [
-  { id:'t1',  colors:['#f8f4f0','#c47878','#d4c4b0','#f0e8e2'] },
-  { id:'t2',  colors:['#f5f0ee','#c4877a','#d4c0b8','#ede5e0'] },
-  { id:'t3',  colors:['#f8f5e8','#a8c0b8','#d0c8a8','#f0edd8'] },
-  { id:'t4',  colors:['#f0f8f8','#70a8b8','#b0d0d8','#e4f0f0'] },
-  { id:'t5',  colors:['#f4f8f0','#6a9a35','#b8d4b0','#e8f0e4'] },
-  { id:'t6',  colors:['#f0f4f0','#4a7a6a','#a8c8b8','#e4ece4'] },
-  { id:'t7',  colors:['#1a3a1a','#7a9a5a','#3a5a3a','#243a24'] },
-  { id:'t8',  colors:['#f5ede8','#1e3a5f','#b8a898','#ede0d8'] },
-  { id:'t9',  colors:['#f5f0e8','#7090c0','#c0b898','#ece8d8'] },
-  { id:'t10', colors:['#e8eef4','#2d5282','#a0b8d0','#dce4ee'] },
-  { id:'t11', colors:['#f4f8fc','#5a98b8','#b0c8e0','#e8f0f8'] },
-  { id:'t12', colors:['#2a2530','#b0a090','#504858','#342e3a'] },
-  { id:'t13', colors:['#1a2e4a','#6a8aaa','#3a5478','#22384e'] },
-  { id:'t14', colors:['#f0f0ee','#807870','#c0b8b0','#e4e4e0'] },
+const THEMES=[
+  {id:'t1',colors:['#f8f4f0','#c47878','#d4c4b0','#f0e8e2']},{id:'t2',colors:['#f5f0ee','#c4877a','#d4c0b8','#ede5e0']},
+  {id:'t3',colors:['#f8f5e8','#a8c0b8','#d0c8a8','#f0edd8']},{id:'t4',colors:['#f0f8f8','#70a8b8','#b0d0d8','#e4f0f0']},
+  {id:'t5',colors:['#f4f8f0','#6a9a35','#b8d4b0','#e8f0e4']},{id:'t6',colors:['#f0f4f0','#4a7a6a','#a8c8b8','#e4ece4']},
+  {id:'t7',colors:['#1a3a1a','#7a9a5a','#3a5a3a','#243a24']},{id:'t8',colors:['#f5ede8','#1e3a5f','#b8a898','#ede0d8']},
+  {id:'t9',colors:['#f5f0e8','#7090c0','#c0b898','#ece8d8']},{id:'t10',colors:['#e8eef4','#2d5282','#a0b8d0','#dce4ee']},
+  {id:'t11',colors:['#f4f8fc','#5a98b8','#b0c8e0','#e8f0f8']},{id:'t12',colors:['#2a2530','#b0a090','#504858','#342e3a']},
+  {id:'t13',colors:['#1a2e4a','#6a8aaa','#3a5478','#22384e']},{id:'t14',colors:['#f0f0ee','#807870','#c0b8b0','#e4e4e0']},
 ];
-
-function getAutoTheme() {
-  const h = new Date().getHours();
-  if (h >= 5  && h < 11) return 't1';
-  if (h >= 11 && h < 16) return 't4';
-  if (h >= 16 && h < 20) return 't8';
-  return 't12';
-}
+function getAutoTheme(){ const h=new Date().getHours(); if(h>=5&&h<11)return 't1'; if(h>=11&&h<16)return 't4'; if(h>=16&&h<20)return 't8'; return 't12'; }
 
 // ===== STATE =====
-let data = { skills:[], hall:[], theme:'auto' };
-let currentSkillId = null;
-let timerInterval = null, timerSeconds = 0, timerSkillId = null;
-let selectedIconKey = 'target';
-let deferredPrompt = null;
+let data={skills:[],hall:[],theme:'auto',sortMode:'added',lang:'ja'};
+let currentSkillId=null,timerInterval=null,timerSeconds=0,timerSkillId=null;
+let selectedIconKey='target',deferredPrompt=null,simHours=1;
 
-const MASTERY_LEVELS = [
-  {pct:0,   label:'Beginner',    jp:'見習い'},
-  {pct:10,  label:'Novice',      jp:'初級者'},
-  {pct:25,  label:'Intermediate',jp:'中級者'},
-  {pct:50,  label:'Advanced',    jp:'上級者'},
-  {pct:75,  label:'Expert',      jp:'エキスパート'},
-  {pct:90,  label:'Master',      jp:'マスター'},
-  {pct:100, label:'Legend',      jp:'達人'},
+const MASTERY_LEVELS=[
+  {pct:0,key:'lv_beginner'},{pct:10,key:'lv_novice'},{pct:25,key:'lv_intermediate'},
+  {pct:50,key:'lv_advanced'},{pct:75,key:'lv_expert'},{pct:90,key:'lv_master'},{pct:100,key:'lv_legend'},
 ];
+const GOALS=[{h:100,rk:'gr_100'},{h:500,rk:'gr_500'},{h:1000,rk:'gr_1000'},{h:3000,rk:'gr_3000'},{h:10000,rk:'gr_10000'}];
+const EXTEND_OPTS=[{h:500,rk:'er_500'},{h:1000,rk:'er_1000'},{h:3000,rk:'er_3000'},{h:10000,rk:'er_10000'}];
 
-function fmtTime(m){ const h=Math.floor(m/60),mm=m%60; if(!h)return mm+'分'; if(!mm)return h+'時間'; return h+'時間'+mm+'分'; }
 function fmtH(m){ return (m/60).toFixed(1); }
+function fmtTime(m){ const h=Math.floor(m/60),mm=m%60; if(!h)return mm+t('min_unit'); if(!mm)return h+t('h_unit'); return h+t('h_unit')+' '+mm+t('min_unit'); }
 function getLevel(pct){ let l=MASTERY_LEVELS[0]; MASTERY_LEVELS.forEach(x=>{if(pct>=x.pct)l=x;}); return l; }
+function fmtDuration(days){ const yrs=Math.floor(days/365),mos=Math.floor((days%365)/30),dys=Math.floor(days%30); let s=''; if(yrs)s+=yrs+t('yrs'); if(mos)s+=mos+t('mos'); if(!yrs&&dys)s+=dys+t('days'); return s||'1'+t('days'); }
 
-// ===== IndexedDB DATA LAYER =====
-const DB_NAME = 'mastery-pwa';
-const DB_VERSION = 1;
-const STORE = 'appdata';
-const DATA_KEY = 'main';
-
-let db = null;
-
-function openDB() {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = e => {
-      e.target.result.createObjectStore(STORE);
-    };
-    req.onsuccess = e => { db = e.target.result; resolve(db); };
-    req.onerror = () => reject(req.error);
-  });
+// ===== IndexedDB =====
+const DB_NAME='mastery-pwa',DB_VERSION=1,STORE='appdata',DATA_KEY='main';
+let db=null;
+function openDB(){ return new Promise((res,rej)=>{ const r=indexedDB.open(DB_NAME,DB_VERSION); r.onupgradeneeded=e=>e.target.result.createObjectStore(STORE); r.onsuccess=e=>{db=e.target.result;res(db);}; r.onerror=()=>rej(r.error); }); }
+function idbGet(k){ return new Promise((res,rej)=>{ const r=db.transaction(STORE,'readonly').objectStore(STORE).get(k); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+function idbSet(k,v){ return new Promise((res,rej)=>{ const r=db.transaction(STORE,'readwrite').objectStore(STORE).put(v,k); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); }); }
+async function loadData(){
+  try{ await openDB(); const s=await idbGet(DATA_KEY); if(s){data=s;}else{try{const o=localStorage.getItem('mastery-pwa-v4');if(o){data=JSON.parse(o);await saveData();}}catch(e){}} }
+  catch(e){ try{const r=localStorage.getItem('mastery-pwa-v4');if(r)data=JSON.parse(r);}catch(e2){} }
+  data.skills=data.skills||[];data.hall=data.hall||[];data.theme=data.theme||'auto';data.sortMode=data.sortMode||'added';data.lang=data.lang||'ja';
 }
-
-function idbGet(key) {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readonly');
-    const req = tx.objectStore(STORE).get(key);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-function idbSet(key, value) {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    const req = tx.objectStore(STORE).put(value, key);
-    req.onsuccess = () => resolve();
-    req.onerror = () => reject(req.error);
-  });
-}
-
-async function loadData() {
-  try {
-    await openDB();
-    const saved = await idbGet(DATA_KEY);
-    if (saved) {
-      data = saved;
-    }
-    // Migrate from localStorage if IndexedDB is empty
-    if (!saved) {
-      try {
-        const old = localStorage.getItem('mastery-pwa-v4');
-        if (old) {
-          data = JSON.parse(old);
-          await saveData(); // persist to IndexedDB
-        }
-      } catch(e) {}
-    }
-  } catch(e) {
-    // Fallback to localStorage if IndexedDB fails
-    try {
-      const r = localStorage.getItem('mastery-pwa-v4');
-      if (r) data = JSON.parse(r);
-    } catch(e2) {}
-  }
-  data.skills = data.skills || [];
-  data.hall   = data.hall   || [];
-  data.theme  = data.theme  || 'auto';
-}
-
-async function saveData() {
-  try {
-    await idbSet(DATA_KEY, data);
-  } catch(e) {
-    // Fallback to localStorage
-    try { localStorage.setItem('mastery-pwa-v4', JSON.stringify(data)); } catch(e2) {}
-  }
-}
+async function saveData(){ try{await idbSet(DATA_KEY,data);}catch(e){try{localStorage.setItem('mastery-pwa-v4',JSON.stringify(data));}catch(e2){}} }
 
 // ===== THEME =====
-function applyTheme(id){ document.body.className = id==='auto'? getAutoTheme() : id; }
-function selectTheme(id){
-  data.theme=id; applyTheme(id); saveData();
-  document.querySelectorAll('.theme-swatch').forEach(d=>d.classList.remove('active'));
-  const sw=document.getElementById('sw-'+id); if(sw) sw.classList.add('active');
-}
-function buildThemeStrip(){
-  const strip=document.getElementById('theme-strip');
-  THEMES.forEach(t=>{
-    const btn=document.createElement('button');
-    btn.className='theme-swatch'; btn.id='sw-'+t.id; btn.onclick=()=>selectTheme(t.id);
-    const [c1,c2,c3,c4]=t.colors;
-    btn.style.background=`linear-gradient(135deg,${c1} 25%,${c2} 25%,${c2} 50%,${c3} 50%,${c3} 75%,${c4} 75%)`;
-    strip.appendChild(btn);
-  });
+function applyTheme(id){ const base=document.body.className.replace(/\bt\d+\b/g,'').trim(); document.body.className=(base+' '+(id==='auto'?getAutoTheme():id)).trim(); }
+function selectTheme(id){ data.theme=id; applyTheme(id); saveData(); document.querySelectorAll('.theme-swatch').forEach(d=>d.classList.remove('active')); const sw=document.getElementById('sw-'+id); if(sw)sw.classList.add('active'); }
+function buildThemeStrip(){ const strip=document.getElementById('theme-strip'); THEMES.forEach(th=>{ const btn=document.createElement('button'); btn.className='theme-swatch'; btn.id='sw-'+th.id; btn.onclick=()=>selectTheme(th.id); const[c1,c2,c3,c4]=th.colors; btn.style.background=`linear-gradient(135deg,${c1} 25%,${c2} 25%,${c2} 50%,${c3} 50%,${c3} 75%,${c4} 75%)`; strip.appendChild(btn); }); }
+
+// ===== SORT =====
+function setSort(mode,btn){ data.sortMode=mode; saveData(); document.querySelectorAll('.sort-chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderList(); }
+function sortedSkills(){ const s=[...data.skills]; if(data.sortMode==='progress')s.sort((a,b)=>(b.totalMinutes/b.goalMinutes)-(a.totalMinutes/a.goalMinutes)); else if(data.sortMode==='recent')s.sort((a,b)=>(b.sessions[0]?.date||0)-(a.sessions[0]?.date||0)); return s; }
+
+// ===== WEEKLY =====
+function renderWeeklySummary(){
+  const now=Date.now(),wa=now-7*24*60*60*1000,ma=now-30*24*60*60*1000;
+  let wm=0,mm=0; data.skills.forEach(sk=>sk.sessions.forEach(s=>{if(s.date>=wa)wm+=s.minutes;if(s.date>=ma)mm+=s.minutes;}));
+  const el=document.getElementById('weekly-summary'); if(!data.skills.length){el.innerHTML='';return;}
+  el.innerHTML=`<div class="weekly-bar">
+    <div class="weekly-stat"><div class="weekly-lbl">${t('week')}</div><div class="weekly-val">${fmtH(wm)}<span style="font-size:12px">h</span></div><div class="weekly-sub">${wm} min</div></div>
+    <div class="weekly-stat"><div class="weekly-lbl">${t('month')}</div><div class="weekly-val">${fmtH(mm)}<span style="font-size:12px">h</span></div><div class="weekly-sub">${mm} min</div></div>
+    <div class="weekly-stat"><div class="weekly-lbl">${t('skills_lbl')}</div><div class="weekly-val">${data.skills.length}</div><div class="weekly-sub">${t('active')}</div></div>
+  </div>`;
 }
 
 // ===== VIEWS =====
 function switchView(name){
-  ['list','hall','add','detail','log'].forEach(v=>{
-    document.getElementById('view-'+v).classList.add('hidden');
-    const t=document.getElementById('tab-'+v); if(t) t.classList.remove('active');
-  });
+  ['list','hall','add','detail','log'].forEach(v=>{ document.getElementById('view-'+v).classList.add('hidden'); const tb=document.getElementById('tab-'+v); if(tb)tb.classList.remove('active'); });
   document.getElementById('view-'+name).classList.remove('hidden');
-  const at=document.getElementById('tab-'+name); if(at) at.classList.add('active');
-  if(name==='list') renderList();
-  if(name==='hall') renderHall();
-  if(name==='detail') renderDetail();
-  if(name==='add') setupAdd();
-  if(name==='log') setupLog();
+  const at=document.getElementById('tab-'+name); if(at)at.classList.add('active');
+  if(name==='list')renderList(); if(name==='hall')renderHall();
+  if(name==='detail')renderDetail(); if(name==='add')setupAdd(); if(name==='log')setupLog();
   document.getElementById('content').scrollTop=0;
 }
 
 // ===== LIST =====
 function renderList(){
-  document.getElementById('tab-hall').innerHTML=`<i class="ph ph-trophy"></i> 殿堂 (${data.hall.length})`;
-  const el=document.getElementById('skills-list');
-  if(!data.skills.length){
-    el.innerHTML=`<div class="empty"><div class="empty-icon"><i class="ph ph-target"></i></div><div class="empty-txt">スキルを追加して<br>習熟の旅を始めよう</div></div>`;
-    return;
-  }
-  el.innerHTML=data.skills.map(sk=>{
-    const pct=Math.min(100,(sk.totalMinutes/sk.goalMinutes)*100);
-    const lv=getLevel(pct); const done=sk.totalMinutes>=sk.goalMinutes;
-    const ic=iconEl(sk.icon||'target',22);
+  document.getElementById('tab-hall-text').textContent=`${t('tab_hall')} (${data.hall.length})`;
+  const sc=document.getElementById('sort-'+data.sortMode); if(sc){document.querySelectorAll('.sort-chip').forEach(b=>b.classList.remove('active'));sc.classList.add('active');}
+  renderWeeklySummary();
+  const el=document.getElementById('skills-list'),skills=sortedSkills();
+  if(!skills.length){el.innerHTML=`<div class="empty"><div class="empty-icon"><i class="ph ph-target"></i></div><div class="empty-txt">${t('empty_txt').replace('\n','<br>')}</div></div>`;return;}
+  el.innerHTML=skills.map(sk=>{
+    const pct=Math.min(100,(sk.totalMinutes/sk.goalMinutes)*100),lv=getLevel(pct),done=sk.totalMinutes>=sk.goalMinutes;
     return `<div class="skill-card${done?' done':''}" onclick="openDetail('${sk.id}')">
       ${done?`<div class="done-mark"><i class="ph ph-seal-check" style="font-size:18px"></i></div>`:''}
-      <div class="card-top">
-        <div class="card-left">
-          <div class="sk-icon">${ic}</div>
-          <div><div class="sk-name">${sk.name}</div><div class="sk-lv">${lv.label} · ${lv.jp}</div></div>
-        </div>
-        <div><div class="sk-h" style="color:var(--accent)">${fmtH(sk.totalMinutes)}<span style="font-size:11px;font-family:'Noto Sans JP';color:var(--text3)">h</span></div><div class="sk-goal">/ ${(sk.goalMinutes/60).toLocaleString()}h</div></div>
-      </div>
+      <div class="card-top"><div class="card-left"><div class="sk-icon">${iconEl(sk.icon||'target',22)}</div>
+        <div><div class="sk-name">${sk.name}</div><div class="sk-lv">${t(lv.key)}</div></div></div>
+        <div><div class="sk-h">${fmtH(sk.totalMinutes)}<span style="font-size:11px;color:var(--text3)">h</span></div><div class="sk-goal">/ ${(sk.goalMinutes/60).toLocaleString()}h</div></div></div>
       <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:var(--accent);opacity:${done?1:0.7+pct/300}"></div></div>
       <div class="card-foot"><span>${pct.toFixed(1)}% complete</span><span>${sk.sessions.length} sessions</span></div>
     </div>`;
@@ -542,178 +712,162 @@ function renderList(){
 // ===== HALL =====
 function renderHall(){
   const el=document.getElementById('hall-list');
-  if(!data.hall.length){ el.innerHTML=`<div class="empty"><div class="empty-icon"><i class="ph ph-trophy"></i></div><div class="empty-txt">目標を達成したスキルが<br>ここに殿堂入りします</div></div>`; return; }
-  el.innerHTML=data.hall.map(e=>`
-    <div class="hall-card">
-      <div class="hall-bg"><i class="ph ph-trophy"></i></div>
-      <div class="hall-inner">
-        <div class="hall-icon">${iconEl(e.icon||'target',24)}</div>
-        <div class="hall-info">
-          <div class="hall-nm">${e.name}</div>
-          <div class="hall-sb">${(e.goalMinutes/60).toLocaleString()}時間 達成</div>
-          <div class="hall-dt">${new Date(e.achievedAt).toLocaleDateString('ja-JP')}</div>
-        </div>
-        <div><div class="hall-h">${fmtH(e.totalMinutes)}<span style="font-size:11px;font-family:'Noto Sans JP'">h</span></div><div class="hall-sc">${e.sessions} sessions</div></div>
-      </div>
-    </div>`).join('');
+  if(!data.hall.length){el.innerHTML=`<div class="empty"><div class="empty-icon"><i class="ph ph-trophy"></i></div><div class="empty-txt">${t('empty_hall').replace('\n','<br>')}</div></div>`;return;}
+  el.innerHTML=data.hall.map(e=>`<div class="hall-card">
+    <div class="hall-bg"><i class="ph ph-trophy"></i></div>
+    <button class="hall-del" onclick="deleteHall('${e.id}')"><i class="ph ph-x"></i></button>
+    <div class="hall-inner">
+      <div class="hall-icon">${iconEl(e.icon||'target',24)}</div>
+      <div class="hall-info"><div class="hall-nm">${e.name}</div>
+        <div class="hall-sb">${(e.goalMinutes/60).toLocaleString()}h ${t('hall_achieved')}</div>
+        <div class="hall-dt">${new Date(e.achievedAt).toLocaleDateString()}</div></div>
+      <div><div class="hall-h">${fmtH(e.totalMinutes)}<span style="font-size:11px">h</span></div><div class="hall-sc">${e.sessions} sessions</div></div>
+    </div></div>`).join('');
 }
+function deleteHall(id){ if(!confirm(t('confirm_del_hall')))return; data.hall=data.hall.filter(e=>e.id!==id); saveData(); renderHall(); document.getElementById('tab-hall-text').textContent=`${t('tab_hall')} (${data.hall.length})`; }
 
 // ===== DETAIL =====
-function openDetail(id){ currentSkillId=id; switchView('detail'); }
+function openDetail(id){currentSkillId=id;switchView('detail');}
 function renderDetail(){
-  const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk) return switchView('list');
-  const pct=Math.min(100,(sk.totalMinutes/sk.goalMinutes)*100);
-  const lv=getLevel(pct); const done=sk.totalMinutes>=sk.goalMinutes;
+  const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk)return switchView('list');
+  const pct=Math.min(100,(sk.totalMinutes/sk.goalMinutes)*100),lv=getLevel(pct),done=sk.totalMinutes>=sk.goalMinutes;
   const remaining=Math.max(0,sk.goalMinutes-sk.totalMinutes);
-  const C=2*Math.PI*66; const dash=C*(1-pct/100);
+  const C=2*Math.PI*66,dash=C*(1-pct/100);
+  const recent=sk.sessions.slice(0,10);
+  const avgMin=recent.length?recent.reduce((a,s)=>a+s.minutes,0)/recent.length:0;
+  const avgHrDay=avgMin/60;
+  let forecastHtml='';
+  if(!done){
+    let mainHtml=avgHrDay>0
+      ?`<div class="forecast-main"><div class="forecast-pace">${avgHrDay.toFixed(1)}h</div><div class="forecast-pace-lbl">${t('pace_lbl')}</div></div>
+         <div class="forecast-date">${t('forecast_date_tpl',new Date(Date.now()+(remaining/60/avgHrDay)*24*60*60*1000).toLocaleDateString(),fmtDuration(remaining/60/avgHrDay))}</div>`
+      :`<div style="font-size:11px;color:var(--text3);margin-bottom:10px">${t('forecast_no_data')}</div>`;
+    forecastHtml=`<div class="forecast-card">
+      <div class="forecast-title"><i class="ph ph-trend-up"></i> ${t('forecast_lbl')}</div>
+      ${mainHtml}
+      <div class="forecast-sim-lbl">${t('if_practice')}</div>
+      <div class="forecast-chips">${[0.5,1,2,3,5].map(h=>`<button class="forecast-chip${simHours===h?' active':''}" onclick="simUpdate(${h},this)">${h}h/day</button>`).join('')}</div>
+      <div class="forecast-result" id="sim-result">${calcSim(remaining,simHours)}</div>
+    </div>`;
+  }
   const doneBanner=done?`<div class="done-banner">
     <div class="done-banner-ic"><i class="ph ph-seal-check"></i></div>
-    <div class="done-banner-tt">目標達成おめでとうございます！</div>
-    <div class="done-banner-sb">次のステップを選んでください</div>
+    <div class="done-banner-tt">${t('done_title')}</div><div class="done-banner-sb">${t('done_sub')}</div>
     <div class="done-actions">
-      <button class="btn-hall" onclick="moveToHall('${sk.id}')"><i class="ph ph-trophy"></i> 殿堂入り</button>
-      <button class="btn-ext" onclick="openExtend('${sk.id}',${sk.goalMinutes})"><i class="ph ph-arrow-up-right"></i> 目標を延長</button>
+      <button class="btn-hall" onclick="moveToHall('${sk.id}')"><i class="ph ph-trophy"></i> ${t('btn_hall')}</button>
+      <button class="btn-ext" onclick="openExtend('${sk.id}',${sk.goalMinutes})"><i class="ph ph-arrow-up-right"></i> ${t('btn_extend')}</button>
     </div></div>`:'';
   const timerBtn=(timerInterval&&timerSkillId===sk.id)
-    ?`<button class="btn-sec" style="background:#b05050;color:#fff;border:none" onclick="stopTimer()"><i class="ph ph-stop-circle" style="font-size:16px"></i> 停止・記録</button>`
-    :`<button class="btn-sec" onclick="startTimer('${sk.id}')"${timerInterval?' disabled':''}><i class="ph ph-timer" style="font-size:16px"></i> タイマー開始</button>`;
-  const sessions=sk.sessions.slice(0,10).map(s=>`<div class="sess-item"><div><div class="sess-t">${fmtTime(s.minutes)}</div>${s.note?`<div class="sess-n">${s.note}</div>`:''}</div><div class="sess-d">${new Date(s.date).toLocaleDateString('ja-JP')}</div></div>`).join('');
+    ?`<button class="btn-sec" style="background:#b05050;color:#fff;border:none" onclick="stopTimer()"><i class="ph ph-stop-circle" style="font-size:16px"></i> ${t('timer_stop')}</button>`
+    :`<button class="btn-sec" onclick="startTimer('${sk.id}')"${timerInterval?' disabled':''}><i class="ph ph-timer" style="font-size:16px"></i> ${t('start_timer')}</button>`;
+  const sessions=sk.sessions.slice(0,10).map(s=>`<div class="sess-item">
+    <div><div class="sess-t">${fmtTime(s.minutes)}</div>${s.note?`<div class="sess-n">${s.note}</div>`:''}</div>
+    <div style="display:flex;align-items:center;gap:6px"><div class="sess-d">${new Date(s.date).toLocaleDateString()}</div>
+    <button class="sess-del" onclick="deleteSession('${sk.id}','${s.id}')"><i class="ph ph-x-circle"></i></button></div>
+  </div>`).join('');
   document.getElementById('detail-content').innerHTML=`
     ${doneBanner}
     <div class="detail-hero">
       <div class="d-icon">${iconEl(sk.icon||'target',36)}</div>
-      <div class="d-name">${sk.name}</div>
-      <div class="d-lv">${lv.label} · ${lv.jp}</div>
+      <div class="d-name">${sk.name}<button class="btn-edit-name" onclick="openEditName('${sk.id}')"><i class="ph ph-pencil-simple"></i></button></div>
+      <div class="d-lv">${t(lv.key)}</div>
     </div>
     <div class="circle-wrap"><svg width="156" height="156" viewBox="0 0 156 156">
       <circle cx="78" cy="78" r="66" fill="none" stroke="var(--border)" stroke-width="8"/>
       <circle cx="78" cy="78" r="66" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${dash}" stroke-linecap="round" transform="rotate(-90 78 78)" style="transition:stroke-dashoffset 0.8s ease"/>
-      <text x="78" y="68" text-anchor="middle" fill="var(--text)" font-size="22" font-weight="bold" font-family="Pacifico,cursive">${fmtH(sk.totalMinutes)}</text>
-      <text x="78" y="82" text-anchor="middle" fill="var(--text3)" font-size="9" font-family="Noto Sans JP,sans-serif">時間</text>
-      <text x="78" y="97" text-anchor="middle" fill="var(--accent)" font-size="10" font-family="Pacifico,cursive">${done?'100%':pct.toFixed(1)+'%'}</text>
+      <text x="78" y="70" text-anchor="middle" fill="var(--text)" font-size="20" font-weight="bold" font-family="Pacifico,cursive">${fmtH(sk.totalMinutes)}</text>
+      <text x="78" y="84" text-anchor="middle" fill="var(--text3)" font-size="9" font-family="DM Sans,sans-serif">hours</text>
+      <text x="78" y="99" text-anchor="middle" fill="var(--accent)" font-size="10" font-family="Pacifico,cursive">${done?'100%':pct.toFixed(1)+'%'}</text>
     </svg></div>
     <div class="stats-grid">
-      <div class="stat-c"><div class="stat-l">目標</div><div class="stat-v">${(sk.goalMinutes/60).toLocaleString()}<span style="font-size:10px;font-family:'Noto Sans JP'">h</span></div></div>
-      <div class="stat-c"><div class="stat-l">${done?'超過':'残り'}</div><div class="stat-v">${done?'+'+fmtH(sk.totalMinutes-sk.goalMinutes)+'h':fmtTime(remaining)}</div></div>
-      <div class="stat-c"><div class="stat-l">セッション数</div><div class="stat-v">${sk.sessions.length}<span style="font-size:10px;font-family:'Noto Sans JP'">回</span></div></div>
-      <div class="stat-c"><div class="stat-l">平均</div><div class="stat-v" style="font-family:'Noto Sans JP';font-size:13px">${sk.sessions.length?fmtTime(Math.round(sk.totalMinutes/sk.sessions.length)):'—'}</div></div>
+      <div class="stat-c"><div class="stat-l">${t('goal_lbl')}</div><div class="stat-v">${(sk.goalMinutes/60).toLocaleString()}<span style="font-size:10px;font-family:'DM Sans'">h</span></div></div>
+      <div class="stat-c"><div class="stat-l">${done?t('exceeded_lbl'):t('remaining_lbl')}</div><div class="stat-v" style="font-size:13px;font-family:'DM Sans',sans-serif">${done?'+'+fmtH(sk.totalMinutes-sk.goalMinutes)+'h':fmtTime(remaining)}</div></div>
+      <div class="stat-c"><div class="stat-l">${t('sessions_lbl')}</div><div class="stat-v">${sk.sessions.length}<span style="font-size:10px;font-family:'DM Sans'"> ${t('times_unit')}</span></div></div>
+      <div class="stat-c"><div class="stat-l">${t('avg_lbl')}</div><div class="stat-v" style="font-size:13px;font-family:'DM Sans',sans-serif">${sk.sessions.length?fmtTime(Math.round(sk.totalMinutes/sk.sessions.length)):'—'}</div></div>
     </div>
-    <div class="action-row">${timerBtn}<button class="btn-sec" onclick="switchView('log')"><i class="ph ph-plus-circle" style="font-size:16px"></i> 手動記録</button></div>
-    <div class="sec-label">recent sessions</div>
-    ${sk.sessions.length?sessions:'<div style="color:var(--text3);font-size:12px;text-align:center;padding:18px;letter-spacing:1px">まだ記録がありません</div>'}`;
+    <div class="action-row">${timerBtn}<button class="btn-sec" onclick="switchView('log')"><i class="ph ph-plus-circle" style="font-size:16px"></i> ${t('log_session')}</button></div>
+    ${forecastHtml}
+    <div class="sec-label">${t('recent_sessions')}</div>
+    ${sk.sessions.length?sessions:`<div style="color:var(--text3);font-size:12px;text-align:center;padding:18px">${t('no_sessions')}</div>`}`;
 }
-function deleteCurrentSkill(){ if(!confirm('このスキルを削除しますか？'))return; data.skills=data.skills.filter(s=>s.id!==currentSkillId); saveData(); switchView('list'); }
+function calcSim(rem,hpd){ if(!rem||!hpd)return ''; const days=rem/60/hpd; return t('sim_result_tpl',new Date(Date.now()+days*24*60*60*1000).toLocaleDateString(),fmtDuration(days)); }
+function simUpdate(h,btn){ simHours=h; document.querySelectorAll('.forecast-chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk)return; const el=document.getElementById('sim-result'); if(el)el.textContent=calcSim(Math.max(0,sk.goalMinutes-sk.totalMinutes),h); }
+function deleteSession(skillId,sessId){ const sk=data.skills.find(s=>s.id===skillId); if(!sk)return; if(!confirm(t('confirm_del_sess')))return; const sess=sk.sessions.find(s=>s.id===sessId); if(sess){sk.totalMinutes-=sess.minutes;sk.sessions=sk.sessions.filter(s=>s.id!==sessId);saveData();renderDetail();} }
+function deleteCurrentSkill(){ if(!confirm(t('confirm_del_skill')))return; data.skills=data.skills.filter(s=>s.id!==currentSkillId); saveData(); switchView('list'); }
+
+// ===== EDIT NAME =====
+function openEditName(id){ currentSkillId=id; const sk=data.skills.find(s=>s.id===id); if(!sk)return; document.getElementById('edit-name-input').value=sk.name; document.getElementById('edit-name-modal').classList.remove('hidden'); }
+function closeEditName(){ document.getElementById('edit-name-modal').classList.add('hidden'); }
+function confirmEditName(){ const name=document.getElementById('edit-name-input').value.trim(); if(!name)return; const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk)return; sk.name=name; saveData(); closeEditName(); renderDetail(); }
 
 // ===== ADD =====
-const GOALS=[{l:'10,000h',h:10000},{l:'5,000h',h:5000},{l:'1,000h',h:1000},{l:'100h',h:100}];
 function setupAdd(){
   selectedIconKey='target';
   document.getElementById('new-name').value='';
-  document.getElementById('new-goal').value='10000';
-  document.getElementById('icon-grid').innerHTML=SKILL_ICONS.map(ic=>`
-    <button class="icon-btn${ic.key===selectedIconKey?' active':''}" onclick="selIcon('${ic.key}',this)" title="${ic.label}">
-      <i class="ph ${ic.ph}" style="font-size:20px"></i>
-    </button>`).join('');
-  document.getElementById('goal-chips').innerHTML=GOALS.map(g=>`<button class="chip${g.h===10000?' active':''}" onclick="selGoal(${g.h},this)">${g.l}</button>`).join('');
+  document.getElementById('new-name').placeholder=t('add_name_ph');
+  document.getElementById('new-goal').value='1000';
+  document.getElementById('icon-grid').innerHTML=SKILL_ICONS.map(ic=>`<button class="icon-btn${ic.key===selectedIconKey?' active':''}" onclick="selIcon('${ic.key}',this)"><i class="ph ${ic.ph}" style="font-size:20px"></i></button>`).join('');
+  document.getElementById('goal-chips').innerHTML=GOALS.map(g=>`<button class="chip goal-chip${g.h===1000?' active':''}" onclick="selGoal(${g.h},this)"><span class="goal-chip-h">${g.h>=1000?(g.h/1000).toLocaleString()+'k':g.h}h</span><span class="goal-chip-lbl">${t(g.rk)}</span></button>`).join('');
   updateAddBtn();
 }
 function selIcon(key,btn){ selectedIconKey=key; document.querySelectorAll('.icon-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 function selGoal(h,btn){ document.getElementById('new-goal').value=h; document.querySelectorAll('#goal-chips .chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 function updateAddBtn(){ document.getElementById('add-btn').disabled=!document.getElementById('new-name').value.trim(); }
 function addSkill(){
-  const name=document.getElementById('new-name').value.trim(), gh=Number(document.getElementById('new-goal').value);
-  if(!name||!gh) return;
+  const name=document.getElementById('new-name').value.trim(),gh=Number(document.getElementById('new-goal').value);
+  if(!name||!gh)return;
   data.skills.push({id:Date.now().toString(),name,icon:selectedIconKey,goalMinutes:gh*60,totalMinutes:0,sessions:[],createdAt:Date.now()});
   saveData(); switchView('list');
 }
 
 // ===== LOG =====
 function setupLog(){
-  const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk) return switchView('list');
-  document.getElementById('log-header').textContent=`${sk.name} — セッションを記録`;
+  const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk)return switchView('list');
+  document.getElementById('log-header').textContent=sk.name+' — '+t('log_btn');
   document.getElementById('log-minutes').value='60'; document.getElementById('log-note').value='';
-  document.getElementById('minute-chips').innerHTML=[15,30,45,60,90,120].map(m=>`<button class="chip${m===60?' active':''}" onclick="selMin(${m},this)">${m}分</button>`).join('');
+  document.getElementById('log-note').placeholder=t('log_note_ph');
+  document.getElementById('minute-chips').innerHTML=[15,30,45,60,90,120].map(m=>`<button class="chip${m===60?' active':''}" onclick="selMin(${m},this)">${m} ${t('min_unit')}</button>`).join('');
 }
 function selMin(m,btn){ document.getElementById('log-minutes').value=m; document.querySelectorAll('#minute-chips .chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 function submitLog(){ const m=Number(document.getElementById('log-minutes').value),note=document.getElementById('log-note').value.trim(); if(!m)return; logSession(currentSkillId,m,note); switchView('detail'); }
-function logSession(skillId,minutes,note){
-  const sk=data.skills.find(s=>s.id===skillId); if(!sk) return;
-  const was=sk.totalMinutes<sk.goalMinutes;
-  sk.totalMinutes+=minutes; sk.sessions.unshift({id:Date.now().toString(),minutes,note,date:Date.now()});
-  saveData();
-  if(was&&sk.totalMinutes>=sk.goalMinutes) triggerCel(sk);
-}
+function logSession(skillId,minutes,note){ const sk=data.skills.find(s=>s.id===skillId); if(!sk)return; const was=sk.totalMinutes<sk.goalMinutes; sk.totalMinutes+=minutes; sk.sessions.unshift({id:Date.now().toString(),minutes,note,date:Date.now()}); saveData(); if(was&&sk.totalMinutes>=sk.goalMinutes)triggerCel(sk); }
 
 // ===== TIMER =====
-function startTimer(skillId){
-  timerSkillId=skillId; timerSeconds=0;
-  const sk=data.skills.find(s=>s.id===skillId);
-  document.getElementById('timer-skill-nm').innerHTML=`${iconEl(sk?.icon||'target',13)} ${sk?.name||''}`;
-  document.getElementById('timer-banner').classList.remove('hidden');
-  timerInterval=setInterval(()=>{
-    timerSeconds++;
-    const h=String(Math.floor(timerSeconds/3600)).padStart(2,'0'),m=String(Math.floor((timerSeconds%3600)/60)).padStart(2,'0'),s=String(timerSeconds%60).padStart(2,'0');
-    document.getElementById('timer-display').textContent=`${h}:${m}:${s}`;
-  },1000);
-  renderDetail();
-}
-function stopTimer(){
-  clearInterval(timerInterval); timerInterval=null;
-  const el=Math.floor(timerSeconds/60);
-  document.getElementById('timer-banner').classList.add('hidden');
-  if(el>0) logSession(timerSkillId,el,'タイマー記録');
-  timerSeconds=0; timerSkillId=null; renderDetail();
-}
+function startTimer(skillId){ timerSkillId=skillId; timerSeconds=0; const sk=data.skills.find(s=>s.id===skillId); document.getElementById('timer-skill-nm').innerHTML=`${iconEl(sk?.icon||'target',13)} ${sk?.name||''}`; document.getElementById('timer-banner').classList.remove('hidden'); timerInterval=setInterval(()=>{ timerSeconds++; const h=String(Math.floor(timerSeconds/3600)).padStart(2,'0'),m=String(Math.floor((timerSeconds%3600)/60)).padStart(2,'0'),s=String(timerSeconds%60).padStart(2,'0'); document.getElementById('timer-display').textContent=`${h}:${m}:${s}`; },1000); renderDetail(); }
+function stopTimer(){ clearInterval(timerInterval); timerInterval=null; const el=Math.floor(timerSeconds/60); document.getElementById('timer-banner').classList.add('hidden'); if(el>0)logSession(timerSkillId,el,t('timer_session')); timerSeconds=0; timerSkillId=null; renderDetail(); }
 
 // ===== HALL =====
-function moveToHall(skillId){
-  const sk=data.skills.find(s=>s.id===skillId); if(!sk) return;
-  data.hall.unshift({id:Date.now().toString(),name:sk.name,icon:sk.icon||'target',goalMinutes:sk.goalMinutes,totalMinutes:sk.totalMinutes,sessions:sk.sessions.length,achievedAt:Date.now()});
-  data.skills=data.skills.filter(s=>s.id!==skillId); saveData(); switchView('hall');
-}
+function moveToHall(skillId){ const sk=data.skills.find(s=>s.id===skillId); if(!sk)return; data.hall.unshift({id:Date.now().toString(),name:sk.name,icon:sk.icon||'target',goalMinutes:sk.goalMinutes,totalMinutes:sk.totalMinutes,sessions:sk.sessions.length,achievedAt:Date.now()}); data.skills=data.skills.filter(s=>s.id!==skillId); saveData(); switchView('hall'); }
 
 // ===== EXTEND =====
-function openExtend(skillId,curMin){ currentSkillId=skillId; const cur=curMin/60; const opts=[cur*2,cur*3,20000].filter((v,i,a)=>a.indexOf(v)===i); document.getElementById('extend-chips').innerHTML=opts.map(h=>`<button class="chip" onclick="setExtH(${h},this)">${h.toLocaleString()}h</button>`).join(''); document.getElementById('extend-hours').value=opts[0]; document.getElementById('extend-modal').classList.remove('hidden'); }
+function openExtend(skillId,curMin){ currentSkillId=skillId; const curH=curMin/60; const opts=EXTEND_OPTS.filter(o=>o.h>curH); if(!opts.length)opts.push(...EXTEND_OPTS.slice(-2)); document.getElementById('extend-chips').innerHTML=opts.map(o=>`<button class="chip goal-chip" onclick="setExtH(${o.h},this)"><span class="goal-chip-h">${o.h>=1000?(o.h/1000).toLocaleString()+'k':o.h}h</span><span class="goal-chip-lbl">${t(o.rk)}</span></button>`).join(''); document.getElementById('extend-hours').value=opts[0].h; document.getElementById('extend-modal').classList.remove('hidden'); }
 function setExtH(h,btn){ document.getElementById('extend-hours').value=h; document.querySelectorAll('#extend-chips .chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 function closeExtend(){ document.getElementById('extend-modal').classList.add('hidden'); }
 function confirmExtend(){ const h=Number(document.getElementById('extend-hours').value),sk=data.skills.find(s=>s.id===currentSkillId); if(sk&&h){sk.goalMinutes=h*60;saveData();} closeExtend(); renderDetail(); }
 
 // ===== CELEBRATION =====
-function triggerCel(sk){
-  const found=SKILL_ICONS.find(x=>x.key===(sk.icon||'target'))||SKILL_ICONS[0];
-  document.getElementById('cel-ph-icon').className=`ph ${found.ph}`;
-  document.getElementById('cel-text').textContent=`「${sk.name}」\nを習熟しました`;
-  document.getElementById('celebration').classList.remove('hidden');
-  launchConfetti();
-}
+function triggerCel(sk){ const found=SKILL_ICONS.find(x=>x.key===(sk.icon||'target'))||SKILL_ICONS[0]; document.getElementById('cel-ph-icon').className=`ph ${found.ph}`; document.getElementById('cel-text').textContent=t('cel_sub_tpl',sk.name); document.getElementById('celebration').classList.remove('hidden'); launchConfetti(); }
 function closeCelebration(){ document.getElementById('celebration').classList.add('hidden'); }
 
 // ===== CONFETTI =====
-function launchConfetti(){
-  const canvas=document.getElementById('confetti-canvas');
-  canvas.classList.remove('hidden'); canvas.width=window.innerWidth; canvas.height=window.innerHeight;
-  const ctx=canvas.getContext('2d');
-  const cols=['#c47878','#a8c0b8','#7090c0','#4a7a6a','#a09080','#8bc34a','#f8f4f0','#1e3a5f','#c4877a','#70a8b8'];
-  const ps=Array.from({length:120},()=>({x:Math.random()*canvas.width,y:-20,r:Math.random()*5+3,color:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*3.5,vy:Math.random()*3.5+1.5,rot:Math.random()*360,rotV:(Math.random()-.5)*7,shape:Math.random()>.5?'rect':'circle'}));
-  let fr=0;
-  function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.rotV;p.vy+=.04;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,1-fr/180);if(p.shape==='rect')ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);else{ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}ctx.restore();}); fr++; if(fr<200)requestAnimationFrame(draw); else canvas.classList.add('hidden'); }
-  requestAnimationFrame(draw);
-}
+function launchConfetti(){ const canvas=document.getElementById('confetti-canvas'); canvas.classList.remove('hidden'); canvas.width=window.innerWidth; canvas.height=window.innerHeight; const ctx=canvas.getContext('2d'); const cols=['#c47878','#a8c0b8','#7090c0','#4a7a6a','#a09080','#8bc34a','#f8f4f0','#1e3a5f']; const ps=Array.from({length:120},()=>({x:Math.random()*canvas.width,y:-20,r:Math.random()*5+3,color:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*3.5,vy:Math.random()*3.5+1.5,rot:Math.random()*360,rotV:(Math.random()-.5)*7,shape:Math.random()>.5?'rect':'circle'})); let fr=0; function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.rotV;p.vy+=.04;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,1-fr/180);if(p.shape==='rect')ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);else{ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}ctx.restore();}); fr++; if(fr<200)requestAnimationFrame(draw); else canvas.classList.add('hidden'); } requestAnimationFrame(draw); }
 
 // ===== PWA =====
+const iconSvg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23d08888'/><stop offset='100%' style='stop-color:%23b46464'/></linearGradient></defs><rect width='512' height='512' rx='112' fill='url(%23bg)'/><circle cx='256' cy='248' r='155' fill='%23ffffff' opacity='0.07'/><circle cx='256' cy='248' r='148' fill='none' stroke='%23ffffff' stroke-width='1.5' opacity='0.2'/><text x='256' y='318' text-anchor='middle' font-family='Georgia,serif' font-size='272' font-weight='400' fill='%23ffffff' opacity='0.97'>M</text><text x='256' y='400' text-anchor='middle' font-family='Georgia,serif' font-size='38' font-weight='400' letter-spacing='14' fill='%23ffffff' opacity='0.55'>MASTERY</text><circle cx='256' cy='108' r='6' fill='%23ffffff' opacity='0.4'/></svg>`;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('install-bar').classList.remove('hidden');});
 document.getElementById('install-btn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('install-bar').classList.add('hidden');});
-const mf={name:'習熟 Tracker',short_name:'習熟',display:'standalone',background_color:'#f8f4f0',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23c47878'/><text y='.9em' font-size='62' x='19'>🎯</text></svg>",sizes:'512x512',type:'image/svg+xml'}]};
+const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:'data:image/svg+xml,'+iconSvg,sizes:'512x512',type:'image/svg+xml'}]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v4';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v9';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== INIT =====
-loadData().then(() => {
-  buildThemeStrip();
-  applyTheme(data.theme);
-  const asw=document.getElementById('sw-'+data.theme);
-  if(asw){document.querySelectorAll('.theme-swatch').forEach(d=>d.classList.remove('active'));asw.classList.add('active');}
-  renderList();
+loadData().then(()=>{
+  currentLang=data.lang||'ja';
+  document.body.className=document.body.className.replace(/lang-\w+/,'lang-'+currentLang);
+  document.querySelectorAll('.lang-btn').forEach(btn=>{ const onclick=btn.getAttribute('onclick')||''; btn.classList.toggle('active', onclick.includes("'"+currentLang+"'")); });
+  buildThemeStrip(); applyTheme(data.theme);
+  const asw=document.getElementById('sw-'+data.theme); if(asw){document.querySelectorAll('.theme-swatch').forEach(d=>d.classList.remove('active'));asw.classList.add('active');}
+  applyI18n(); renderList();
   setInterval(()=>{if(data.theme==='auto')applyTheme('auto');},60000);
 });
 </script>
