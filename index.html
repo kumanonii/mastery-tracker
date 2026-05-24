@@ -131,8 +131,13 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .lang-btn { font-size: 10px; padding: 3px 6px; border-radius: 8px; color: var(--text3); background: none; border: 1px solid transparent; cursor: pointer; transition: all 0.2s; line-height: 1.4; font-family: 'DM Sans','Noto Sans JP','Noto Sans TC','Noto Sans KR',sans-serif; }
 .lang-btn.active { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
 
+/* ===== PALETTE BUTTON ===== */
+.palette-btn { width: 32px; height: 32px; border-radius: 10px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text2); font-size: 16px; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+.palette-btn.open { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
+
 /* ===== THEME STRIP ===== */
-.theme-strip { display: flex; gap: 6px; padding: 10px 20px; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; align-items: center; }
+.theme-strip { display: flex; gap: 6px; padding: 10px 20px; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; align-items: center; max-height: 0; overflow: hidden; padding: 0 20px; border-bottom: none; transition: max-height 0.35s ease, padding 0.35s ease; }
+.theme-strip.open { max-height: 60px; padding: 10px 20px; border-bottom: 1px solid var(--border); }
 .theme-swatch { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; transition: transform 0.2s, border-color 0.2s; overflow: hidden; }
 .theme-swatch.active { border-color: var(--text); transform: scale(1.2); box-shadow: 0 2px 8px rgba(0,0,0,0.18); }
 .auto-swatch { display: flex; align-items: center; justify-content: center; background: var(--bg3); border: 2px solid var(--border2); color: var(--text2); font-size: 13px; }
@@ -253,7 +258,11 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .icon-btn.active i { color: var(--accent); }
 
 /* ===== HALL ===== */
-.hall-card { background: var(--card); border: 1px solid var(--accent); border-radius: 14px; padding: 14px; margin-bottom: 10px; position: relative; overflow: hidden; }
+.hall-wrap { position: relative; margin-bottom: 10px; border-radius: 14px; overflow: hidden; }
+.hall-delete-bg { position: absolute; right: 0; top: 0; bottom: 0; width: 80px; background: #e05050; display: flex; align-items: center; justify-content: center; border-radius: 0 14px 14px 0; }
+.hall-delete-bg i { font-size: 22px; color: #fff; }
+.hall-card { background: var(--card); border: 1px solid var(--accent); border-radius: 14px; padding: 14px; position: relative; overflow: hidden; touch-action: pan-y; transition: transform 0.25s ease; cursor: pointer; }
+.hall-card.swiping { transition: none; }
 .hall-inner { display: flex; align-items: center; gap: 12px; }
 .hall-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .hall-icon i { font-size: 24px; color: var(--accent); }
@@ -264,7 +273,6 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .hall-h { font-size: 20px; color: var(--accent); text-align: right; }
 .hall-sc { font-size: 9px; color: var(--text3); text-align: right; }
 .hall-bg { position: absolute; top: -8px; right: -8px; font-size: 56px; opacity: 0.05; color: var(--accent); }
-.hall-del { position: absolute; top: 8px; right: 8px; color: var(--text3); font-size: 13px; padding: 4px; }
 
 /* ===== MODAL ===== */
 .modal-ov { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 998; display: flex; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(4px); }
@@ -305,12 +313,15 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
           <div class="header-app-name" style="font-family:'Pacifico',cursive!important">Mastery</div>
           <div class="header-subtitle" id="hdr-subtitle">skill tracker</div>
         </div>
-        <div class="lang-switcher">
-          <button class="lang-btn active" onclick="setLang('ja',this)">日</button>
-          <button class="lang-btn" onclick="setLang('en',this)">EN</button>
-          <button class="lang-btn" onclick="setLang('pt',this)">PT</button>
-          <button class="lang-btn" onclick="setLang('zh',this)">繁</button>
-          <button class="lang-btn" onclick="setLang('ko',this)">한</button>
+        <div style="display:flex;align-items:center;gap:6px">
+          <button class="palette-btn" id="palette-btn" onclick="toggleTheme()" title="Theme"><i class="ph ph-palette"></i></button>
+          <div class="lang-switcher">
+            <button class="lang-btn active" onclick="setLang('ja',this)">日</button>
+            <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+            <button class="lang-btn" onclick="setLang('pt',this)">PT</button>
+            <button class="lang-btn" onclick="setLang('zh',this)">繁</button>
+            <button class="lang-btn" onclick="setLang('ko',this)">한</button>
+          </div>
         </div>
       </div>
       <div class="header-tabs">
@@ -713,18 +724,28 @@ function renderList(){
 function renderHall(){
   const el=document.getElementById('hall-list');
   if(!data.hall.length){el.innerHTML=`<div class="empty"><div class="empty-icon"><i class="ph ph-trophy"></i></div><div class="empty-txt">${t('empty_hall').replace('\n','<br>')}</div></div>`;return;}
-  el.innerHTML=data.hall.map(e=>`<div class="hall-card">
-    <div class="hall-bg"><i class="ph ph-trophy"></i></div>
-    <button class="hall-del" onclick="deleteHall('${e.id}')"><i class="ph ph-x"></i></button>
-    <div class="hall-inner">
-      <div class="hall-icon">${iconEl(e.icon||'target',24)}</div>
-      <div class="hall-info"><div class="hall-nm">${e.name}</div>
-        <div class="hall-sb">${(e.goalMinutes/60).toLocaleString()}h ${t('hall_achieved')}</div>
-        <div class="hall-dt">${new Date(e.achievedAt).toLocaleDateString()}</div></div>
-      <div><div class="hall-h">${fmtH(e.totalMinutes)}<span style="font-size:11px">h</span></div><div class="hall-sc">${e.sessions} sessions</div></div>
-    </div></div>`).join('');
+  el.innerHTML=data.hall.map(e=>`
+    <div class="hall-wrap" id="hw-${e.id}">
+      <div class="hall-delete-bg"><i class="ph ph-trash"></i></div>
+      <div class="hall-card" id="hc-${e.id}"
+        ontouchstart="swipeStart(event,'${e.id}')"
+        ontouchmove="swipeMove(event,'${e.id}')"
+        ontouchend="swipeEnd(event,'${e.id}')">
+        <div class="hall-bg"><i class="ph ph-trophy"></i></div>
+        <div class="hall-inner">
+          <div class="hall-icon">${iconEl(e.icon||'target',24)}</div>
+          <div class="hall-info"><div class="hall-nm">${e.name}</div>
+            <div class="hall-sb">${(e.goalMinutes/60).toLocaleString()}h ${t('hall_achieved')}</div>
+            <div class="hall-dt">${new Date(e.achievedAt).toLocaleDateString()}</div></div>
+          <div><div class="hall-h">${fmtH(e.totalMinutes)}<span style="font-size:11px">h</span></div><div class="hall-sc">${e.sessions} sessions</div></div>
+        </div>
+      </div>
+    </div>`).join('');
 }
-function deleteHall(id){ if(!confirm(t('confirm_del_hall')))return; data.hall=data.hall.filter(e=>e.id!==id); saveData(); renderHall(); document.getElementById('tab-hall-text').textContent=`${t('tab_hall')} (${data.hall.length})`; }
+function deleteHall(id){
+  data.hall=data.hall.filter(e=>e.id!==id); saveData(); renderHall();
+  document.getElementById('tab-hall-text').textContent=`${t('tab_hall')} (${data.hall.length})`;
+}
 
 // ===== DETAIL =====
 function openDetail(id){currentSkillId=id;switchView('detail');}
@@ -858,7 +879,56 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPro
 document.getElementById('install-btn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('install-bar').classList.add('hidden');});
 const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:'data:image/svg+xml,'+iconSvg,sizes:'512x512',type:'image/svg+xml'}]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v9';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v10';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+
+// ===== THEME TOGGLE =====
+function toggleTheme(){
+  const strip=document.getElementById('theme-strip');
+  const btn=document.getElementById('palette-btn');
+  const isOpen=strip.classList.contains('open');
+  strip.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+}
+
+// ===== HALL SWIPE =====
+let swipeTouchX=0, swipeActive=null, swipeConfirmed=false;
+const SWIPE_THRESHOLD=60;
+
+function swipeStart(e,id){
+  swipeTouchX=e.touches[0].clientX;
+  swipeActive=id;
+  swipeConfirmed=false;
+  const card=document.getElementById('hc-'+id);
+  if(card) card.classList.add('swiping');
+}
+function swipeMove(e,id){
+  if(swipeActive!==id)return;
+  const dx=e.touches[0].clientX-swipeTouchX;
+  if(dx>=0)return; // only left swipe
+  const card=document.getElementById('hc-'+id);
+  if(card){
+    const clamp=Math.max(dx,-80);
+    card.style.transform=`translateX(${clamp}px)`;
+    swipeConfirmed=clamp<=-SWIPE_THRESHOLD;
+  }
+}
+function swipeEnd(e,id){
+  if(swipeActive!==id)return;
+  const card=document.getElementById('hc-'+id);
+  if(card) card.classList.remove('swiping');
+  if(swipeConfirmed){
+    // snap open
+    if(card) card.style.transform='translateX(-80px)';
+    // confirm delete after short delay
+    setTimeout(()=>{
+      if(confirm(t('confirm_del_hall'))){ deleteHall(id); }
+      else { if(card){card.style.transform=''; card.style.transition='transform 0.25s ease';} }
+    },100);
+  } else {
+    if(card){ card.style.transform=''; }
+  }
+  swipeActive=null;
+}
 
 // ===== INIT =====
 loadData().then(()=>{
