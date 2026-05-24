@@ -1486,6 +1486,30 @@ function checkDailyNotif(){
 }
 setInterval(checkDailyNotif, 60000);
 
+// ===== UPDATE BANNER =====
+let _waitingSW = null;
+
+function showUpdateBanner(){
+  const banner=document.getElementById('update-banner');
+  if(!banner) return;
+  document.getElementById('update-banner-title').textContent=t('update_title');
+  document.getElementById('update-banner-sub').textContent=t('update_sub');
+  document.getElementById('update-banner-btn').textContent=t('update_btn');
+  banner.classList.remove('hidden');
+}
+
+function dismissUpdate(){
+  document.getElementById('update-banner').classList.add('hidden');
+}
+
+function applyUpdate(){
+  if(_waitingSW){
+    _waitingSW.postMessage({type:'SKIP_WAITING'});
+  } else {
+    window.location.reload();
+  }
+}
+
 // ===== EXPORT =====
 function importData(event){
   const file=event.target.files[0]; if(!file)return;
