@@ -10,6 +10,20 @@
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <title>Mastery Tracker</title>
+<meta name="description" content="100時間やれば確実に変わる、習熟トラッカー。タイマー記録・達成予測・週間グラフで、スキルの積み上げを可視化。">
+<meta property="og:title" content="Mastery Tracker">
+<meta property="og:description" content="100時間やれば確実に変わる、習熟トラッカー。タイマー記録・達成予測・週間グラフで、スキルの積み上げを可視化。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kumanonii.github.io/mastery-tracker/">
+<meta property="og:image" content="https://kumanonii.github.io/mastery-tracker/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:site_name" content="Mastery Tracker">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mastery Tracker">
+<meta name="twitter:description" content="100時間やれば確実に変わる、習熟トラッカー。">
+<meta name="twitter:image" content="https://kumanonii.github.io/mastery-tracker/ogp.png">
 <link rel="manifest" href="#" id="manifest-link">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1247,7 +1261,7 @@ const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_co
   {src:'./icon-192.png',sizes:'192x192',type:'image/png'}
 ]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v31';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v32';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== SETTINGS =====
 function openSettings(){
