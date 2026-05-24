@@ -23,11 +23,11 @@ body.lang-pt { font-family: 'DM Sans',sans-serif; }
 body.lang-zh { font-family: 'DM Sans','Noto Sans TC',sans-serif; }
 body.lang-ko { font-family: 'DM Sans','Noto Sans KR',sans-serif; }
 
-/* Display font switches per language */
-.font-display { font-family: 'Pacifico', cursive; }
-body.lang-ja .font-display,
-body.lang-zh .font-display { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; }
-body.lang-ko .font-display { font-family: 'Jua', sans-serif; }
+/* Display font via CSS variable */
+:root { --font-display: 'Pacifico', cursive; --font-display-weight: 400; }
+body.lang-ja, body.lang-zh { --font-display: 'Zen Maru Gothic', sans-serif; --font-display-weight: 700; }
+body.lang-ko { --font-display: 'Jua', sans-serif; --font-display-weight: 400; }
+.font-display { font-family: var(--font-display); font-weight: var(--font-display-weight); }
 
 /* Apply display font to all headings/labels */
 .header-app-name,
@@ -117,7 +117,7 @@ body { background: var(--grad); color: var(--text); }
 .header-inner { padding: 14px 0 10px; border-bottom: 1px solid var(--border); }
 .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
 .header-app-name { font-size: 22px; color: var(--accent); letter-spacing: 1px; font-family: 'Pacifico', cursive !important; }
-.add-section-title { color: var(--accent); font-family: 'Pacifico', cursive; }
+.add-section-title { color: var(--accent); font-family: var(--font-display); font-weight: var(--font-display-weight); }
 body.lang-ja .add-section-title, body.lang-zh .add-section-title { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; }
 body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .header-subtitle { font-size: 11px; color: var(--text3); letter-spacing: 3px; font-weight: 300; margin-bottom: 10px; font-family: 'DM Sans', sans-serif; }
@@ -203,11 +203,11 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .detail-hero { text-align: center; margin-bottom: 18px; }
 .d-icon { width: 72px; height: 72px; border-radius: 20px; background: var(--bg2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
 .d-icon i { font-size: 36px; color: var(--accent); }
-.d-name { font-weight: 500; font-size: 19px; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.d-name { font-weight: 500; font-size: 19px; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.d-name i.ph:first-child { font-size: 16px; color: var(--accent); opacity: 0.7; }
 .btn-edit-name { color: var(--text3); padding: 2px; }
 .btn-edit-name i { font-size: 14px; }
 .d-lv { font-size: 10px; letter-spacing: 3px; color: var(--text3); text-transform: uppercase; font-family: 'DM Sans',sans-serif; }
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
 .stat-c { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 11px; }
 .stat-l { font-size: 9px; color: var(--text3); margin-bottom: 3px; letter-spacing: 1px; text-transform: uppercase; font-family: 'DM Sans',sans-serif; }
 .stat-v { font-size: 15px; color: var(--text); }
@@ -282,11 +282,70 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .modal-cancel { flex: 1; padding: 11px; background: var(--bg); border: 1px solid var(--border); border-radius: 18px; color: var(--text2); }
 .modal-ok { flex: 1; padding: 11px; background: var(--accent); border: none; border-radius: 18px; color: var(--accentText); font-weight: 700; }
 
+/* ===== SETTINGS MODAL ===== */
+.settings-modal { position: fixed; inset: 0; z-index: 997; display: flex; flex-direction: column; background: var(--bg); }
+.settings-header { padding: max(env(safe-area-inset-top,16px),20px) 20px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.settings-title { font-family: var(--font-display); font-weight: var(--font-display-weight); font-size: 20px; color: var(--accent); }
+
+.settings-close { color: var(--text3); font-size: 22px; padding: 4px; }
+.settings-body { flex: 1; overflow-y: auto; padding: 20px; }
+.settings-section { margin-bottom: 28px; }
+.settings-section-title { font-size: 9px; color: var(--text3); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+.settings-row { background: var(--card); border: 1px solid var(--cardBorder); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.settings-row-label { font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.settings-row-label i { font-size: 17px; color: var(--accent); }
+.settings-row-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+.toggle-switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; inset: 0; background: var(--border2); border-radius: 13px; transition: 0.3s; cursor: pointer; }
+.toggle-slider:before { content:''; position: absolute; width: 20px; height: 20px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.3s; }
+input:checked + .toggle-slider { background: var(--accent); }
+input:checked + .toggle-slider:before { transform: translateX(18px); }
+.time-picker { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 13px; color: var(--text); font-family: inherit; }
+.lang-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.lang-grid-btn { padding: 12px 4px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg2); color: var(--text2); font-size: 11px; text-align: center; cursor: pointer; transition: all 0.2s; line-height: 1.3; }
+.lang-grid-btn.active { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
+.export-btn { width: 100%; padding: 13px; background: var(--bg2); border: 1.5px solid var(--border2); border-radius: 14px; color: var(--accent); font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+.export-btn i { font-size: 18px; }
+
+/* ===== WEEK GRAPH ===== */
+.week-graph { background: var(--card); border: 1px solid var(--cardBorder); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+.week-graph-title { font-size: 9px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.week-graph-bars { display: flex; align-items: flex-end; gap: 4px; height: 60px; }
+.week-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+.week-bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--accent); opacity: 0.7; transition: height 0.5s ease; min-height: 3px; position: relative; }
+.week-bar.today { opacity: 1; }
+.week-bar-label { font-size: 8px; color: var(--text3); }
+.week-graph-total { font-size: 10px; color: var(--text3); margin-top: 8px; text-align: right; }
+
+/* ===== SWIPE TIMER HINT ===== */
+.skill-card-wrap { position: relative; margin-bottom: 10px; border-radius: 14px; overflow: hidden; }
+.skill-card-timer-bg { position: absolute; left: 0; top: 0; bottom: 0; width: 80px; background: var(--accent); display: flex; align-items: center; justify-content: center; border-radius: 14px 0 0 14px; }
+.skill-card-timer-bg i { font-size: 26px; color: var(--accentText); }
+.skill-card { margin-bottom: 0; }
+
+/* ===== FULLSCREEN TIMER ===== */
+.timer-fullscreen { position: fixed; inset: 0; z-index: 990; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--grad); padding: 40px 24px; }
+.timer-fs-skill { font-size: 13px; color: var(--text3); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.timer-fs-name { font-size: 22px; color: var(--text); font-weight: 500; margin-bottom: 40px; text-align: center; }
+.timer-fs-display { font-family: var(--font-display); font-weight: var(--font-display-weight); font-size: 72px; color: var(--accent); letter-spacing: 4px; line-height: 1; margin-bottom: 12px; }
+
+.timer-fs-sub { font-size: 12px; color: var(--text3); letter-spacing: 2px; margin-bottom: 60px; }
+.timer-fs-paused { font-size: 13px; color: var(--accent); letter-spacing: 3px; margin-bottom: 8px; animation: blink 1.2s infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.timer-fs-btns { display: flex; gap: 16px; align-items: center; }
+.timer-fs-btn-pause { width: 72px; height: 72px; border-radius: 50%; background: var(--bg2); border: 2px solid var(--border2); color: var(--accent); font-size: 28px; display: flex; align-items: center; justify-content: center; }
+.timer-fs-btn-stop { width: 72px; height: 72px; border-radius: 50%; background: var(--accent); color: var(--accentText); font-size: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
+.timer-fs-progress { position: absolute; bottom: calc(env(safe-area-inset-bottom,0px) + 32px); left: 40px; right: 40px; }
+.timer-fs-prog-track { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.timer-fs-prog-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 1s linear; opacity: 0.6; }
+.timer-fs-goal { font-size: 10px; color: var(--text3); text-align: right; margin-top: 6px; letter-spacing: 1px; }
+
 /* ===== CELEBRATION ===== */
 .celebration { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 32px; backdrop-filter: blur(5px); }
 .cel-icon { width: 96px; height: 96px; border-radius: 28px; background: var(--bg2); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; animation: bounceIcon 0.7s infinite alternate; }
 .cel-icon i { font-size: 48px; color: var(--accent); }
-.cel-tag { font-size: 11px; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; font-family: 'Pacifico',cursive; }
+.cel-tag { font-size: 11px; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; font-family: var(--font-display); font-weight: var(--font-display-weight); }
 .cel-title { font-size: 26px; color: #f0ede8; margin-bottom: 8px; }
 .cel-sub { font-size: 15px; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
 .cel-hint { font-size: 10px; color: #666; letter-spacing: 2px; font-family: 'DM Sans',sans-serif; }
@@ -305,6 +364,23 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 </head>
 <body class="t1 lang-ja">
 <canvas id="confetti-canvas" class="hidden"></canvas>
+
+<!-- Fullscreen Timer -->
+<div class="timer-fullscreen hidden" id="timer-fullscreen">
+  <div class="timer-fs-skill"><i class="ph ph-timer"></i> <span id="tfs-label" data-i18n="timer_now"></span></div>
+  <div class="timer-fs-name" id="tfs-name"></div>
+  <div id="tfs-paused" class="timer-fs-paused hidden" data-i18n="timer_paused"></div>
+  <div class="timer-fs-display" id="tfs-display">00:00:00</div>
+  <div class="timer-fs-sub" id="tfs-sub">0.0 min</div>
+  <div class="timer-fs-btns">
+    <button class="timer-fs-btn-pause" id="tfs-pause-btn" onclick="togglePause()"><i class="ph ph-pause" id="tfs-pause-icon"></i></button>
+    <button class="timer-fs-btn-stop" onclick="stopTimer()"><i class="ph ph-stop"></i></button>
+  </div>
+  <div class="timer-fs-progress">
+    <div class="timer-fs-prog-track"><div class="timer-fs-prog-fill" id="tfs-prog" style="width:0%"></div></div>
+    <div class="timer-fs-goal" id="tfs-goal"></div>
+  </div>
+</div>
 <div id="app">
   <div id="header">
     <div class="header-inner">
@@ -313,15 +389,9 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
           <div class="header-app-name" style="font-family:'Pacifico',cursive!important">Mastery</div>
           <div class="header-subtitle" id="hdr-subtitle">skill tracker</div>
         </div>
-        <div style="display:flex;align-items:center;gap:6px">
+        <div style="display:flex;align-items:center;gap:8px">
           <button class="palette-btn" id="palette-btn" onclick="toggleTheme()" title="Theme"><i class="ph ph-palette"></i></button>
-          <div class="lang-switcher">
-            <button class="lang-btn active" onclick="setLang('ja',this)">日</button>
-            <button class="lang-btn" onclick="setLang('en',this)">EN</button>
-            <button class="lang-btn" onclick="setLang('pt',this)">PT</button>
-            <button class="lang-btn" onclick="setLang('zh',this)">繁</button>
-            <button class="lang-btn" onclick="setLang('ko',this)">한</button>
-          </div>
+          <button class="palette-btn" id="settings-btn" onclick="openSettings()" title="Settings"><i class="ph ph-gear"></i></button>
         </div>
       </div>
       <div class="header-tabs">
@@ -380,7 +450,7 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
     <div id="view-detail" class="pad hidden">
       <div class="detail-hd">
         <button class="btn-back" onclick="switchView('list')"><i class="ph ph-arrow-left"></i> <span data-i18n="back"></span></button>
-        <button class="btn-danger" onclick="deleteCurrentSkill()"><i class="ph ph-trash"></i> <span data-i18n="delete"></span></button>
+        <button onclick="deleteCurrentSkill()" style="background:none;color:var(--text3);font-size:18px;padding:4px 8px;opacity:0.6" title="削除"><i class="ph ph-trash"></i></button>
       </div>
       <div id="detail-content"></div>
     </div>
@@ -403,11 +473,65 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
   <div class="cel-hint" data-i18n="cel_hint"></div>
 </div>
 
+<!-- Settings Modal -->
+<div class="settings-modal hidden" id="settings-modal">
+  <div class="settings-header">
+    <div class="settings-title" data-i18n="settings_title"></div>
+    <button class="settings-close" onclick="closeSettings()"><i class="ph ph-x"></i></button>
+  </div>
+  <div class="settings-body">
+
+    <!-- Language -->
+    <div class="settings-section">
+      <div class="settings-section-title" data-i18n="settings_lang"></div>
+      <div class="lang-grid">
+        <button class="lang-grid-btn active" id="lg-ja" onclick="setLangFromSettings('ja',this)">日本語</button>
+        <button class="lang-grid-btn" id="lg-en" onclick="setLangFromSettings('en',this)">English</button>
+        <button class="lang-grid-btn" id="lg-pt" onclick="setLangFromSettings('pt',this)">Português</button>
+        <button class="lang-grid-btn" id="lg-zh" onclick="setLangFromSettings('zh',this)">繁體中文</button>
+        <button class="lang-grid-btn" id="lg-ko" onclick="setLangFromSettings('ko',this)">한국어</button>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="settings-section">
+      <div class="settings-section-title" data-i18n="settings_notif"></div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-row-label"><i class="ph ph-bell"></i> <span data-i18n="notif_daily"></span></div>
+          <div class="settings-row-sub" data-i18n="notif_daily_sub"></div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="notif-toggle" onchange="toggleNotification()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-row" id="notif-time-row" style="display:none">
+        <div class="settings-row-label"><i class="ph ph-clock"></i> <span data-i18n="notif_time"></span></div>
+        <input type="time" class="time-picker" id="notif-time" value="20:00" onchange="saveNotifTime()">
+      </div>
+    </div>
+
+    <!-- Export / Import -->
+    <div class="settings-section">
+      <div class="settings-section-title" data-i18n="settings_data"></div>
+      <button class="export-btn" onclick="exportData()" style="margin-bottom:8px">
+        <i class="ph ph-download-simple"></i> <span data-i18n="export_btn"></span>
+      </button>
+      <button class="export-btn" onclick="document.getElementById('import-file').click()">
+        <i class="ph ph-upload-simple"></i> <span data-i18n="import_btn"></span>
+      </button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+    </div>
+
+  </div>
+</div>
+
 <!-- Timer Save Modal -->
 <div class="modal-ov hidden" id="timer-save-modal">
   <div class="modal-box">
     <div class="modal-title" id="timer-save-title"></div>
-    <div id="timer-save-time" style="font-family:'Pacifico',cursive;font-size:36px;color:var(--accent);text-align:center;margin:12px 0 4px;letter-spacing:2px"></div>
+    <div id="timer-save-time" class="font-display" style="font-size:36px;color:var(--accent);text-align:center;margin:12px 0 4px;letter-spacing:2px"></div>
     <div id="timer-save-min" style="font-size:11px;color:var(--text3);text-align:center;margin-bottom:16px"></div>
     <label class="form-label" data-i18n="log_note"></label>
     <input class="form-input" id="timer-save-note" style="margin-bottom:4px">
@@ -444,138 +568,150 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 const I18N={
   ja:{
     tab_skills:'スキル一覧',tab_hall:'殿堂',install_msg:'ホーム画面に追加できます',install_btn:'追加',
-    timer_now:'練習中',timer_stop:'停止・記録',sort_label:'並び替え',sort_added:'追加順',
+    timer_now:'取り組み中',timer_stop:'停止・記録',sort_label:'並び替え',sort_added:'追加順',
     sort_progress:'進捗順',sort_recent:'最近順',add_skill_btn:'新しいスキルを追加',
     add_title:'新しいスキルを登録',add_icon:'アイコンを選ぶ',add_name:'スキル名',
     add_name_ph:'例：ギター、プログラミング…',add_goal:'目標時間',add_btn:'追加する',
-    back:'戻る',delete:'削除',log_time:'練習時間（分）',log_note:'メモ（任意）',
-    log_note_ph:'今日の練習内容…',log_btn:'記録する',hours:'時間',
+    back:'戻る',delete:'削除',log_time:'時間（分）',log_note:'メモ（任意）',
+    log_note_ph:'今日の内容…',log_btn:'記録する',hours:'時間',
     cel_title:'目標達成！',cel_hint:'タップして閉じる',
     cel_sub_tpl:(n)=>`「${n}」\nを習熟しました`,
-    ext_title:'次の目標を設定',ext_sub:'モチベーションが続く目標を選んでね ✨',
+    ext_title:'次の目標を設定',ext_sub:'モチベーションが続く目標を選んでね',
     ext_ok:'設定する',cancel:'キャンセル',save:'保存',edit_name_title:'スキル名を編集',
     week:'今週',month:'今月',skills_lbl:'スキル',active:'進行中',
     goal_lbl:'目標',remaining_lbl:'残り',exceeded_lbl:'超過',sessions_lbl:'セッション',
     avg_lbl:'平均/回',forecast_lbl:'予測',pace_lbl:'/ 日（最近の平均）',
-    forecast_date_tpl:(d,dur)=>`🗓 ${d}（約${dur}）`,
-    if_practice:'もし毎日練習したら',yrs:'年',mos:'ヶ月',days:'日',
-    sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）✨`,
+    forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d}（約${dur}）`,
+    if_practice:'もし毎日取り組んだら',yrs:'年',mos:'ヶ月',days:'日',
+    sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）<i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'まだ記録がありません',recent_sessions:'最近のセッション',
     empty_txt:'スキルを追加して\n習熟の旅を始めよう',empty_hall:'目標を達成したスキルが\nここに殿堂入りします',
     hall_achieved:'達成',timer_session:'タイマー記録',
-    timer_discard:'破棄',timer_save_btn:'保存する',timer_save_title:'セッションを保存',
+    timer_discard:'破棄',timer_paused:'一時停止中',timer_resume:'再開',timer_save_btn:'保存する',timer_save_title:'セッションを保存',
     timer_save_min_tpl:(m)=>`${m}分（${(m/60).toFixed(2)}時間）`,confirm_del_skill:'このスキルを削除しますか？',
     confirm_del_sess:'このセッションを削除しますか？',confirm_del_hall:'殿堂から削除しますか？',
     done_title:'目標達成おめでとうございます！',done_sub:'次のステップを選んでください',
     btn_hall:'殿堂入り',btn_extend:'目標を延長',start_timer:'タイマー開始',log_session:'手動記録',
-    forecast_no_data:'セッションを記録すると予測が表示されます ✨',
+    forecast_no_data:'セッションを記録すると予測が表示されます',
     min_unit:'分',h_unit:'時間',times_unit:'回',
     lv_beginner:'見習い',lv_novice:'初級者',lv_intermediate:'中級者',lv_advanced:'上級者',
     lv_expert:'エキスパート',lv_master:'マスター',lv_legend:'達人',
     gr_100:'趣味入門',gr_500:'基礎習得',gr_1000:'中級者',gr_3000:'上級者',gr_10000:'マスター',
     er_500:'次のマイルストーン',er_1000:'着実な積み上げ',er_3000:'上級者レベル',er_10000:'真のマスター',
+    settings_title:'設定',    settings_lang:'言語',    settings_notif:'通知',    settings_data:'データ',    notif_daily:'毎日のリマインダー',    notif_daily_sub:'記録がない日にお知らせします',    notif_time:'通知時間',    import_btn:'データをインポート（JSON）',import_ok:'インポートしました！',import_err:'ファイルが正しくありません',
+    import_warn:'現在のデータは上書きされます。よろしいですか？',    export_btn:'データをエクスポート（JSON）',    active_days:'これまで 日間取り組んだ',active_days_pre:'これまで',active_days_post:'日間取り組んだ',
+    total_this_week:'今週の合計',    forecast_achieve:'達成予定',
     subtitle:'skill tracker',
   },
   en:{
     tab_skills:'Skills',tab_hall:'Hall of Fame',install_msg:'Add to Home Screen',install_btn:'Add',
-    timer_now:'now practicing',timer_stop:'Stop & Save',sort_label:'Sort',sort_added:'Added',
+    timer_now:'now working',timer_stop:'Stop & Save',sort_label:'Sort',sort_added:'Added',
     sort_progress:'Progress',sort_recent:'Recent',add_skill_btn:'Add new skill',
     add_title:'Register a new skill',add_icon:'Choose an icon',add_name:'Skill name',
     add_name_ph:'e.g. Guitar, Programming…',add_goal:'Goal hours',add_btn:'Add skill',
-    back:'Back',delete:'Delete',log_time:'Practice time (min)',log_note:'Note (optional)',
-    log_note_ph:'What did you practice today?',log_btn:'Save session',hours:'hours',
+    back:'Back',delete:'Delete',log_time:'Time (min)',log_note:'Note (optional)',
+    log_note_ph:'What did you work on today?',log_btn:'Save session',hours:'hours',
     cel_title:'Goal Reached!',cel_hint:'tap to close',
     cel_sub_tpl:(n)=>`"${n}"\nhas been mastered!`,
-    ext_title:'Set next goal',ext_sub:'Choose a milestone that keeps you motivated ✨',
+    ext_title:'Set next goal',ext_sub:'Choose a milestone that keeps you motivated',
     ext_ok:'Set goal',cancel:'Cancel',save:'Save',edit_name_title:'Edit skill name',
     week:'This Week',month:'This Month',skills_lbl:'Skills',active:'active',
     goal_lbl:'Goal',remaining_lbl:'Remaining',exceeded_lbl:'Exceeded',sessions_lbl:'Sessions',
     avg_lbl:'Avg / session',forecast_lbl:'Forecast',pace_lbl:'/ day (recent avg)',
-    forecast_date_tpl:(d,dur)=>`🗓 ${d} (about ${dur})`,
-    if_practice:'If I practice…',yrs:'yr',mos:'mo',days:'d',
-    sim_result_tpl:(d,dur)=>`→ ${d} (about ${dur}) ✨`,
+    forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d} (about ${dur})`,
+    if_practice:'If I work on this…',yrs:'yr',mos:'mo',days:'d',
+    sim_result_tpl:(d,dur)=>`→ ${d} (about ${dur}) <i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'No sessions yet',recent_sessions:'Recent sessions',
     empty_txt:'Add a skill and begin\nyour mastery journey',empty_hall:'Skills you\'ve mastered\nwill appear here',
     hall_achieved:'achieved',timer_session:'Timer session',
-    timer_discard:'Discard',timer_save_btn:'Save',timer_save_title:'Save session',
+    timer_discard:'Discard',timer_paused:'PAUSED',timer_resume:'Resume',timer_save_btn:'Save',timer_save_title:'Save session',
     timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,confirm_del_skill:'Delete this skill?',
     confirm_del_sess:'Delete this session?',confirm_del_hall:'Remove from Hall of Fame?',
     done_title:'Goal Achieved! 🎉',done_sub:'What\'s next?',
     btn_hall:'Hall of Fame',btn_extend:'Extend goal',start_timer:'Start timer',log_session:'Log session',
-    forecast_no_data:'Record sessions to see your forecast ✨',
+    forecast_no_data:'Record sessions to see your forecast',
     min_unit:'min',h_unit:'h',times_unit:'',
     lv_beginner:'Beginner',lv_novice:'Novice',lv_intermediate:'Intermediate',lv_advanced:'Advanced',
     lv_expert:'Expert',lv_master:'Master',lv_legend:'Legend',
     gr_100:'Beginner',gr_500:'Foundation',gr_1000:'Intermediate',gr_3000:'Advanced',gr_10000:'Mastery',
     er_500:'Next milestone',er_1000:'Solid foundation',er_3000:'Advanced level',er_10000:'True mastery',
+    settings_title:'Settings',    settings_lang:'Language',    settings_notif:'Notifications',    settings_data:'Data',    notif_daily:'Daily reminder',    notif_daily_sub:'Reminds you when no session today',    notif_time:'Notification time',    import_btn:'Import data (JSON)',import_ok:'Imported successfully!',import_err:'Invalid file',
+    import_warn:'This will overwrite your current data. Continue?',        export_btn:'Export data (JSON)',    active_days:'total days practiced',active_days_pre:'total',active_days_post:'days practiced',
+    total_this_week:'This week',    forecast_achieve:'Estimated completion',
     subtitle:'skill tracker',
   },
   pt:{
     tab_skills:'Habilidades',tab_hall:'Hall da Fama',install_msg:'Adicionar à Tela Inicial',install_btn:'Adicionar',
-    timer_now:'praticando agora',timer_stop:'Parar & Salvar',sort_label:'Ordenar',sort_added:'Adicionado',
+    timer_now:'a trabalhar agora',timer_stop:'Parar e Guardar',sort_label:'Ordenar',sort_added:'Adicionado',
     sort_progress:'Progresso',sort_recent:'Recente',add_skill_btn:'Adicionar habilidade',
     add_title:'Registrar nova habilidade',add_icon:'Escolher ícone',add_name:'Nome da habilidade',
-    add_name_ph:'ex: Violão, Programação…',add_goal:'Meta em horas',add_btn:'Adicionar',
-    back:'Voltar',delete:'Excluir',log_time:'Tempo de prática (min)',log_note:'Nota (opcional)',
-    log_note_ph:'O que você praticou hoje?',log_btn:'Salvar sessão',hours:'horas',
+    add_name_ph:'ex: Guitarra, Programação…',add_goal:'Meta em horas',add_btn:'Adicionar',
+    back:'Voltar',delete:'Excluir',log_time:'Tempo (min)',log_note:'Nota (opcional)',
+    log_note_ph:'O que fizeste hoje?',log_btn:'Guardar sessão',hours:'horas',
     cel_title:'Meta Alcançada!',cel_hint:'toque para fechar',
     cel_sub_tpl:(n)=>`"${n}"\nfoi dominada!`,
-    ext_title:'Definir próxima meta',ext_sub:'Escolha uma meta motivadora ✨',
-    ext_ok:'Definir meta',cancel:'Cancelar',save:'Salvar',edit_name_title:'Editar nome',
+    ext_title:'Definir próxima meta',ext_sub:'Escolha uma meta motivadora',
+    ext_ok:'Definir meta',cancel:'Cancelar',save:'Guardar',edit_name_title:'Editar nome',
     week:'Esta Semana',month:'Este Mês',skills_lbl:'Habilidades',active:'ativo',
     goal_lbl:'Meta',remaining_lbl:'Restante',exceeded_lbl:'Excedido',sessions_lbl:'Sessões',
     avg_lbl:'Média / sessão',forecast_lbl:'Previsão',pace_lbl:'/ dia (média recente)',
-    forecast_date_tpl:(d,dur)=>`🗓 ${d} (cerca de ${dur})`,
-    if_practice:'Se eu praticar…',yrs:'ano',mos:'mês',days:'d',
-    sim_result_tpl:(d,dur)=>`→ ${d} (cerca de ${dur}) ✨`,
+    forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d} (cerca de ${dur})`,
+    if_practice:'Se eu dedicar…',yrs:'ano',mos:'mês',days:'d',
+    sim_result_tpl:(d,dur)=>`→ ${d} (cerca de ${dur}) <i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'Sem sessões ainda',recent_sessions:'Sessões recentes',
     empty_txt:'Adicione uma habilidade e\ncomece sua jornada',empty_hall:'As habilidades dominadas\naparecerão aqui',
     hall_achieved:'alcançado',timer_session:'Sessão de timer',
-    timer_discard:'Descartar',timer_save_btn:'Salvar',timer_save_title:'Salvar sessão',
-    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,confirm_del_skill:'Excluir esta habilidade?',
-    confirm_del_sess:'Excluir esta sessão?',confirm_del_hall:'Remover do Hall da Fama?',
-    done_title:'Meta Alcançada! 🎉',done_sub:'O que vem a seguir?',
+    timer_discard:'Descartar',timer_paused:'PAUSADO',timer_resume:'Retomar',timer_save_btn:'Guardar',timer_save_title:'Salvar sessão',
+    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,confirm_del_skill:'Eliminar esta habilidade?',
+    confirm_del_sess:'Eliminar esta sessão?',confirm_del_hall:'Remover do Hall da Fama?',
+    done_title:'Meta Alcançada! 🎉',done_sub:'O que se segue?',
     btn_hall:'Hall da Fama',btn_extend:'Ampliar meta',start_timer:'Iniciar timer',log_session:'Registrar sessão',
-    forecast_no_data:'Registre sessões para ver sua previsão ✨',
+    forecast_no_data:'Regista sessões para veres a tua previsão',
     min_unit:'min',h_unit:'h',times_unit:'',
     lv_beginner:'Iniciante',lv_novice:'Novato',lv_intermediate:'Intermediário',lv_advanced:'Avançado',
     lv_expert:'Especialista',lv_master:'Mestre',lv_legend:'Lenda',
     gr_100:'Iniciante',gr_500:'Base sólida',gr_1000:'Intermediário',gr_3000:'Avançado',gr_10000:'Maestria',
     er_500:'Próximo marco',er_1000:'Acumulação gradual',er_3000:'Nível avançado',er_10000:'Maestria real',
+    settings_title:'Configurações',    settings_lang:'Idioma',    settings_notif:'Notificações',    settings_data:'Dados',    notif_daily:'Lembrete diário',    notif_daily_sub:'Avisa quando não há sessão hoje',    notif_time:'Horário da notificação',    import_btn:'Importar dados (JSON)',import_ok:'Importado com sucesso!',import_err:'Ficheiro inválido',
+    import_warn:'Isto irá substituir os dados actuais. Continuar?',        export_btn:'Exportar dados (JSON)',    active_days:'total dias praticados',active_days_pre:'total',active_days_post:'dias praticados',
+    total_this_week:'Esta semana',    forecast_achieve:'Conclusão estimada',
     subtitle:'rastreador de habilidades',
   },
   zh:{
     tab_skills:'技能列表',tab_hall:'名人堂',install_msg:'加入主畫面',install_btn:'加入',
-    timer_now:'練習中',timer_stop:'停止並儲存',sort_label:'排序',sort_added:'加入順序',
+    timer_now:'取り組み中',timer_stop:'停止並儲存',sort_label:'排序',sort_added:'加入順序',
     sort_progress:'進度',sort_recent:'最近',add_skill_btn:'新增技能',
     add_title:'登錄新技能',add_icon:'選擇圖示',add_name:'技能名稱',
     add_name_ph:'例：吉他、程式設計…',add_goal:'目標時數',add_btn:'新增',
-    back:'返回',delete:'刪除',log_time:'練習時間（分）',log_note:'備注（選填）',
-    log_note_ph:'今天練習了什麼？',log_btn:'儲存記錄',hours:'小時',
+    back:'返回',delete:'刪除',log_time:'時間（分）',log_note:'備注（選填）',
+    log_note_ph:'今天做了什麼？',log_btn:'儲存記錄',hours:'小時',
     cel_title:'達成目標！',cel_hint:'點擊關閉',
     cel_sub_tpl:(n)=>`「${n}」\n已精通！`,
-    ext_title:'設定下一個目標',ext_sub:'選擇能持續激勵你的目標 ✨',
+    ext_title:'設定下一個目標',ext_sub:'選擇能持續激勵你的目標',
     ext_ok:'設定目標',cancel:'取消',save:'儲存',edit_name_title:'編輯技能名稱',
     week:'本週',month:'本月',skills_lbl:'技能',active:'進行中',
     goal_lbl:'目標',remaining_lbl:'剩餘',exceeded_lbl:'超出',sessions_lbl:'練習次數',
     avg_lbl:'平均/次',forecast_lbl:'預測',pace_lbl:'/ 天（近期平均）',
-    forecast_date_tpl:(d,dur)=>`🗓 ${d}（約${dur}）`,
-    if_practice:'如果每天練習…',yrs:'年',mos:'個月',days:'天',
-    sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）✨`,
+    forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d}（約${dur}）`,
+    if_practice:'如果每天投入…',yrs:'年',mos:'個月',days:'天',
+    sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）<i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'尚無記錄',recent_sessions:'最近記錄',
     empty_txt:'新增技能\n開始你的精通之旅',empty_hall:'達成目標的技能\n將出現在這裡',
     hall_achieved:'已達成',timer_session:'計時器記錄',
-    timer_discard:'放棄',timer_save_btn:'儲存',timer_save_title:'儲存記錄',
+    timer_discard:'放棄',timer_paused:'已暫停',timer_resume:'繼續',timer_save_btn:'儲存',timer_save_title:'儲存記錄',
     timer_save_min_tpl:(m)=>`${m} 分（${(m/60).toFixed(2)}小時）`,confirm_del_skill:'刪除此技能？',
     confirm_del_sess:'刪除此記錄？',confirm_del_hall:'從名人堂移除？',
     done_title:'恭喜達成目標！🎉',done_sub:'接下來要做什麼？',
     btn_hall:'加入名人堂',btn_extend:'延伸目標',start_timer:'開始計時',log_session:'手動記錄',
-    forecast_no_data:'記錄練習後即可查看預測 ✨',
+    forecast_no_data:'記錄練習後即可查看預測',
     min_unit:'分',h_unit:'小時',times_unit:'次',
     lv_beginner:'初學者',lv_novice:'新手',lv_intermediate:'中級者',lv_advanced:'進階者',
     lv_expert:'專家',lv_master:'達人',lv_legend:'傳奇',
     gr_100:'入門',gr_500:'基礎習得',gr_1000:'中級',gr_3000:'進階',gr_10000:'精通',
     er_500:'下一里程碑',er_1000:'穩步積累',er_3000:'進階水準',er_10000:'真正精通',
+    settings_title:'設定',    settings_lang:'語言',    settings_notif:'通知',    settings_data:'資料',    notif_daily:'每日提醒',    notif_daily_sub:'沒有記錄時發送通知',    notif_time:'通知時間',    import_btn:'匯入資料（JSON）',import_ok:'匯入成功！',import_err:'檔案無效',
+    import_warn:'將覆蓋目前資料，確定嗎？',        export_btn:'匯出資料（JSON）',    active_days:'累計 天的記錄',active_days_pre:'累計',active_days_post:'天的記錄',
+    total_this_week:'本週合計',    forecast_achieve:'預計完成',
     subtitle:'技能追蹤',
   },
   ko:{
@@ -584,32 +720,35 @@ const I18N={
     sort_progress:'진도순',sort_recent:'최근순',add_skill_btn:'새 스킬 추가',
     add_title:'새 스킬 등록',add_icon:'아이콘 선택',add_name:'스킬 이름',
     add_name_ph:'예: 기타, 프로그래밍…',add_goal:'목표 시간',add_btn:'추가하기',
-    back:'돌아가기',delete:'삭제',log_time:'연습 시간 (분)',log_note:'메모 (선택)',
-    log_note_ph:'오늘 무엇을 연습했나요?',log_btn:'기록하기',hours:'시간',
+    back:'돌아가기',delete:'삭제',log_time:'시간 (분)',log_note:'메모 (선택)',
+    log_note_ph:'오늘 무엇을 했나요?',log_btn:'기록하기',hours:'시간',
     cel_title:'목표 달성!',cel_hint:'탭하여 닫기',
     cel_sub_tpl:(n)=>`「${n}」\n을(를) 습득했습니다!`,
-    ext_title:'다음 목표 설정',ext_sub:'동기를 유지할 목표를 선택하세요 ✨',
+    ext_title:'다음 목표 설정',ext_sub:'동기를 유지할 목표를 선택하세요',
     ext_ok:'목표 설정',cancel:'취소',save:'저장',edit_name_title:'스킬 이름 편집',
     week:'이번 주',month:'이번 달',skills_lbl:'스킬',active:'진행 중',
     goal_lbl:'목표',remaining_lbl:'남은 시간',exceeded_lbl:'초과',sessions_lbl:'세션 수',
     avg_lbl:'평균/회',forecast_lbl:'예측',pace_lbl:'/ 일 (최근 평균)',
-    forecast_date_tpl:(d,dur)=>`🗓 ${d} (약 ${dur})`,
-    if_practice:'매일 연습한다면…',yrs:'년',mos:'개월',days:'일',
-    sim_result_tpl:(d,dur)=>`→ ${d} (약 ${dur}) ✨`,
+    forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d} (약 ${dur})`,
+    if_practice:'매일 임한다면…',yrs:'년',mos:'개월',days:'일',
+    sim_result_tpl:(d,dur)=>`→ ${d} (약 ${dur}) <i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'아직 기록 없음',recent_sessions:'최근 세션',
     empty_txt:'스킬을 추가하고\n습득의 여정을 시작하세요',empty_hall:'달성한 스킬이\n여기 나타납니다',
     hall_achieved:'달성',timer_session:'타이머 기록',
-    timer_discard:'버리기',timer_save_btn:'저장',timer_save_title:'세션 저장',
+    timer_discard:'버리기',timer_paused:'일시정지',timer_resume:'재개',timer_save_btn:'저장',timer_save_title:'세션 저장',
     timer_save_min_tpl:(m)=>`${m}분（${(m/60).toFixed(2)}시간）`,confirm_del_skill:'이 스킬을 삭제할까요?',
     confirm_del_sess:'이 세션을 삭제할까요?',confirm_del_hall:'명예의 전당에서 삭제할까요?',
     done_title:'목표 달성을 축하합니다! 🎉',done_sub:'다음 단계를 선택하세요',
     btn_hall:'명예의 전당',btn_extend:'목표 연장',start_timer:'타이머 시작',log_session:'수동 기록',
-    forecast_no_data:'세션을 기록하면 예측을 볼 수 있어요 ✨',
+    forecast_no_data:'세션을 기록하면 예측을 볼 수 있어요',
     min_unit:'분',h_unit:'시간',times_unit:'회',
     lv_beginner:'초보자',lv_novice:'입문자',lv_intermediate:'중급자',lv_advanced:'상급자',
     lv_expert:'전문가',lv_master:'마스터',lv_legend:'레전드',
     gr_100:'입문',gr_500:'기초 습득',gr_1000:'중급자',gr_3000:'상급자',gr_10000:'마스터',
     er_500:'다음 이정표',er_1000:'착실한 쌓기',er_3000:'상급자 수준',er_10000:'진정한 마스터',
+    settings_title:'설정',    settings_lang:'언어',    settings_notif:'알림',    settings_data:'데이터',    notif_daily:'매일 알림',    notif_daily_sub:'기록이 없는 날 알림을 보냅니다',    notif_time:'알림 시간',    import_btn:'데이터 가져오기 (JSON)',import_ok:'가져오기 성공!',import_err:'잘못된 파일',
+    import_warn:'현재 데이터를 덮어씁니다. 계속할까요?',        export_btn:'데이터 내보내기 (JSON)',    active_days:'총 일 동안 해왔다',active_days_pre:'총',active_days_post:'일 동안 해왔다',
+    total_this_week:'이번 주 합계',    forecast_achieve:'예상 완료',
     subtitle:'스킬 트래커',
   }
 };
@@ -677,13 +816,16 @@ const MASTERY_LEVELS=[
 const GOALS=[{h:100,rk:'gr_100'},{h:500,rk:'gr_500'},{h:1000,rk:'gr_1000'},{h:3000,rk:'gr_3000'},{h:10000,rk:'gr_10000'}];
 const EXTEND_OPTS=[{h:500,rk:'er_500'},{h:1000,rk:'er_1000'},{h:3000,rk:'er_3000'},{h:10000,rk:'er_10000'}];
 
-function fmtH(m){ return (m/60).toFixed(1); }
-function fmtTimeDecimal(m){ // show 0.1min precision in session list
-  if(m<1) return Math.round(m*10)/10+' min';
-  const h=Math.floor(m/60),mm=Math.round((m%60)*10)/10;
-  if(!h)return mm+' min'; if(!mm)return h+'h'; return h+'h '+mm+' min';
+function fmtH(m){ return (m/60).toFixed(2); }
+
+function fmtTime(m){
+  // round to nearest minute first to avoid float issues
+  const totalMin=Math.round(m);
+  const h=Math.floor(totalMin/60), mm=totalMin%60;
+  if(!h) return mm+t('min_unit');
+  if(!mm) return h+t('h_unit');
+  return h+t('h_unit')+mm+t('min_unit');
 }
-function fmtTime(m){ const h=Math.floor(m/60),mm=m%60; if(!h)return mm+t('min_unit'); if(!mm)return h+t('h_unit'); return h+t('h_unit')+' '+mm+t('min_unit'); }
 function getLevel(pct){ let l=MASTERY_LEVELS[0]; MASTERY_LEVELS.forEach(x=>{if(pct>=x.pct)l=x;}); return l; }
 function fmtDuration(days){ const yrs=Math.floor(days/365),mos=Math.floor((days%365)/30),dys=Math.floor(days%30); let s=''; if(yrs)s+=yrs+t('yrs'); if(mos)s+=mos+t('mos'); if(!yrs&&dys)s+=dys+t('days'); return s||'1'+t('days'); }
 
@@ -740,13 +882,20 @@ function renderList(){
   if(!skills.length){el.innerHTML=`<div class="empty"><div class="empty-icon"><i class="ph ph-target"></i></div><div class="empty-txt">${t('empty_txt').replace('\n','<br>')}</div></div>`;return;}
   el.innerHTML=skills.map(sk=>{
     const pct=Math.min(100,(sk.totalMinutes/sk.goalMinutes)*100),lv=getLevel(pct),done=sk.totalMinutes>=sk.goalMinutes;
-    return `<div class="skill-card${done?' done':''}" onclick="openDetail('${sk.id}')">
-      ${done?`<div class="done-mark"><i class="ph ph-seal-check" style="font-size:18px"></i></div>`:''}
-      <div class="card-top"><div class="card-left"><div class="sk-icon">${iconEl(sk.icon||'target',22)}</div>
-        <div><div class="sk-name">${sk.name}</div><div class="sk-lv">${t(lv.key)}</div></div></div>
-        <div><div class="sk-h">${fmtH(sk.totalMinutes)}<span style="font-size:11px;color:var(--text3)">h</span></div><div class="sk-goal">/ ${(sk.goalMinutes/60).toLocaleString()}h</div></div></div>
-      <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:var(--accent);opacity:${done?1:0.7+pct/300}"></div></div>
-      <div class="card-foot"><span>${pct.toFixed(1)}% complete</span><span>${sk.sessions.length} sessions</span></div>
+    return `<div class="skill-card-wrap" id="scw-${sk.id}">
+      <div class="skill-card-timer-bg"><i class="ph ph-timer"></i></div>
+      <div class="skill-card${done?' done':''}" id="sc-${sk.id}"
+        ontouchstart="cardSwipeStart(event,'${sk.id}')"
+        ontouchmove="cardSwipeMove(event,'${sk.id}')"
+        ontouchend="cardSwipeEnd(event,'${sk.id}')"
+        onclick="openDetail('${sk.id}')">
+        ${done?`<div class="done-mark"><i class="ph ph-seal-check" style="font-size:18px"></i></div>`:''}
+        <div class="card-top"><div class="card-left"><div class="sk-icon">${iconEl(sk.icon||'target',22)}</div>
+          <div><div class="sk-name">${sk.name}</div><div class="sk-lv">${t(lv.key)}</div></div></div>
+          <div><div class="sk-h">${fmtH(sk.totalMinutes)}<span style="font-size:11px;color:var(--text3)">h</span></div><div class="sk-goal">/ ${(sk.goalMinutes/60).toLocaleString()}h</div></div></div>
+        <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:var(--accent);opacity:${done?1:0.7+pct/300}"></div></div>
+        <div class="card-foot"><span>${pct.toFixed(1)}% complete</span><span>${sk.sessions.length} sessions</span></div>
+      </div>
     </div>`;
   }).join('');
 }
@@ -788,19 +937,62 @@ function renderDetail(){
   const recent=sk.sessions.slice(0,10);
   const avgMin=recent.length?recent.reduce((a,s)=>a+s.minutes,0)/recent.length:0;
   const avgHrDay=avgMin/60;
+  // Active days (unique dates with sessions)
+  const activeDays=new Set(sk.sessions.map(s=>new Date(s.date).toDateString())).size;
+
+  // Week graph (last 7 days)
+  const dayLabels=['S','M','T','W','T','F','S'];
+  const now2=new Date(); const weekMins=[];
+  let maxMin=0;
+  for(let i=6;i>=0;i--){
+    const d=new Date(now2); d.setDate(d.getDate()-i);
+    const ds=d.toDateString();
+    const m=sk.sessions.filter(s=>new Date(s.date).toDateString()===ds).reduce((a,s)=>a+s.minutes,0);
+    weekMins.push({m,day:dayLabels[d.getDay()],isToday:i===0});
+    if(m>maxMin)maxMin=m;
+  }
+  const weekGraphHtml=`<div class="week-graph">
+    <div class="week-graph-title">
+      <span style="display:flex;align-items:center;gap:5px"><i class="ph ph-chart-bar"></i> Last 7 days</span>
+    </div>
+    <div class="week-graph-bars">
+      ${weekMins.map(d=>`<div class="week-bar-wrap">
+        <div class="week-bar${d.isToday?' today':''}" style="height:${maxMin>0?Math.max(8,Math.round(d.m/maxMin*52)):4}px;${d.m===0?'opacity:0.15':''}"></div>
+        <div class="week-bar-label">${d.day}</div>
+      </div>`).join('')}
+    </div>
+    <div class="week-graph-total">${t('total_this_week')} ${(weekMins.reduce((a,d)=>a+d.m,0)/60).toFixed(2)}h</div>
+  </div>`;
+
   let forecastHtml='';
   if(!done){
-    let mainHtml=avgHrDay>0
-      ?`<div class="forecast-main"><div class="forecast-pace">${avgHrDay.toFixed(1)}h</div><div class="forecast-pace-lbl">${t('pace_lbl')}</div></div>
-         <div class="forecast-date">${t('forecast_date_tpl',new Date(Date.now()+(remaining/60/avgHrDay)*24*60*60*1000).toLocaleDateString(),fmtDuration(remaining/60/avgHrDay))}</div>`
-      :`<div style="font-size:11px;color:var(--text3);margin-bottom:10px">${t('forecast_no_data')}</div>`;
-    forecastHtml=`<div class="forecast-card">
-      <div class="forecast-title"><i class="ph ph-trend-up"></i> ${t('forecast_lbl')}</div>
-      ${mainHtml}
-      <div class="forecast-sim-lbl">${t('if_practice')}</div>
-      <div class="forecast-chips">${[0.5,1,2,3,5].map(h=>`<button class="forecast-chip${simHours===h?' active':''}" onclick="simUpdate(${h},this)">${h}h/day</button>`).join('')}</div>
-      <div class="forecast-result" id="sim-result">${calcSim(remaining,simHours)}</div>
-    </div>`;
+    if(avgHrDay>0){
+      const daysNeeded=remaining/60/avgHrDay;
+      const achieveDate=new Date(Date.now()+daysNeeded*24*60*60*1000);
+      const dateStr=achieveDate.toLocaleDateString();
+      forecastHtml=`<div class="forecast-card">
+        <div class="forecast-title"><i class="ph ph-trend-up"></i> ${t('forecast_lbl')}</div>
+        <div style="text-align:center;margin-bottom:14px">
+          <div style="font-size:10px;color:var(--text3);letter-spacing:1px;margin-bottom:4px">${t('forecast_achieve')}</div>
+          <div class="font-display" style="font-size:26px;color:var(--accent);line-height:1.1;letter-spacing:1px">${achieveDate.getFullYear()}年${achieveDate.getMonth()+1}月</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:4px">≈ ${fmtDuration(daysNeeded)}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:6px">${avgHrDay.toFixed(1)}h / day</div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:12px">
+          <div class="forecast-sim-lbl">${t('if_practice')}</div>
+          <div class="forecast-chips">${[0.5,1,2,3,5].map(h=>`<button class="forecast-chip${simHours===h?' active':''}" onclick="simUpdate(${h},this)">${h}h/day</button>`).join('')}</div>
+          <div id="sim-result" style="margin-top:8px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--border);font-size:13px;color:var(--accent);font-weight:500;min-height:40px;display:flex;align-items:center">${calcSim(remaining,simHours)}</div>
+        </div>
+      </div>`;
+    } else {
+      forecastHtml=`<div class="forecast-card">
+        <div class="forecast-title"><i class="ph ph-trend-up"></i> ${t('forecast_lbl')}</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:12px">${t('forecast_no_data')}</div>
+        <div class="forecast-sim-lbl">${t('if_practice')}</div>
+        <div class="forecast-chips">${[0.5,1,2,3,5].map(h=>`<button class="forecast-chip${simHours===h?' active':''}" onclick="simUpdate(${h},this)">${h}h/day</button>`).join('')}</div>
+        <div id="sim-result" style="margin-top:8px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--border);font-size:13px;color:var(--accent);font-weight:500;min-height:40px;display:flex;align-items:center">${calcSim(remaining,simHours)}</div>
+      </div>`;
+    }
   }
   const doneBanner=done?`<div class="done-banner">
     <div class="done-banner-ic"><i class="ph ph-seal-check"></i></div>
@@ -810,8 +1002,8 @@ function renderDetail(){
       <button class="btn-ext" onclick="openExtend('${sk.id}',${sk.goalMinutes})"><i class="ph ph-arrow-up-right"></i> ${t('btn_extend')}</button>
     </div></div>`:'';
   const timerBtn=(timerInterval&&timerSkillId===sk.id)
-    ?`<button class="btn-sec" style="background:#b05050;color:#fff;border:none" onclick="stopTimer()"><i class="ph ph-stop-circle" style="font-size:16px"></i> ${t('timer_stop')}</button>`
-    :`<button class="btn-sec" onclick="startTimer('${sk.id}')"${timerInterval?' disabled':''}><i class="ph ph-timer" style="font-size:16px"></i> ${t('start_timer')}</button>`;
+    ?`<button class="action-icon-btn" style="background:#b05050;color:#fff;border:none" onclick="stopTimer()"><i class="ph ph-stop-circle"></i></button>`
+    :`<button class="action-icon-btn" onclick="startTimer('${sk.id}')"${timerInterval?' disabled':''}><i class="ph ph-timer"></i></button>`;
   const sessions=sk.sessions.slice(0,10).map(s=>`<div class="sess-item">
     <div><div class="sess-t">${fmtTime(s.minutes)}</div>${s.note?`<div class="sess-n">${s.note}</div>`:''}</div>
     <div style="display:flex;align-items:center;gap:6px"><div class="sess-d">${new Date(s.date).toLocaleDateString()}</div>
@@ -820,31 +1012,45 @@ function renderDetail(){
   document.getElementById('detail-content').innerHTML=`
     ${doneBanner}
     <div class="detail-hero">
-      <div class="d-icon">${iconEl(sk.icon||'target',36)}</div>
-      <div class="d-name">${sk.name}<button class="btn-edit-name" onclick="openEditName('${sk.id}')"><i class="ph ph-pencil-simple"></i></button></div>
+      <div class="d-name">${iconEl(sk.icon||'target',16)} ${sk.name}<button class="btn-edit-name" onclick="openEditName('${sk.id}')"><i class="ph ph-pencil-simple"></i></button></div>
       <div class="d-lv">${t(lv.key)}</div>
     </div>
-    <div class="circle-wrap"><svg width="156" height="156" viewBox="0 0 156 156">
-      <circle cx="78" cy="78" r="66" fill="none" stroke="var(--border)" stroke-width="8"/>
-      <circle cx="78" cy="78" r="66" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${dash}" stroke-linecap="round" transform="rotate(-90 78 78)" style="transition:stroke-dashoffset 0.8s ease"/>
-      ${(timerInterval&&timerSkillId===sk.id)?`
-        <text id="circle-timer" x="78" y="75" text-anchor="middle" fill="var(--accent)" font-size="13" font-weight="bold" font-family="Pacifico,cursive">00:00:00</text>
-        <text x="78" y="92" text-anchor="middle" fill="var(--text3)" font-size="8" font-family="DM Sans,sans-serif">practicing...</text>
-      `:`
-        <text x="78" y="70" text-anchor="middle" fill="var(--text)" font-size="20" font-weight="bold" font-family="Pacifico,cursive">${fmtH(sk.totalMinutes)}</text>
-        <text x="78" y="84" text-anchor="middle" fill="var(--text3)" font-size="9" font-family="DM Sans,sans-serif">hours</text>
-        <text x="78" y="99" text-anchor="middle" fill="var(--accent)" font-size="10" font-family="Pacifico,cursive">${done?'100%':pct.toFixed(1)+'%'}</text>
-      `}
-    </svg></div>
-    <div class="stats-grid">
-      <div class="stat-c"><div class="stat-l">${t('goal_lbl')}</div><div class="stat-v">${(sk.goalMinutes/60).toLocaleString()}<span style="font-size:10px;font-family:'DM Sans'">h</span></div></div>
-      <div class="stat-c"><div class="stat-l">${done?t('exceeded_lbl'):t('remaining_lbl')}</div><div class="stat-v" style="font-size:13px;font-family:'DM Sans',sans-serif">${done?'+'+fmtH(sk.totalMinutes-sk.goalMinutes)+'h':fmtTime(remaining)}</div></div>
-      <div class="stat-c"><div class="stat-l">${t('sessions_lbl')}</div><div class="stat-v">${sk.sessions.length}<span style="font-size:10px;font-family:'DM Sans'"> ${t('times_unit')}</span></div></div>
-      <div class="stat-c"><div class="stat-l">${t('avg_lbl')}</div><div class="stat-v" style="font-size:13px;font-family:'DM Sans',sans-serif">${sk.sessions.length?fmtTime(Math.round(sk.totalMinutes/sk.sessions.length)):'—'}</div></div>
+    <div class="circle-wrap" style="flex-direction:column;align-items:center;gap:10px">
+      <svg width="180" height="180" viewBox="0 0 180 180">
+        <circle cx="90" cy="90" r="78" fill="none" stroke="var(--border)" stroke-width="9"/>
+        <circle cx="90" cy="90" r="78" fill="none" stroke="var(--accent)" stroke-width="9" stroke-dasharray="${2*Math.PI*78}" stroke-dashoffset="${2*Math.PI*78*(1-pct/100)}" stroke-linecap="round" transform="rotate(-90 90 90)" style="transition:stroke-dashoffset 0.8s ease"/>
+        <text x="90" y="78" text-anchor="middle" fill="var(--text)" font-size="30" font-weight="bold" font-family="Pacifico,cursive">${fmtH(sk.totalMinutes)}</text>
+        <text x="90" y="94" text-anchor="middle" fill="var(--text3)" font-size="10" font-family="DM Sans,sans-serif">/ ${(sk.goalMinutes/60).toFixed(0)}h</text>
+        <text x="90" y="114" text-anchor="middle" fill="var(--accent)" font-size="12" font-family="Pacifico,cursive">${done?'✓ 100%':pct.toFixed(1)+'%'}</text>
+      </svg>
+      ${!done?`
+        <div style="margin-top:10px;text-align:center">
+          <div style="font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:4px">${t('remaining_lbl')}</div>
+          <div class="font-display" style="font-size:28px;color:var(--accent)">${fmtTime(remaining)}</div>
+        </div>
+      `:''}
+      <div style="margin-top:14px;text-align:center;padding-top:12px;border-top:1px solid var(--border)">
+        <div style="font-size:9px;color:var(--text3);letter-spacing:2px;margin-bottom:4px">${t('active_days_pre')}</div>
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:5px">
+          <span class="font-display" style="font-size:28px;color:var(--text2);line-height:1">${activeDays}</span>
+          <span style="font-size:11px;color:var(--text3)">${t('active_days_post')}</span>
+        </div>
+      </div>
     </div>
-    <div class="action-row">${timerBtn}<button class="btn-sec" onclick="switchView('log')"><i class="ph ph-plus-circle" style="font-size:16px"></i> ${t('log_session')}</button></div>
+    <div style="display:flex;justify-content:center;gap:32px;margin-bottom:18px">
+      ${timerBtn}
+      <button class="action-icon-btn" onclick="switchView('log')"><i class="ph ph-plus-circle"></i></button>
+    </div>
+
+    ${weekGraphHtml}
     ${forecastHtml}
-    <div class="sec-label">${t('recent_sessions')}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)">
+      <div class="sec-label" style="margin-bottom:0">${t('recent_sessions')}</div>
+      <div style="display:flex;gap:14px">
+        <div style="text-align:right"><div style="font-size:9px;color:var(--text3);letter-spacing:1px">${t('sessions_lbl')}</div><div class="font-display" style="font-size:13px;color:var(--accent)">${sk.sessions.length}${t('times_unit')?'<span style="font-size:9px"> '+t('times_unit')+'</span>':''}</div></div>
+        <div style="text-align:right"><div style="font-size:9px;color:var(--text3);letter-spacing:1px">${t('avg_lbl')}</div><div style="font-size:12px;color:var(--accent)">${sk.sessions.length?fmtTime(Math.round(sk.totalMinutes/sk.sessions.length)):'—'}</div></div>
+      </div>
+    </div>
     ${sk.sessions.length?sessions:`<div style="color:var(--text3);font-size:12px;text-align:center;padding:18px">${t('no_sessions')}</div>`}`;
 }
 function calcSim(rem,hpd){ if(!rem||!hpd)return ''; const days=rem/60/hpd; return t('sim_result_tpl',new Date(Date.now()+days*24*60*60*1000).toLocaleDateString(),fmtDuration(days)); }
@@ -897,34 +1103,64 @@ function logSession(skillId,minutes,note){
 }
 
 // ===== TIMER =====
+let timerPaused=false;
+
 function startTimer(skillId){
-  timerSkillId=skillId; timerSeconds=0;
+  timerSkillId=skillId; timerSeconds=0; timerPaused=false;
   const sk=data.skills.find(s=>s.id===skillId);
+  // show fullscreen
+  const fs=document.getElementById('timer-fullscreen');
+  document.getElementById('tfs-name').textContent=sk?.name||'';
+  document.getElementById('tfs-label').textContent=t('timer_now');
+  document.getElementById('tfs-paused').classList.add('hidden');
+  document.getElementById('tfs-pause-icon').className='ph ph-pause';
+  const goalMin=sk?.goalMinutes||0, doneMin=sk?.totalMinutes||0;
+  document.getElementById('tfs-goal').textContent=`${fmtH(doneMin)} / ${(goalMin/60).toFixed(0)}h`;
+  document.getElementById('tfs-prog').style.width=Math.min(100,(doneMin/goalMin*100)).toFixed(1)+'%';
+  fs.classList.remove('hidden');
+  // also show banner for background
   document.getElementById('timer-skill-nm').innerHTML=`${iconEl(sk?.icon||'target',13)} ${sk?.name||''}`;
   document.getElementById('timer-banner').classList.remove('hidden');
   timerInterval=setInterval(()=>{
+    if(timerPaused) return;
     timerSeconds++;
-    const h=String(Math.floor(timerSeconds/3600)).padStart(2,'0'),
-          m=String(Math.floor((timerSeconds%3600)/60)).padStart(2,'0'),
-          s=String(timerSeconds%60).padStart(2,'0');
-    const timeStr=`${h}:${m}:${s}`;
-    document.getElementById('timer-display').textContent=timeStr;
-    // update circle if detail view is showing this skill
-    if(currentSkillId===skillId){
-      const ct=document.getElementById('circle-timer');
-      if(ct) ct.textContent=timeStr;
-    }
+    updateTimerDisplay();
   },1000);
   renderDetail();
 }
+
+function updateTimerDisplay(){
+  const h=String(Math.floor(timerSeconds/3600)).padStart(2,'0'),
+        m=String(Math.floor((timerSeconds%3600)/60)).padStart(2,'0'),
+        s=String(timerSeconds%60).padStart(2,'0');
+  const timeStr=`${h}:${m}:${s}`;
+  document.getElementById('tfs-display').textContent=timeStr;
+  document.getElementById('timer-display').textContent=timeStr;
+  const totalMin=Math.round(timerSeconds/6)/10;
+  document.getElementById('tfs-sub').textContent=`${totalMin} min`;
+}
+
+function togglePause(){
+  timerPaused=!timerPaused;
+  const icon=document.getElementById('tfs-pause-icon');
+  const pausedLabel=document.getElementById('tfs-paused');
+  if(timerPaused){
+    icon.className='ph ph-play';
+    pausedLabel.classList.remove('hidden');
+  } else {
+    icon.className='ph ph-pause';
+    pausedLabel.classList.add('hidden');
+  }
+}
+
 function stopTimer(){
-  clearInterval(timerInterval); timerInterval=null;
+  clearInterval(timerInterval); timerInterval=null; timerPaused=false;
+  document.getElementById('timer-fullscreen').classList.add('hidden');
   document.getElementById('timer-banner').classList.add('hidden');
   const elapsed=timerSeconds;
   timerSeconds=0;
   if(elapsed<1){ timerSkillId=null; renderDetail(); return; }
-  // show save modal
-  const totalMin=Math.round(elapsed/6)/10; // 0.1min precision
+  const totalMin=Math.round(elapsed/6)/10;
   const h=String(Math.floor(elapsed/3600)).padStart(2,'0'),
         m=String(Math.floor((elapsed%3600)/60)).padStart(2,'0'),
         s=String(elapsed%60).padStart(2,'0');
@@ -933,9 +1169,9 @@ function stopTimer(){
   document.getElementById('timer-save-min').textContent=t('timer_save_min_tpl',totalMin);
   document.getElementById('timer-save-note').value='';
   document.getElementById('timer-save-modal').classList.remove('hidden');
-  // store elapsed for confirm
   window._pendingTimerMin=totalMin;
 }
+
 function confirmTimerSave(){
   const note=document.getElementById('timer-save-note').value.trim();
   document.getElementById('timer-save-modal').classList.add('hidden');
@@ -971,7 +1207,145 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPro
 document.getElementById('install-btn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('install-bar').classList.add('hidden');});
 const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:'data:image/svg+xml,'+iconSvg,sizes:'512x512',type:'image/svg+xml'}]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v11';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v22';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+
+// ===== SETTINGS =====
+function openSettings(){
+  document.getElementById('settings-modal').classList.remove('hidden');
+  // sync lang buttons
+  document.querySelectorAll('.lang-grid-btn').forEach(b=>b.classList.remove('active'));
+  const lb=document.getElementById('lg-'+currentLang); if(lb)lb.classList.add('active');
+  // sync notif toggle
+  const notifOn=data.settings?.notifEnabled||false;
+  document.getElementById('notif-toggle').checked=notifOn;
+  document.getElementById('notif-time-row').style.display=notifOn?'flex':'none';
+  document.getElementById('notif-time').value=data.settings?.notifTime||'20:00';
+  applyI18n();
+}
+function closeSettings(){ document.getElementById('settings-modal').classList.add('hidden'); }
+
+function setLangFromSettings(lang, btn){
+  document.querySelectorAll('.lang-grid-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLang=lang; data.lang=lang; saveData();
+  document.body.className=document.body.className.replace(/lang-\w+/,'lang-'+lang);
+  applyI18n(); renderList(); if(currentSkillId)renderDetail();
+  // update settings title too
+  document.querySelector('.settings-title').textContent=t('settings_title');
+}
+
+// ===== NOTIFICATIONS =====
+function toggleNotification(){
+  const on=document.getElementById('notif-toggle').checked;
+  document.getElementById('notif-time-row').style.display=on?'flex':'none';
+  if(!data.settings) data.settings={};
+  data.settings.notifEnabled=on;
+  if(on){
+    requestNotifPermission();
+  } else {
+    cancelScheduledNotif();
+  }
+  saveData();
+}
+function saveNotifTime(){
+  if(!data.settings) data.settings={};
+  data.settings.notifTime=document.getElementById('notif-time').value;
+  saveData();
+  if(data.settings.notifEnabled) scheduleNotif();
+}
+async function requestNotifPermission(){
+  if(!('Notification' in window)){ alert('このブラウザは通知をサポートしていません'); return; }
+  const perm=await Notification.requestPermission();
+  if(perm==='granted'){ scheduleNotif(); }
+  else { document.getElementById('notif-toggle').checked=false; data.settings.notifEnabled=false; saveData(); }
+}
+function scheduleNotif(){
+  // Store in localStorage for SW to pick up
+  const time=data.settings?.notifTime||'20:00';
+  localStorage.setItem('notif-enabled','true');
+  localStorage.setItem('notif-time',time);
+  // Show immediate confirmation
+  if(Notification.permission==='granted'){
+    new Notification('Mastery', {body:'通知を設定しました ✓', icon: ''});
+  }
+}
+function cancelScheduledNotif(){
+  localStorage.removeItem('notif-enabled');
+}
+// Check and fire daily notif
+function checkDailyNotif(){
+  if(!data.settings?.notifEnabled) return;
+  if(Notification.permission!=='granted') return;
+  const time=data.settings.notifTime||'20:00';
+  const [hh,mm]=time.split(':').map(Number);
+  const now=new Date();
+  if(now.getHours()===hh && now.getMinutes()===mm){
+    const today=now.toDateString();
+    const practiced=data.skills.some(sk=>sk.sessions.some(s=>new Date(s.date).toDateString()===today));
+    if(!practiced){
+      new Notification('Mastery', {body:'今日はまだ取り組んでいません。少しだけやってみませんか？'});
+    }
+  }
+}
+setInterval(checkDailyNotif, 60000);
+
+// ===== EXPORT =====
+function importData(event){
+  const file=event.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
+    try{
+      const imported=JSON.parse(e.target.result);
+      if(!imported.skills||!Array.isArray(imported.skills)) throw new Error('invalid');
+      if(!confirm(t('import_warn'))) return;
+      data=imported;
+      data.skills=data.skills||[]; data.hall=data.hall||[]; data.theme=data.theme||'auto';
+      data.sortMode=data.sortMode||'added'; data.lang=data.lang||'ja';
+      await saveData();
+      // re-apply
+      currentLang=data.lang;
+      document.body.className=document.body.className.replace(/lang-\w+/,'lang-'+currentLang);
+      applyTheme(data.theme);
+      const asw=document.getElementById('sw-'+data.theme);
+      if(asw){document.querySelectorAll('.theme-swatch').forEach(d=>d.classList.remove('active'));asw.classList.add('active');}
+      applyI18n(); renderList(); closeSettings();
+      alert(t('import_ok'));
+    }catch(err){
+      alert(t('import_err'));
+    }
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+
+function exportData(){
+  const json=JSON.stringify(data, null, 2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`mastery-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// ===== CARD SWIPE (list → timer) =====
+let cardSwipeTouchX=0, cardSwipeActive=null, cardSwipeTriggered=false;
+function cardSwipeStart(e,id){ cardSwipeTouchX=e.touches[0].clientX; cardSwipeActive=id; cardSwipeTriggered=false; const c=document.getElementById('sc-'+id); if(c)c.classList.add('swiping'); }
+function cardSwipeMove(e,id){
+  if(cardSwipeActive!==id)return;
+  const dx=e.touches[0].clientX-cardSwipeTouchX;
+  if(dx<=0)return;
+  const c=document.getElementById('sc-'+id);
+  if(c){ const clamp=Math.min(dx,80); c.style.transform=`translateX(${clamp}px)`; cardSwipeTriggered=clamp>=60; }
+}
+function cardSwipeEnd(e,id){
+  if(cardSwipeActive!==id)return;
+  const c=document.getElementById('sc-'+id);
+  if(c){ c.classList.remove('swiping'); c.style.transform=''; }
+  if(cardSwipeTriggered && !timerInterval){
+    currentSkillId=id; startTimer(id);
+  }
+  cardSwipeActive=null;
+}
 
 // ===== THEME TOGGLE =====
 function toggleTheme(){
