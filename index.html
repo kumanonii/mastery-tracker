@@ -6,6 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mastery">
+<link rel="apple-touch-icon" href="./icon-512.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <title>Mastery Tracker</title>
 <link rel="manifest" href="#" id="manifest-link">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1236,55 +1239,15 @@ function closeCelebration(){ document.getElementById('celebration').classList.ad
 function launchConfetti(){ const canvas=document.getElementById('confetti-canvas'); canvas.classList.remove('hidden'); canvas.width=window.innerWidth; canvas.height=window.innerHeight; const ctx=canvas.getContext('2d'); const cols=['#c47878','#a8c0b8','#7090c0','#4a7a6a','#a09080','#8bc34a','#f8f4f0','#1e3a5f']; const ps=Array.from({length:120},()=>({x:Math.random()*canvas.width,y:-20,r:Math.random()*5+3,color:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*3.5,vy:Math.random()*3.5+1.5,rot:Math.random()*360,rotV:(Math.random()-.5)*7,shape:Math.random()>.5?'rect':'circle'})); let fr=0; function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.rotV;p.vy+=.04;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,1-fr/180);if(p.shape==='rect')ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);else{ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}ctx.restore();}); fr++; if(fr<200)requestAnimationFrame(draw); else canvas.classList.add('hidden'); } requestAnimationFrame(draw); }
 
 // ===== PWA =====
-// PWA icon - matches OGP exactly
-function generateIcon(){
-  const canvas=document.createElement('canvas');
-  canvas.width=512; canvas.height=512;
-  const ctx=canvas.getContext('2d');
-  // Rounded rect background
-  const r=112;
-  ctx.beginPath();
-  ctx.moveTo(r,0); ctx.lineTo(512-r,0);
-  ctx.quadraticCurveTo(512,0,512,r);
-  ctx.lineTo(512,512-r);
-  ctx.quadraticCurveTo(512,512,512-r,512);
-  ctx.lineTo(r,512);
-  ctx.quadraticCurveTo(0,512,0,512-r);
-  ctx.lineTo(0,r);
-  ctx.quadraticCurveTo(0,0,r,0);
-  ctx.closePath();
-  // Gradient fill: #d08888 → #b46464 (matches OGP iconbg)
-  const grad=ctx.createLinearGradient(0,0,512,512);
-  grad.addColorStop(0,'#d08888');
-  grad.addColorStop(1,'#b46464');
-  ctx.fillStyle=grad;
-  ctx.fill();
-  // Subtle ring (matches OGP circle r=148, stroke rgba(255,255,255,0.2))
-  ctx.beginPath();
-  ctx.arc(256,248,148,0,Math.PI*2);
-  ctx.strokeStyle='rgba(255,255,255,0.2)';
-  ctx.lineWidth=3;
-  ctx.stroke();
-  // M letter (matches OGP: Georgia serif, fill white 0.97)
-  ctx.fillStyle='rgba(255,255,255,0.97)';
-  ctx.font='400 300px Georgia, serif';
-  ctx.textAlign='center';
-  ctx.textBaseline='alphabetic';
-  ctx.fillText('M',256,330);
-  // MASTERY subtext (matches OGP: Georgia serif, fill white 0.55, letter-spacing)
-  ctx.fillStyle='rgba(255,255,255,0.55)';
-  ctx.font='400 38px Georgia, serif';
-  ctx.textAlign='center';
-  ctx.fillText('MASTERY',256,400);
-  return canvas.toDataURL('image/png');
-}
-const iconSvg=null; // unused
+
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('install-bar').classList.remove('hidden');});
 document.getElementById('install-btn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('install-bar').classList.add('hidden');});
-const iconDataUrl=generateIcon();
-const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:iconDataUrl,sizes:'512x512',type:'image/png'},{src:iconDataUrl,sizes:'192x192',type:'image/png'}]};
+const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[
+  {src:'./icon-512.png',sizes:'512x512',type:'image/png'},
+  {src:'./icon-192.png',sizes:'192x192',type:'image/png'}
+]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v30';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v31';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== SETTINGS =====
 function openSettings(){
