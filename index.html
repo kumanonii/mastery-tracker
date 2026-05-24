@@ -374,6 +374,27 @@ input:checked + .toggle-slider:before { transform: translateX(18px); }
 .cel-hint { font-size: 10px; color: #666; letter-spacing: 2px; font-family: 'DM Sans',sans-serif; }
 @keyframes bounceIcon { from{transform:scale(1) rotate(-3deg);}to{transform:scale(1.08) rotate(3deg);} }
 
+/* ===== ONBOARDING ===== */
+.onboarding { position: fixed; inset: 0; z-index: 1001; display: flex; flex-direction: column; background: var(--grad); padding: max(env(safe-area-inset-top,24px),32px) 28px calc(env(safe-area-inset-bottom,24px) + 32px); overflow-y: auto; }
+.ob-logo { font-family: 'Pacifico', cursive; font-size: 28px; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px; }
+.ob-tagline { font-size: 13px; color: var(--text3); letter-spacing: 0.5px; margin-bottom: 36px; line-height: 1.6; }
+.ob-steps { flex: 1; display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
+.ob-step { padding: 18px 0; border-bottom: 1px solid var(--border); display: flex; gap: 16px; align-items: flex-start; }
+.ob-step:last-child { border-bottom: none; }
+.ob-hour { font-family: 'Pacifico', cursive; font-size: 22px; color: var(--accent); min-width: 52px; line-height: 1.3; }
+body.lang-ja .ob-hour, body.lang-zh .ob-hour { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; }
+body.lang-ko .ob-hour { font-family: 'Jua', sans-serif; }
+.ob-step-content { flex: 1; }
+.ob-step-label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.ob-step-desc { font-size: 12px; color: var(--text3); line-height: 1.6; }
+.ob-more { text-align: center; padding: 16px 0 4px; color: var(--text3); font-size: 13px; letter-spacing: 1px; }
+.ob-more i { font-size: 18px; display: block; margin-top: 4px; color: var(--border2); }
+.ob-lang-row { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+.ob-lang-btn { padding: 6px 14px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--bg2); color: var(--text3); font-size: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.ob-lang-btn.active { background: var(--accent); color: var(--accentText); border-color: var(--accent); }
+.ob-btn { width: 100%; padding: 16px; background: var(--accent); color: var(--accentText); border-radius: 28px; font-size: 15px; font-weight: 700; letter-spacing: 1px; border: none; cursor: pointer; transition: opacity 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
+.ob-btn:active { opacity: 0.85; }
+
 /* ===== EMPTY ===== */
 .empty { text-align: center; padding: 52px 20px; color: var(--text3); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; color: var(--border2); }
@@ -793,7 +814,11 @@ function setLang(lang,btn){
   currentLang=lang; data.lang=lang; saveData();
   document.body.className=document.body.className.replace(/lang-\w+/,'lang-'+lang);
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
-  applyI18n(); renderList(); if(currentSkillId)renderDetail();
+  applyI18n(); renderList();
+  // Show onboarding on first visit
+  if(!data.onboardingDone){
+    showOnboarding();
+  } if(currentSkillId)renderDetail();
   // Re-render goal/extend chips in current language
   const addView = document.getElementById('view-add');
   if(addView && !addView.classList.contains('hidden')) setupAdd();
@@ -1261,7 +1286,7 @@ const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_co
   {src:'./icon-192.png',sizes:'192x192',type:'image/png'}
 ]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v32';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v34';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== SETTINGS =====
 function openSettings(){
@@ -1283,7 +1308,11 @@ function setLangFromSettings(lang, btn){
   btn.classList.add('active');
   currentLang=lang; data.lang=lang; saveData();
   document.body.className=document.body.className.replace(/lang-\w+/,'lang-'+lang);
-  applyI18n(); renderList(); if(currentSkillId)renderDetail();
+  applyI18n(); renderList();
+  // Show onboarding on first visit
+  if(!data.onboardingDone){
+    showOnboarding();
+  } if(currentSkillId)renderDetail();
   // update settings title too
   document.querySelector('.settings-title').textContent=t('settings_title');
 }
@@ -1362,7 +1391,11 @@ function importData(event){
       applyTheme(data.theme);
       const asw=document.getElementById('sw-'+data.theme);
       if(asw){document.querySelectorAll('.theme-swatch').forEach(d=>d.classList.remove('active'));asw.classList.add('active');}
-      applyI18n(); renderList(); closeSettings();
+      applyI18n(); renderList();
+  // Show onboarding on first visit
+  if(!data.onboardingDone){
+    showOnboarding();
+  } closeSettings();
       alert(t('import_ok'));
     }catch(err){
       alert(t('import_err'));
@@ -1450,6 +1483,107 @@ function swipeEnd(e,id){
   swipeActive=null;
 }
 
+const OB_CONTENT={
+  ja:{
+    tagline:'100時間やれば確実に変わる、習熟トラッカー',
+    label_20:'基礎',
+    desc_20:'最初の壁を超える時間。「できない」が「できる」に変わりはじめる。',
+    label_100:'成長',
+    desc_100:'確実に変わる。続けた人だけが知る、本物の手応えが生まれる。',
+    label_500:'本格',
+    desc_500:'本格的に楽しくなる。続けるほど、世界が広がってくる。',
+    more:'中級者・上級者・達人へ続く…',
+    btn:'はじめる',
+  },
+  en:{
+    tagline:'100 hours will change you. Track every one.',
+    label_20:'Basics',
+    desc_20:'Break through the first wall. "I can\'t" starts becoming "I can."',
+    label_100:'Growth',
+    desc_100:'Real change happens here. Only those who keep going know this feeling.',
+    label_500:'Flow',
+    desc_500:'It gets genuinely fun. The more you do it, the bigger the world gets.',
+    more:'Intermediate · Advanced · Master...',
+    btn:'Get started',
+  },
+  pt:{
+    tagline:'100 horas mudam tudo. Regista cada uma.',
+    label_20:'Básico',
+    desc_20:'Supera a primeira barreira. O "não consigo" começa a virar "consigo".',
+    label_100:'Crescimento',
+    desc_100:'A mudança real acontece aqui. Só quem persiste conhece esta sensação.',
+    label_500:'Fluxo',
+    desc_500:'Fica genuinamente divertido. Quanto mais fazes, mais o mundo se abre.',
+    more:'Intermédio · Avançado · Mestre...',
+    btn:'Começar',
+  },
+  zh:{
+    tagline:'100小時，足以改變一切。從現在開始記錄。',
+    label_20:'基礎',
+    desc_20:'突破最初的障礙。「做不到」開始變成「做得到」。',
+    label_100:'進步',
+    desc_100:'真正的改變發生在這裡。只有堅持的人才能體會這種感覺。',
+    label_500:'投入',
+    desc_500:'開始真正享受其中。越做越有趣，世界也越來越寬廣。',
+    more:'中級・高手・達人…',
+    btn:'開始',
+  },
+  ko:{
+    tagline:'100시간이면 확실히 달라집니다. 지금부터 기록하세요.',
+    label_20:'기초',
+    desc_20:'첫 번째 벽을 넘는 시간. "못 한다"가 "할 수 있다"로 바뀌기 시작한다.',
+    label_100:'성장',
+    desc_100:'진짜 변화가 일어난다. 계속한 사람만이 아는 진짜 감각이 생긴다.',
+    label_500:'몰입',
+    desc_500:'진심으로 즐거워진다. 하면 할수록 세계가 넓어진다.',
+    more:'중급자 · 상급자 · 마스터...',
+    btn:'시작하기',
+  },
+};
+
+// ===== ONBOARDING =====
+function showOnboarding(){
+  const ob=document.getElementById('onboarding');
+  if(!ob) return;
+  // Sync lang buttons
+  document.querySelectorAll('.ob-lang-btn').forEach(b=>{
+    const l=b.getAttribute('onclick').match(/'(\w+)'/)?.[1];
+    b.classList.toggle('active', l===currentLang);
+  });
+  updateOnboardingLang();
+  ob.classList.remove('hidden');
+}
+
+function setObLang(lang, btn){
+  // Update language
+  currentLang=lang; data.lang=lang;
+  document.body.className=document.body.className.replace(/lang-\w+/,'lang-'+lang);
+  // Update active button in onboarding
+  document.querySelectorAll('.ob-lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // Re-render onboarding content
+  updateOnboardingLang();
+}
+
+function updateOnboardingLang(){
+  const c=OB_CONTENT[currentLang]||OB_CONTENT.ja;
+  document.getElementById('ob-tagline').textContent=c.tagline;
+  document.getElementById('ob-label-20').textContent=c.label_20;
+  document.getElementById('ob-desc-20').textContent=c.desc_20;
+  document.getElementById('ob-label-100').textContent=c.label_100;
+  document.getElementById('ob-desc-100').textContent=c.desc_100;
+  document.getElementById('ob-label-500').textContent=c.label_500;
+  document.getElementById('ob-desc-500').textContent=c.desc_500;
+  document.getElementById('ob-more-text').textContent=c.more;
+  document.getElementById('ob-btn').textContent=c.btn;
+}
+
+function closeOnboarding(){
+  document.getElementById('onboarding').classList.add('hidden');
+  data.onboardingDone=true;
+  saveData();
+}
+
 // ===== INIT =====
 loadData().then(()=>{
   currentLang=data.lang||'ja';
@@ -1458,8 +1592,54 @@ loadData().then(()=>{
   buildThemeStrip(); applyTheme(data.theme);
   const asw=document.getElementById('sw-'+data.theme); if(asw){document.querySelectorAll('.theme-swatch').forEach(d=>d.classList.remove('active'));asw.classList.add('active');}
   applyI18n(); renderList();
+  // Show onboarding on first visit
+  if(!data.onboardingDone){
+    showOnboarding();
+  }
   setInterval(()=>{if(data.theme==='auto')applyTheme('auto');},60000);
 });
 </script>
+<!-- Onboarding -->
+<div class="onboarding hidden" id="onboarding">
+  <div class="ob-logo">Mastery</div>
+  <div class="ob-tagline" id="ob-tagline"></div>
+  <div class="ob-lang-row">
+    <button class="ob-lang-btn active" onclick="setObLang('ja',this)">日本語</button>
+    <button class="ob-lang-btn" onclick="setObLang('en',this)">English</button>
+    <button class="ob-lang-btn" onclick="setObLang('pt',this)">Português</button>
+    <button class="ob-lang-btn" onclick="setObLang('zh',this)">繁體中文</button>
+    <button class="ob-lang-btn" onclick="setObLang('ko',this)">한국어</button>
+  </div>
+  <div class="ob-steps">
+    <div class="ob-step">
+      <div class="ob-hour">20h</div>
+      <div class="ob-step-content">
+        <div class="ob-step-label" id="ob-label-20"></div>
+        <div class="ob-step-desc" id="ob-desc-20"></div>
+      </div>
+    </div>
+    <div class="ob-step">
+      <div class="ob-hour">100h</div>
+      <div class="ob-step-content">
+        <div class="ob-step-label" id="ob-label-100"></div>
+        <div class="ob-step-desc" id="ob-desc-100"></div>
+      </div>
+    </div>
+    <div class="ob-step">
+      <div class="ob-hour">500h</div>
+      <div class="ob-step-content">
+        <div class="ob-step-label" id="ob-label-500"></div>
+        <div class="ob-step-desc" id="ob-desc-500"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ob-more">
+    <span id="ob-more-text"></span>
+    <i class="ph ph-dots-three"></i>
+  </div>
+  <div style="height:24px"></div>
+  <button class="ob-btn" id="ob-btn" onclick="closeOnboarding()"></button>
+</div>
+
 </body>
 </html>
