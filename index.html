@@ -403,6 +403,22 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
   <div class="cel-hint" data-i18n="cel_hint"></div>
 </div>
 
+<!-- Timer Save Modal -->
+<div class="modal-ov hidden" id="timer-save-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="timer-save-title"></div>
+    <div id="timer-save-time" style="font-family:'Pacifico',cursive;font-size:36px;color:var(--accent);text-align:center;margin:12px 0 4px;letter-spacing:2px"></div>
+    <div id="timer-save-min" style="font-size:11px;color:var(--text3);text-align:center;margin-bottom:16px"></div>
+    <label class="form-label" data-i18n="log_note"></label>
+    <input class="form-input" id="timer-save-note" style="margin-bottom:4px">
+    <div style="font-size:10px;color:var(--text3);margin-bottom:4px" id="timer-save-decimal"></div>
+    <div class="modal-row">
+      <button class="modal-cancel" onclick="cancelTimerSave()" data-i18n="timer_discard"></button>
+      <button class="modal-ok" onclick="confirmTimerSave()" data-i18n="timer_save_btn"></button>
+    </div>
+  </div>
+</div>
+
 <!-- Extend Modal -->
 <div class="modal-ov hidden" id="extend-modal">
   <div class="modal-box">
@@ -446,7 +462,9 @@ const I18N={
     sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）✨`,
     no_sessions:'まだ記録がありません',recent_sessions:'最近のセッション',
     empty_txt:'スキルを追加して\n習熟の旅を始めよう',empty_hall:'目標を達成したスキルが\nここに殿堂入りします',
-    hall_achieved:'達成',timer_session:'タイマー記録',confirm_del_skill:'このスキルを削除しますか？',
+    hall_achieved:'達成',timer_session:'タイマー記録',
+    timer_discard:'破棄',timer_save_btn:'保存する',timer_save_title:'セッションを保存',
+    timer_save_min_tpl:(m)=>`${m}分（${(m/60).toFixed(2)}時間）`,confirm_del_skill:'このスキルを削除しますか？',
     confirm_del_sess:'このセッションを削除しますか？',confirm_del_hall:'殿堂から削除しますか？',
     done_title:'目標達成おめでとうございます！',done_sub:'次のステップを選んでください',
     btn_hall:'殿堂入り',btn_extend:'目標を延長',start_timer:'タイマー開始',log_session:'手動記録',
@@ -478,7 +496,9 @@ const I18N={
     sim_result_tpl:(d,dur)=>`→ ${d} (about ${dur}) ✨`,
     no_sessions:'No sessions yet',recent_sessions:'Recent sessions',
     empty_txt:'Add a skill and begin\nyour mastery journey',empty_hall:'Skills you\'ve mastered\nwill appear here',
-    hall_achieved:'achieved',timer_session:'Timer session',confirm_del_skill:'Delete this skill?',
+    hall_achieved:'achieved',timer_session:'Timer session',
+    timer_discard:'Discard',timer_save_btn:'Save',timer_save_title:'Save session',
+    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,confirm_del_skill:'Delete this skill?',
     confirm_del_sess:'Delete this session?',confirm_del_hall:'Remove from Hall of Fame?',
     done_title:'Goal Achieved! 🎉',done_sub:'What\'s next?',
     btn_hall:'Hall of Fame',btn_extend:'Extend goal',start_timer:'Start timer',log_session:'Log session',
@@ -510,7 +530,9 @@ const I18N={
     sim_result_tpl:(d,dur)=>`→ ${d} (cerca de ${dur}) ✨`,
     no_sessions:'Sem sessões ainda',recent_sessions:'Sessões recentes',
     empty_txt:'Adicione uma habilidade e\ncomece sua jornada',empty_hall:'As habilidades dominadas\naparecerão aqui',
-    hall_achieved:'alcançado',timer_session:'Sessão de timer',confirm_del_skill:'Excluir esta habilidade?',
+    hall_achieved:'alcançado',timer_session:'Sessão de timer',
+    timer_discard:'Descartar',timer_save_btn:'Salvar',timer_save_title:'Salvar sessão',
+    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,confirm_del_skill:'Excluir esta habilidade?',
     confirm_del_sess:'Excluir esta sessão?',confirm_del_hall:'Remover do Hall da Fama?',
     done_title:'Meta Alcançada! 🎉',done_sub:'O que vem a seguir?',
     btn_hall:'Hall da Fama',btn_extend:'Ampliar meta',start_timer:'Iniciar timer',log_session:'Registrar sessão',
@@ -542,7 +564,9 @@ const I18N={
     sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）✨`,
     no_sessions:'尚無記錄',recent_sessions:'最近記錄',
     empty_txt:'新增技能\n開始你的精通之旅',empty_hall:'達成目標的技能\n將出現在這裡',
-    hall_achieved:'已達成',timer_session:'計時器記錄',confirm_del_skill:'刪除此技能？',
+    hall_achieved:'已達成',timer_session:'計時器記錄',
+    timer_discard:'放棄',timer_save_btn:'儲存',timer_save_title:'儲存記錄',
+    timer_save_min_tpl:(m)=>`${m} 分（${(m/60).toFixed(2)}小時）`,confirm_del_skill:'刪除此技能？',
     confirm_del_sess:'刪除此記錄？',confirm_del_hall:'從名人堂移除？',
     done_title:'恭喜達成目標！🎉',done_sub:'接下來要做什麼？',
     btn_hall:'加入名人堂',btn_extend:'延伸目標',start_timer:'開始計時',log_session:'手動記錄',
@@ -574,7 +598,9 @@ const I18N={
     sim_result_tpl:(d,dur)=>`→ ${d} (약 ${dur}) ✨`,
     no_sessions:'아직 기록 없음',recent_sessions:'최근 세션',
     empty_txt:'스킬을 추가하고\n습득의 여정을 시작하세요',empty_hall:'달성한 스킬이\n여기 나타납니다',
-    hall_achieved:'달성',timer_session:'타이머 기록',confirm_del_skill:'이 스킬을 삭제할까요?',
+    hall_achieved:'달성',timer_session:'타이머 기록',
+    timer_discard:'버리기',timer_save_btn:'저장',timer_save_title:'세션 저장',
+    timer_save_min_tpl:(m)=>`${m}분（${(m/60).toFixed(2)}시간）`,confirm_del_skill:'이 스킬을 삭제할까요?',
     confirm_del_sess:'이 세션을 삭제할까요?',confirm_del_hall:'명예의 전당에서 삭제할까요?',
     done_title:'목표 달성을 축하합니다! 🎉',done_sub:'다음 단계를 선택하세요',
     btn_hall:'명예의 전당',btn_extend:'목표 연장',start_timer:'타이머 시작',log_session:'수동 기록',
@@ -652,6 +678,11 @@ const GOALS=[{h:100,rk:'gr_100'},{h:500,rk:'gr_500'},{h:1000,rk:'gr_1000'},{h:30
 const EXTEND_OPTS=[{h:500,rk:'er_500'},{h:1000,rk:'er_1000'},{h:3000,rk:'er_3000'},{h:10000,rk:'er_10000'}];
 
 function fmtH(m){ return (m/60).toFixed(1); }
+function fmtTimeDecimal(m){ // show 0.1min precision in session list
+  if(m<1) return Math.round(m*10)/10+' min';
+  const h=Math.floor(m/60),mm=Math.round((m%60)*10)/10;
+  if(!h)return mm+' min'; if(!mm)return h+'h'; return h+'h '+mm+' min';
+}
 function fmtTime(m){ const h=Math.floor(m/60),mm=m%60; if(!h)return mm+t('min_unit'); if(!mm)return h+t('h_unit'); return h+t('h_unit')+' '+mm+t('min_unit'); }
 function getLevel(pct){ let l=MASTERY_LEVELS[0]; MASTERY_LEVELS.forEach(x=>{if(pct>=x.pct)l=x;}); return l; }
 function fmtDuration(days){ const yrs=Math.floor(days/365),mos=Math.floor((days%365)/30),dys=Math.floor(days%30); let s=''; if(yrs)s+=yrs+t('yrs'); if(mos)s+=mos+t('mos'); if(!yrs&&dys)s+=dys+t('days'); return s||'1'+t('days'); }
@@ -796,9 +827,14 @@ function renderDetail(){
     <div class="circle-wrap"><svg width="156" height="156" viewBox="0 0 156 156">
       <circle cx="78" cy="78" r="66" fill="none" stroke="var(--border)" stroke-width="8"/>
       <circle cx="78" cy="78" r="66" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${dash}" stroke-linecap="round" transform="rotate(-90 78 78)" style="transition:stroke-dashoffset 0.8s ease"/>
-      <text x="78" y="70" text-anchor="middle" fill="var(--text)" font-size="20" font-weight="bold" font-family="Pacifico,cursive">${fmtH(sk.totalMinutes)}</text>
-      <text x="78" y="84" text-anchor="middle" fill="var(--text3)" font-size="9" font-family="DM Sans,sans-serif">hours</text>
-      <text x="78" y="99" text-anchor="middle" fill="var(--accent)" font-size="10" font-family="Pacifico,cursive">${done?'100%':pct.toFixed(1)+'%'}</text>
+      ${(timerInterval&&timerSkillId===sk.id)?`
+        <text id="circle-timer" x="78" y="75" text-anchor="middle" fill="var(--accent)" font-size="13" font-weight="bold" font-family="Pacifico,cursive">00:00:00</text>
+        <text x="78" y="92" text-anchor="middle" fill="var(--text3)" font-size="8" font-family="DM Sans,sans-serif">practicing...</text>
+      `:`
+        <text x="78" y="70" text-anchor="middle" fill="var(--text)" font-size="20" font-weight="bold" font-family="Pacifico,cursive">${fmtH(sk.totalMinutes)}</text>
+        <text x="78" y="84" text-anchor="middle" fill="var(--text3)" font-size="9" font-family="DM Sans,sans-serif">hours</text>
+        <text x="78" y="99" text-anchor="middle" fill="var(--accent)" font-size="10" font-family="Pacifico,cursive">${done?'100%':pct.toFixed(1)+'%'}</text>
+      `}
     </svg></div>
     <div class="stats-grid">
       <div class="stat-c"><div class="stat-l">${t('goal_lbl')}</div><div class="stat-v">${(sk.goalMinutes/60).toLocaleString()}<span style="font-size:10px;font-family:'DM Sans'">h</span></div></div>
@@ -851,11 +887,67 @@ function setupLog(){
 }
 function selMin(m,btn){ document.getElementById('log-minutes').value=m; document.querySelectorAll('#minute-chips .chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 function submitLog(){ const m=Number(document.getElementById('log-minutes').value),note=document.getElementById('log-note').value.trim(); if(!m)return; logSession(currentSkillId,m,note); switchView('detail'); }
-function logSession(skillId,minutes,note){ const sk=data.skills.find(s=>s.id===skillId); if(!sk)return; const was=sk.totalMinutes<sk.goalMinutes; sk.totalMinutes+=minutes; sk.sessions.unshift({id:Date.now().toString(),minutes,note,date:Date.now()}); saveData(); if(was&&sk.totalMinutes>=sk.goalMinutes)triggerCel(sk); }
+function logSession(skillId,minutes,note){
+  const sk=data.skills.find(s=>s.id===skillId); if(!sk)return;
+  const was=sk.totalMinutes<sk.goalMinutes;
+  const mins=Math.round(minutes*10)/10; // keep 0.1 precision
+  sk.totalMinutes=Math.round((sk.totalMinutes+mins)*10)/10;
+  sk.sessions.unshift({id:Date.now().toString(),minutes:mins,note,date:Date.now()});
+  saveData(); if(was&&sk.totalMinutes>=sk.goalMinutes)triggerCel(sk);
+}
 
 // ===== TIMER =====
-function startTimer(skillId){ timerSkillId=skillId; timerSeconds=0; const sk=data.skills.find(s=>s.id===skillId); document.getElementById('timer-skill-nm').innerHTML=`${iconEl(sk?.icon||'target',13)} ${sk?.name||''}`; document.getElementById('timer-banner').classList.remove('hidden'); timerInterval=setInterval(()=>{ timerSeconds++; const h=String(Math.floor(timerSeconds/3600)).padStart(2,'0'),m=String(Math.floor((timerSeconds%3600)/60)).padStart(2,'0'),s=String(timerSeconds%60).padStart(2,'0'); document.getElementById('timer-display').textContent=`${h}:${m}:${s}`; },1000); renderDetail(); }
-function stopTimer(){ clearInterval(timerInterval); timerInterval=null; const el=Math.floor(timerSeconds/60); document.getElementById('timer-banner').classList.add('hidden'); if(el>0)logSession(timerSkillId,el,t('timer_session')); timerSeconds=0; timerSkillId=null; renderDetail(); }
+function startTimer(skillId){
+  timerSkillId=skillId; timerSeconds=0;
+  const sk=data.skills.find(s=>s.id===skillId);
+  document.getElementById('timer-skill-nm').innerHTML=`${iconEl(sk?.icon||'target',13)} ${sk?.name||''}`;
+  document.getElementById('timer-banner').classList.remove('hidden');
+  timerInterval=setInterval(()=>{
+    timerSeconds++;
+    const h=String(Math.floor(timerSeconds/3600)).padStart(2,'0'),
+          m=String(Math.floor((timerSeconds%3600)/60)).padStart(2,'0'),
+          s=String(timerSeconds%60).padStart(2,'0');
+    const timeStr=`${h}:${m}:${s}`;
+    document.getElementById('timer-display').textContent=timeStr;
+    // update circle if detail view is showing this skill
+    if(currentSkillId===skillId){
+      const ct=document.getElementById('circle-timer');
+      if(ct) ct.textContent=timeStr;
+    }
+  },1000);
+  renderDetail();
+}
+function stopTimer(){
+  clearInterval(timerInterval); timerInterval=null;
+  document.getElementById('timer-banner').classList.add('hidden');
+  const elapsed=timerSeconds;
+  timerSeconds=0;
+  if(elapsed<1){ timerSkillId=null; renderDetail(); return; }
+  // show save modal
+  const totalMin=Math.round(elapsed/6)/10; // 0.1min precision
+  const h=String(Math.floor(elapsed/3600)).padStart(2,'0'),
+        m=String(Math.floor((elapsed%3600)/60)).padStart(2,'0'),
+        s=String(elapsed%60).padStart(2,'0');
+  document.getElementById('timer-save-title').textContent=t('timer_save_title');
+  document.getElementById('timer-save-time').textContent=`${h}:${m}:${s}`;
+  document.getElementById('timer-save-min').textContent=t('timer_save_min_tpl',totalMin);
+  document.getElementById('timer-save-note').value='';
+  document.getElementById('timer-save-modal').classList.remove('hidden');
+  // store elapsed for confirm
+  window._pendingTimerMin=totalMin;
+}
+function confirmTimerSave(){
+  const note=document.getElementById('timer-save-note').value.trim();
+  document.getElementById('timer-save-modal').classList.add('hidden');
+  if(window._pendingTimerMin>0) logSession(timerSkillId,window._pendingTimerMin,note||t('timer_session'));
+  window._pendingTimerMin=0;
+  timerSkillId=null; renderDetail();
+}
+function cancelTimerSave(){
+  document.getElementById('timer-save-modal').classList.add('hidden');
+  window._pendingTimerMin=0;
+  timerSkillId=null; renderDetail();
+}
 
 // ===== HALL =====
 function moveToHall(skillId){ const sk=data.skills.find(s=>s.id===skillId); if(!sk)return; data.hall.unshift({id:Date.now().toString(),name:sk.name,icon:sk.icon||'target',goalMinutes:sk.goalMinutes,totalMinutes:sk.totalMinutes,sessions:sk.sessions.length,achievedAt:Date.now()}); data.skills=data.skills.filter(s=>s.id!==skillId); saveData(); switchView('hall'); }
@@ -879,7 +971,7 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPro
 document.getElementById('install-btn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('install-bar').classList.add('hidden');});
 const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:'data:image/svg+xml,'+iconSvg,sizes:'512x512',type:'image/svg+xml'}]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v10';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v11';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== THEME TOGGLE =====
 function toggleTheme(){
