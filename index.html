@@ -602,7 +602,7 @@ const I18N={
     min_unit:'分',h_unit:'時間',times_unit:'回',
     lv_beginner:'見習い',lv_novice:'初級者',lv_intermediate:'中級者',lv_advanced:'上級者',
     lv_expert:'エキスパート',lv_master:'マスター',lv_legend:'達人',
-    gr_100:'趣味入門',gr_500:'基礎習得',gr_1000:'中級者',gr_3000:'上級者',gr_10000:'マスター',
+    gr_20:'基礎',gr_100:'成長',gr_500:'本格',gr_1000:'中級者',gr_3000:'上級者',gr_10000:'マスター',
     er_500:'次のマイルストーン',er_1000:'着実な積み上げ',er_3000:'上級者レベル',er_10000:'真のマスター',
     settings_title:'設定',settings_lang:'言語',settings_notif:'通知',settings_data:'データ',
     notif_daily:'毎日のリマインダー',notif_daily_sub:'記録がない日にお知らせします',notif_time:'通知時間',
@@ -641,7 +641,7 @@ const I18N={
     min_unit:'min',h_unit:'h',times_unit:'',
     lv_beginner:'Beginner',lv_novice:'Novice',lv_intermediate:'Intermediate',lv_advanced:'Advanced',
     lv_expert:'Expert',lv_master:'Master',lv_legend:'Legend',
-    gr_100:'Beginner',gr_500:'Foundation',gr_1000:'Intermediate',gr_3000:'Advanced',gr_10000:'Mastery',
+    gr_20:'Basics',gr_100:'Growth',gr_500:'Committed',gr_1000:'Intermediate',gr_3000:'Advanced',gr_10000:'Mastery',
     er_500:'Next milestone',er_1000:'Solid foundation',er_3000:'Advanced level',er_10000:'True mastery',
     settings_title:'Settings',settings_lang:'Language',settings_notif:'Notifications',settings_data:'Data',
     notif_daily:'Daily reminder',notif_daily_sub:'Reminds you when no session today',notif_time:'Notification time',
@@ -680,7 +680,7 @@ const I18N={
     min_unit:'min',h_unit:'h',times_unit:'',
     lv_beginner:'Iniciante',lv_novice:'Novato',lv_intermediate:'Intermediário',lv_advanced:'Avançado',
     lv_expert:'Especialista',lv_master:'Mestre',lv_legend:'Lenda',
-    gr_100:'Iniciante',gr_500:'Base sólida',gr_1000:'Intermediário',gr_3000:'Avançado',gr_10000:'Maestria',
+    gr_20:'Básico',gr_100:'Crescimento',gr_500:'Dedicado',gr_1000:'Intermediário',gr_3000:'Avançado',gr_10000:'Maestria',
     er_500:'Próximo marco',er_1000:'Acumulação gradual',er_3000:'Nível avançado',er_10000:'Maestria real',
     settings_title:'Definições',settings_lang:'Idioma',settings_notif:'Notificações',settings_data:'Dados',
     notif_daily:'Lembrete diário',notif_daily_sub:'Avisa quando não há sessão hoje',notif_time:'Hora da notificação',
@@ -719,7 +719,7 @@ const I18N={
     min_unit:'分',h_unit:'小時',times_unit:'次',
     lv_beginner:'初學者',lv_novice:'新手',lv_intermediate:'中級者',lv_advanced:'進階者',
     lv_expert:'專家',lv_master:'達人',lv_legend:'傳奇',
-    gr_100:'入門',gr_500:'基礎習得',gr_1000:'中級',gr_3000:'進階',gr_10000:'精通',
+    gr_20:'基礎',gr_100:'進步',gr_500:'進階',gr_1000:'熟練',gr_3000:'高手',gr_10000:'精通',
     er_500:'下一里程碑',er_1000:'穩步積累',er_3000:'進階水準',er_10000:'真正精通',
     settings_title:'設定',settings_lang:'語言',settings_notif:'通知',settings_data:'資料',
     notif_daily:'每日提醒',notif_daily_sub:'沒有記錄時發送通知',notif_time:'通知時間',
@@ -758,7 +758,7 @@ const I18N={
     min_unit:'분',h_unit:'시간',times_unit:'회',
     lv_beginner:'초보자',lv_novice:'입문자',lv_intermediate:'중급자',lv_advanced:'상급자',
     lv_expert:'전문가',lv_master:'마스터',lv_legend:'레전드',
-    gr_100:'입문',gr_500:'기초 습득',gr_1000:'중급자',gr_3000:'상급자',gr_10000:'마스터',
+    gr_20:'기초',gr_100:'성장',gr_500:'본격',gr_1000:'중급자',gr_3000:'상급자',gr_10000:'마스터',
     er_500:'다음 이정표',er_1000:'착실한 쌓기',er_3000:'상급자 수준',er_10000:'진정한 마스터',
     settings_title:'설정',settings_lang:'언어',settings_notif:'알림',settings_data:'데이터',
     notif_daily:'매일 알림',notif_daily_sub:'기록이 없는 날 알림을 보냅니다',notif_time:'알림 시간',
@@ -829,7 +829,7 @@ const MASTERY_LEVELS=[
   {pct:0,key:'lv_beginner'},{pct:10,key:'lv_novice'},{pct:25,key:'lv_intermediate'},
   {pct:50,key:'lv_advanced'},{pct:75,key:'lv_expert'},{pct:90,key:'lv_master'},{pct:100,key:'lv_legend'},
 ];
-const GOALS=[{h:100,rk:'gr_100'},{h:500,rk:'gr_500'},{h:1000,rk:'gr_1000'},{h:3000,rk:'gr_3000'},{h:10000,rk:'gr_10000'}];
+const GOALS=[{h:20,rk:'gr_20'},{h:100,rk:'gr_100'},{h:500,rk:'gr_500'},{h:1000,rk:'gr_1000'},{h:3000,rk:'gr_3000'},{h:10000,rk:'gr_10000'}];
 const EXTEND_OPTS=[{h:500,rk:'er_500'},{h:1000,rk:'er_1000'},{h:3000,rk:'er_3000'},{h:10000,rk:'er_10000'}];
 
 function fmtH(m){ return (m/60).toFixed(2); }
@@ -1236,12 +1236,55 @@ function closeCelebration(){ document.getElementById('celebration').classList.ad
 function launchConfetti(){ const canvas=document.getElementById('confetti-canvas'); canvas.classList.remove('hidden'); canvas.width=window.innerWidth; canvas.height=window.innerHeight; const ctx=canvas.getContext('2d'); const cols=['#c47878','#a8c0b8','#7090c0','#4a7a6a','#a09080','#8bc34a','#f8f4f0','#1e3a5f']; const ps=Array.from({length:120},()=>({x:Math.random()*canvas.width,y:-20,r:Math.random()*5+3,color:cols[Math.floor(Math.random()*cols.length)],vx:(Math.random()-.5)*3.5,vy:Math.random()*3.5+1.5,rot:Math.random()*360,rotV:(Math.random()-.5)*7,shape:Math.random()>.5?'rect':'circle'})); let fr=0; function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.rotV;p.vy+=.04;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.globalAlpha=Math.max(0,1-fr/180);if(p.shape==='rect')ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);else{ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}ctx.restore();}); fr++; if(fr<200)requestAnimationFrame(draw); else canvas.classList.add('hidden'); } requestAnimationFrame(draw); }
 
 // ===== PWA =====
-const iconSvg=`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23d08888'/><stop offset='100%' style='stop-color:%23b46464'/></linearGradient></defs><rect width='512' height='512' rx='112' fill='url(%23bg)'/><circle cx='256' cy='248' r='155' fill='%23ffffff' opacity='0.07'/><circle cx='256' cy='248' r='148' fill='none' stroke='%23ffffff' stroke-width='1.5' opacity='0.2'/><text x='256' y='318' text-anchor='middle' font-family='Georgia,serif' font-size='272' font-weight='400' fill='%23ffffff' opacity='0.97'>M</text><text x='256' y='400' text-anchor='middle' font-family='Georgia,serif' font-size='38' font-weight='400' letter-spacing='14' fill='%23ffffff' opacity='0.55'>MASTERY</text><circle cx='256' cy='108' r='6' fill='%23ffffff' opacity='0.4'/></svg>`;
+// PWA icon as base64-encoded PNG via canvas
+function generateIcon(){
+  const canvas=document.createElement('canvas');
+  canvas.width=512; canvas.height=512;
+  const ctx=canvas.getContext('2d');
+  // Background rounded rect
+  const r=112;
+  ctx.beginPath();
+  ctx.moveTo(r,0); ctx.lineTo(512-r,0);
+  ctx.quadraticCurveTo(512,0,512,r);
+  ctx.lineTo(512,512-r);
+  ctx.quadraticCurveTo(512,512,512-r,512);
+  ctx.lineTo(r,512);
+  ctx.quadraticCurveTo(0,512,0,512-r);
+  ctx.lineTo(0,r);
+  ctx.quadraticCurveTo(0,0,r,0);
+  ctx.closePath();
+  // Gradient fill
+  const grad=ctx.createLinearGradient(0,0,512,512);
+  grad.addColorStop(0,'#d08888');
+  grad.addColorStop(1,'#b46464');
+  ctx.fillStyle=grad;
+  ctx.fill();
+  // Subtle circle
+  ctx.beginPath();
+  ctx.arc(256,248,148,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,0.2)';
+  ctx.lineWidth=2;
+  ctx.stroke();
+  // M letter
+  ctx.fillStyle='rgba(255,255,255,0.97)';
+  ctx.font='bold 280px Georgia, serif';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText('M',256,270);
+  // MASTERY text
+  ctx.fillStyle='rgba(255,255,255,0.55)';
+  ctx.font='300 36px Georgia, serif';
+  ctx.letterSpacing='12px';
+  ctx.fillText('MASTERY',256,400);
+  return canvas.toDataURL('image/png');
+}
+const iconSvg=null; // unused, replaced by canvas
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('install-bar').classList.remove('hidden');});
 document.getElementById('install-btn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('install-bar').classList.add('hidden');});
-const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:'data:image/svg+xml,'+iconSvg,sizes:'512x512',type:'image/svg+xml'}]};
+const iconDataUrl=generateIcon();
+const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:iconDataUrl,sizes:'512x512',type:'image/png'},{src:iconDataUrl,sizes:'192x192',type:'image/png'}]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v26';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v29';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== SETTINGS =====
 function openSettings(){
