@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" id="pwa-manifest">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mastery">
 <link rel="apple-touch-icon" href="./icon-512.png">
@@ -1785,7 +1786,48 @@ loadData().then(()=>{
     showOnboarding();
   }
   setInterval(()=>{if(data.theme==='auto')applyTheme('auto');},60000);
+  // Generate PWA manifest dynamically
+  const mf={name:'Mastery',short_name:'Mastery',display:'standalone',
+    background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',
+    start_url:'./',
+    icons:[
+      {src:'./icon-512.png',sizes:'512x512',type:'image/png'},
+      {src:'./icon-192.png',sizes:'192x192',type:'image/png'}
+    ]};
+  const mfBlob=new Blob([JSON.stringify(mf)],{type:'application/json'});
+  const mfUrl=URL.createObjectURL(mfBlob);
+  document.getElementById('pwa-manifest').href=mfUrl;
 });
+
+// ===== SERVICE WORKER REGISTRATION =====
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./sw.js').then(reg=>{
+      // Check for waiting SW on load
+      if(reg.waiting){
+        _waitingSW = reg.waiting;
+        showUpdateBanner();
+      }
+      // Watch for new SW installing
+      reg.addEventListener('updatefound', ()=>{
+        const newSW = reg.installing;
+        newSW.addEventListener('statechange', ()=>{
+          if(newSW.state === 'installed' && navigator.serviceWorker.controller){
+            _waitingSW = newSW;
+            showUpdateBanner();
+          }
+        });
+      });
+      // Check for updates every hour
+      setInterval(()=> reg.update(), 60 * 60 * 1000);
+    }).catch(err => console.log('SW registration failed:', err));
+
+    // When new SW takes control, reload
+    navigator.serviceWorker.addEventListener('controllerchange', ()=>{
+      window.location.reload();
+    });
+  });
+}
 </script>
 <!-- Update Banner -->
 <div class="update-banner hidden" id="update-banner">
