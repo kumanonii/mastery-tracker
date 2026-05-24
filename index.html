@@ -189,6 +189,10 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .weekly-sub { font-size: 9px; color: var(--text3); font-family: 'DM Sans',sans-serif; }
 
 /* ===== SKILL CARDS ===== */
+.skill-card-wrap.dragging { opacity: 0.4; }
+.skill-card-wrap.drag-over { border: 2px dashed var(--accent); border-radius: 14px; }
+.skill-card-wrap { cursor: grab; }
+.skill-card-wrap:active { cursor: grabbing; }
 .skill-card { background: var(--card); border: 1px solid var(--cardBorder); border-radius: 14px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: box-shadow 0.2s; position: relative; overflow: hidden; }
 .skill-card:active { opacity: 0.82; }
 .skill-card.done { border-color: var(--accent); }
@@ -950,7 +954,12 @@ function renderList(){
   if(!skills.length){el.innerHTML=`<div class="empty"><div class="empty-icon"><i class="ph ph-target"></i></div><div class="empty-txt">${t('empty_txt').replace('\n','<br>')}</div></div>`;return;}
   el.innerHTML=skills.map(sk=>{
     const pct=Math.min(100,(sk.totalMinutes/sk.goalMinutes)*100),lv=getLevel(pct),done=sk.totalMinutes>=sk.goalMinutes;
-    return `<div class="skill-card-wrap" id="scw-${sk.id}">
+    return `<div class="skill-card-wrap" id="scw-${sk.id}"
+        draggable="true"
+        ondragstart="onCardDragStart(event,'${sk.id}')"
+        ondragend="onCardDragEnd(event,'${sk.id}')"
+        ondragover="onCardDragOver(event,'${sk.id}')"
+        ondrop="onCardDrop(event,'${sk.id}')">
       <div class="skill-card-timer-bg"><i class="ph ph-timer"></i></div>
       <div class="skill-card${done?' done':''}" id="sc-${sk.id}"
         ontouchstart="cardSwipeStart(event,'${sk.id}')"
@@ -1240,7 +1249,8 @@ function togglePause(){
 }
 
 function stopTimer(){
-  clearInterval(timerInterval); timerInterval=null; timerPaused=false;
+  clearInterval(timerInterval); timerInterval=null;
+  releaseWakeLock(); timerPaused=false;
   document.getElementById('timer-fullscreen').classList.add('hidden');
   document.getElementById('timer-banner').classList.add('hidden');
   const elapsed=timerSeconds;
@@ -1552,6 +1562,46 @@ function exportData(){
   a.click(); URL.revokeObjectURL(url);
 }
 
+// ===== DRAG & DROP SORT =====
+let _dragSrcId = null;
+
+function onCardDragStart(e, id){
+  _dragSrcId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  setTimeout(()=>{ document.getElementById('scw-'+id)?.classList.add('dragging'); }, 0);
+}
+function onCardDragEnd(e, id){
+  document.getElementById('scw-'+id)?.classList.remove('dragging');
+  document.querySelectorAll('.skill-card-wrap').forEach(el=>el.classList.remove('drag-over'));
+}
+function onCardDragOver(e, id){
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.skill-card-wrap').forEach(el=>el.classList.remove('drag-over'));
+  if(id !== _dragSrcId) document.getElementById('scw-'+id)?.classList.add('drag-over');
+}
+function onCardDrop(e, id){
+  e.preventDefault();
+  if(!_dragSrcId || _dragSrcId === id) return;
+  document.querySelectorAll('.skill-card-wrap').forEach(el=>el.classList.remove('drag-over'));
+  // Reorder skills array
+  const skills = getSortedSkills();
+  const srcIdx = skills.findIndex(s=>s.id===_dragSrcId);
+  const dstIdx = skills.findIndex(s=>s.id===id);
+  if(srcIdx < 0 || dstIdx < 0) return;
+  // Reorder in data.skills to match new order
+  const srcSkill = data.skills.find(s=>s.id===_dragSrcId);
+  const dstSkill = data.skills.find(s=>s.id===id);
+  const si = data.skills.indexOf(srcSkill);
+  const di = data.skills.indexOf(dstSkill);
+  data.skills.splice(si, 1);
+  data.skills.splice(di, 0, srcSkill);
+  data.sortMode = 'added'; // switch to manual order
+  saveData();
+  renderList();
+  _dragSrcId = null;
+}
+
 // ===== CARD SWIPE (list → timer) =====
 let cardSwipeTouchX=0, cardSwipeActive=null, cardSwipeTriggered=false;
 function cardSwipeStart(e,id){ cardSwipeTouchX=e.touches[0].clientX; cardSwipeActive=id; cardSwipeTriggered=false; const c=document.getElementById('sc-'+id); if(c)c.classList.add('swiping'); }
@@ -1749,14 +1799,16 @@ loadData().then(()=>{
 
 <!-- Onboarding -->
 <div class="onboarding hidden" id="onboarding">
-  <div class="ob-logo">Mastery</div>
-  <div class="ob-tagline" id="ob-tagline"></div>
-  <div class="ob-lang-row">
-    <button class="ob-lang-btn active" onclick="setObLang('ja',this)">日本語</button>
-    <button class="ob-lang-btn" onclick="setObLang('en',this)">English</button>
-    <button class="ob-lang-btn" onclick="setObLang('pt',this)">Português</button>
-    <button class="ob-lang-btn" onclick="setObLang('zh',this)">繁體中文</button>
-    <button class="ob-lang-btn" onclick="setObLang('ko',this)">한국어</button>
+  <div class="ob-hero">
+    <div class="ob-logo">Mastery</div>
+    <div class="ob-tagline" id="ob-tagline"></div>
+    <div class="ob-lang-row">
+      <button class="ob-lang-btn active" onclick="setObLang('ja',this)">日本語</button>
+      <button class="ob-lang-btn" onclick="setObLang('en',this)">English</button>
+      <button class="ob-lang-btn" onclick="setObLang('pt',this)">Português</button>
+      <button class="ob-lang-btn" onclick="setObLang('zh',this)">繁體中文</button>
+      <button class="ob-lang-btn" onclick="setObLang('ko',this)">한국어</button>
+    </div>
   </div>
   <div class="ob-steps">
     <div class="ob-step">
@@ -1781,12 +1833,10 @@ loadData().then(()=>{
       </div>
     </div>
   </div>
-  <div class="ob-more">
-    <span id="ob-more-text"></span>
-    <i class="ph ph-dots-three"></i>
+  <div class="ob-more"><span id="ob-more-text"></span></div>
+  <div class="ob-footer">
+    <button class="ob-btn" id="ob-btn" onclick="closeOnboarding()"></button>
   </div>
-  <div style="height:24px"></div>
-  <button class="ob-btn" id="ob-btn" onclick="closeOnboarding()"></button>
 </div>
 
 </body>
