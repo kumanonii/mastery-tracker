@@ -307,6 +307,14 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .modal-cancel { flex: 1; padding: 11px; background: var(--bg); border: 1px solid var(--border); border-radius: 18px; color: var(--text2); }
 .modal-ok { flex: 1; padding: 11px; background: var(--accent); border: none; border-radius: 18px; color: var(--accentText); font-weight: 700; }
 
+/* ===== UPDATE BANNER ===== */
+.update-banner { position: fixed; bottom: calc(env(safe-area-inset-bottom,0px) + 16px); left: 16px; right: 16px; z-index: 999; background: var(--text); color: var(--bg); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.18); transition: transform 0.3s ease, opacity 0.3s ease; }
+.update-banner.hidden { transform: translateY(120%); opacity: 0; pointer-events: none; }
+.update-banner-text { font-size: 13px; line-height: 1.4; flex: 1; }
+.update-banner-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+.update-banner-btn { background: var(--accent); color: var(--accentText); border-radius: 20px; padding: 8px 16px; font-size: 13px; font-weight: 600; white-space: nowrap; border: none; cursor: pointer; }
+.update-banner-dismiss { color: var(--bg); opacity: 0.5; font-size: 20px; padding: 4px; flex-shrink: 0; }
+
 /* ===== SETTINGS MODAL ===== */
 .settings-modal { position: fixed; inset: 0; z-index: 997; display: flex; flex-direction: column; background: var(--bg); }
 .settings-header { padding: max(env(safe-area-inset-top,16px),20px) 20px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
@@ -649,7 +657,7 @@ const I18N={
     import_btn:'データをインポート（JSON）',import_ok:'インポートしました！',import_err:'ファイルが正しくありません',
     import_warn:'現在のデータは上書きされます。よろしいですか？',export_btn:'データをエクスポート（JSON）',
     active_days_pre:'これまで',active_days_post:'日間取り組んだ',
-    total_this_week:'今週の合計',forecast_achieve:'達成予定',notif_set:'通知を設定しました ✓',notif_remind:'今日はまだ取り組んでいません。少しだけやってみませんか？',subtitle:'skill tracker',
+    total_this_week:'今週の合計',forecast_achieve:'達成予定',update_title:'アップデートがあります',update_sub:'新しいバージョンが利用可能です',update_btn:'今すぐ更新',notif_set:'通知を設定しました ✓',notif_remind:'今日はまだ取り組んでいません。少しだけやってみませんか？',subtitle:'skill tracker',
   },
   en:{
     tab_skills:'Skills',tab_hall:'Hall of Fame',install_msg:'Add to Home Screen',install_btn:'Add',
@@ -688,7 +696,7 @@ const I18N={
     import_btn:'Import data (JSON)',import_ok:'Imported successfully!',import_err:'Invalid file',
     import_warn:'This will overwrite your current data. Continue?',export_btn:'Export data (JSON)',
     active_days_pre:'total',active_days_post:'days logged',
-    total_this_week:'This week',forecast_achieve:'Estimated completion',notif_set:'Notifications enabled ✓',notif_remind:'No session yet today. How about a little practice?',notif_set:'Notifications enabled ✓',notif_remind:'No session yet today. How about a little practice?',subtitle:'skill tracker',
+    total_this_week:'This week',forecast_achieve:'Estimated completion',update_title:'Update available',update_sub:'A new version is ready',update_btn:'Update now',notif_set:'Notifications enabled ✓',notif_remind:'No session yet today. How about a little practice?',update_title:'Update available',update_sub:'A new version is ready',update_btn:'Update now',notif_set:'Notifications enabled ✓',notif_remind:'No session yet today. How about a little practice?',subtitle:'skill tracker',
   },
   pt:{
     tab_skills:'Habilidades',tab_hall:'Hall da Fama',install_msg:'Adicionar ao Ecrã Inicial',install_btn:'Adicionar',
@@ -727,7 +735,7 @@ const I18N={
     import_btn:'Importar dados (JSON)',import_ok:'Importado com sucesso!',import_err:'Ficheiro inválido',
     import_warn:'Isto irá substituir os dados actuais. Continuar?',export_btn:'Exportar dados (JSON)',
     active_days_pre:'total',active_days_post:'dias de trabalho',
-    total_this_week:'Esta semana',forecast_achieve:'Conclusão estimada',notif_set:'Notificações ativadas ✓',notif_remind:'Ainda sem sessão hoje. Que tal dedicar alguns minutos?',subtitle:'rastreador de habilidades',
+    total_this_week:'Esta semana',forecast_achieve:'Conclusão estimada',update_title:'Actualização disponível',update_sub:'Uma nova versão está pronta',update_btn:'Actualizar agora',notif_set:'Notificações ativadas ✓',notif_remind:'Ainda sem sessão hoje. Que tal dedicar alguns minutos?',subtitle:'rastreador de habilidades',
   },
   zh:{
     tab_skills:'技能列表',tab_hall:'名人堂',install_msg:'加入主畫面',install_btn:'加入',
@@ -766,7 +774,7 @@ const I18N={
     import_btn:'匯入資料（JSON）',import_ok:'匯入成功！',import_err:'檔案無效',
     import_warn:'將覆蓋目前資料，確定嗎？',export_btn:'匯出資料（JSON）',
     active_days_pre:'累計',active_days_post:'天的記錄',
-    total_this_week:'本週合計',forecast_achieve:'預計完成',notif_set:'通知已設定 ✓',notif_remind:'今天還沒有記錄。來做一點吧？',subtitle:'技能追蹤',
+    total_this_week:'本週合計',forecast_achieve:'預計完成',update_title:'有新版本',update_sub:'新版本已準備好',update_btn:'立即更新',notif_set:'通知已設定 ✓',notif_remind:'今天還沒有記錄。來做一點吧？',subtitle:'技能追蹤',
   },
   ko:{
     tab_skills:'스킬 목록',tab_hall:'명예의 전당',install_msg:'홈 화면에 추가',install_btn:'추가',
@@ -805,7 +813,7 @@ const I18N={
     import_btn:'데이터 가져오기 (JSON)',import_ok:'가져오기 성공!',import_err:'잘못된 파일',
     import_warn:'현재 데이터를 덮어씁니다. 계속할까요?',export_btn:'데이터 내보내기 (JSON)',
     active_days_pre:'총',active_days_post:'일 기록',
-    total_this_week:'이번 주 합계',forecast_achieve:'예상 완료',notif_set:'알림이 설정되었습니다 ✓',notif_remind:'오늘 아직 기록이 없어요. 조금만 해볼까요?',subtitle:'스킬 트래커',
+    total_this_week:'이번 주 합계',forecast_achieve:'예상 완료',update_title:'업데이트 있음',update_sub:'새 버전이 준비되었습니다',update_btn:'지금 업데이트',notif_set:'알림이 설정되었습니다 ✓',notif_remind:'오늘 아직 기록이 없어요. 조금만 해볼까요?',subtitle:'스킬 트래커',
   }
 };
 
@@ -1705,6 +1713,16 @@ loadData().then(()=>{
   setInterval(()=>{if(data.theme==='auto')applyTheme('auto');},60000);
 });
 </script>
+<!-- Update Banner -->
+<div class="update-banner hidden" id="update-banner">
+  <div class="update-banner-text">
+    <strong id="update-banner-title"></strong>
+    <span id="update-banner-sub"></span>
+  </div>
+  <button class="update-banner-btn" id="update-banner-btn" onclick="applyUpdate()"></button>
+  <button class="update-banner-dismiss" onclick="dismissUpdate()"><i class="ph ph-x"></i></button>
+</div>
+
 <!-- Onboarding -->
 <div class="onboarding hidden" id="onboarding">
   <div class="ob-logo">Mastery</div>
