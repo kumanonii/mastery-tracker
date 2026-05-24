@@ -195,6 +195,7 @@ body.lang-ko .add-section-title { font-family: 'Jua', sans-serif; }
 .btn-sec i { font-size: 15px; }
 .btn-danger { background: none; color: #b05050; font-size: 11px; display: flex; align-items: center; gap: 4px; }
 .btn-back { background: none; color: var(--accent); font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.btn-back i { font-size: 22px; }
 .btn-add { width: 100%; padding: 14px; background: var(--bg2); border: 1.5px dashed var(--border2); border-radius: 14px; color: var(--text3); font-size: 13px; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .btn-add i { font-size: 18px; color: var(--accent); }
 
@@ -436,7 +437,7 @@ input:checked + .toggle-slider:before { transform: translateX(18px); }
     </div>
     <div id="view-hall" class="pad hidden"><div id="hall-list"></div></div>
     <div id="view-add" class="pad hidden">
-      <button class="btn-back mb18" onclick="switchView('list')"><i class="ph ph-arrow-left"></i> <span data-i18n="back"></span></button>
+      <button class="btn-back mb18" onclick="switchView('list')"><i class="ph ph-arrow-left"></i></button>
       <div class="add-section-title" style="font-size:18px;margin-bottom:18px" data-i18n="add_title"></div>
       <div class="mb16"><label class="form-label" data-i18n="add_icon"></label><div class="icon-grid" id="icon-grid"></div></div>
       <div class="mb16"><label class="form-label" data-i18n="add_name"></label><input class="form-input" id="new-name" oninput="updateAddBtn()"></div>
@@ -449,13 +450,13 @@ input:checked + .toggle-slider:before { transform: translateX(18px); }
     </div>
     <div id="view-detail" class="pad hidden">
       <div class="detail-hd">
-        <button class="btn-back" onclick="switchView('list')"><i class="ph ph-arrow-left"></i> <span data-i18n="back"></span></button>
+        <button class="btn-back" onclick="switchView('list')"><i class="ph ph-arrow-left"></i></button>
         <button onclick="deleteCurrentSkill()" style="background:none;color:var(--text3);font-size:18px;padding:4px 8px;opacity:0.6" title="削除"><i class="ph ph-trash"></i></button>
       </div>
       <div id="detail-content"></div>
     </div>
     <div id="view-log" class="pad hidden">
-      <button class="btn-back mb18" onclick="switchView('detail')"><i class="ph ph-arrow-left"></i> <span data-i18n="back"></span></button>
+      <button class="btn-back mb18" onclick="switchView('detail')"><i class="ph ph-arrow-left"></i></button>
       <div id="log-header" class="add-section-title" style="font-size:16px;margin-bottom:18px"></div>
       <div class="mb16"><label class="form-label" data-i18n="log_time"></label><div class="chip-row" id="minute-chips"></div><input class="form-input" type="number" id="log-minutes" value="60"></div>
       <div class="mb18"><label class="form-label" data-i18n="log_note"></label><input class="form-input" id="log-note"></div>
@@ -585,11 +586,11 @@ const I18N={
     if_practice:'もし毎日取り組んだら',yrs:'年',mos:'ヶ月',days:'日',
     sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）<i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'まだ記録がありません',recent_sessions:'最近のセッション',
-    empty_txt:'スキルを追加して\n習熟の旅を始めよう',empty_hall:'目標を達成したスキルが\nここに殿堂入りします',
+    empty_txt:'スキルを追加して\n習熟の旅を始めよう',empty_hall:'目標を達成したスキルが\n ここに殿堂入りします',
     hall_achieved:'達成',timer_session:'タイマー記録',
     timer_discard:'破棄',timer_paused:'一時停止中',timer_resume:'再開',timer_save_btn:'保存する',timer_save_title:'セッションを保存',
-    timer_save_min_tpl:(m)=>`${m}分（${(m/60).toFixed(2)}時間）`,confirm_del_skill:'このスキルを削除しますか？',
-    confirm_del_sess:'このセッションを削除しますか？',confirm_del_hall:'殿堂から削除しますか？',
+    timer_save_min_tpl:(m)=>`${m}分（${(m/60).toFixed(2)}時間）`,
+    confirm_del_skill:'このスキルを削除しますか？',confirm_del_sess:'このセッションを削除しますか？',confirm_del_hall:'殿堂から削除しますか？',
     done_title:'目標達成おめでとうございます！',done_sub:'次のステップを選んでください',
     btn_hall:'殿堂入り',btn_extend:'目標を延長',start_timer:'タイマー開始',log_session:'手動記録',
     forecast_no_data:'セッションを記録すると予測が表示されます',
@@ -598,10 +599,12 @@ const I18N={
     lv_expert:'エキスパート',lv_master:'マスター',lv_legend:'達人',
     gr_100:'趣味入門',gr_500:'基礎習得',gr_1000:'中級者',gr_3000:'上級者',gr_10000:'マスター',
     er_500:'次のマイルストーン',er_1000:'着実な積み上げ',er_3000:'上級者レベル',er_10000:'真のマスター',
-    settings_title:'設定',    settings_lang:'言語',    settings_notif:'通知',    settings_data:'データ',    notif_daily:'毎日のリマインダー',    notif_daily_sub:'記録がない日にお知らせします',    notif_time:'通知時間',    import_btn:'データをインポート（JSON）',import_ok:'インポートしました！',import_err:'ファイルが正しくありません',
-    import_warn:'現在のデータは上書きされます。よろしいですか？',    export_btn:'データをエクスポート（JSON）',    active_days:'これまで 日間取り組んだ',active_days_pre:'これまで',active_days_post:'日間取り組んだ',
-    total_this_week:'今週の合計',    forecast_achieve:'達成予定',
-    subtitle:'skill tracker',
+    settings_title:'設定',settings_lang:'言語',settings_notif:'通知',settings_data:'データ',
+    notif_daily:'毎日のリマインダー',notif_daily_sub:'記録がない日にお知らせします',notif_time:'通知時間',
+    import_btn:'データをインポート（JSON）',import_ok:'インポートしました！',import_err:'ファイルが正しくありません',
+    import_warn:'現在のデータは上書きされます。よろしいですか？',export_btn:'データをエクスポート（JSON）',
+    active_days_pre:'これまで',active_days_post:'日間取り組んだ',
+    total_this_week:'今週の合計',forecast_achieve:'達成予定',subtitle:'skill tracker',
   },
   en:{
     tab_skills:'Skills',tab_hall:'Hall of Fame',install_msg:'Add to Home Screen',install_btn:'Add',
@@ -617,17 +620,17 @@ const I18N={
     ext_ok:'Set goal',cancel:'Cancel',save:'Save',edit_name_title:'Edit skill name',
     week:'This Week',month:'This Month',skills_lbl:'Skills',active:'active',
     goal_lbl:'Goal',remaining_lbl:'Remaining',exceeded_lbl:'Exceeded',sessions_lbl:'Sessions',
-    avg_lbl:'Avg / session',forecast_lbl:'Forecast',pace_lbl:'/ day (recent avg)',
+    avg_lbl:'Avg / session',forecast_lbl:'Forecast',pace_lbl:'/ day',
     forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d} (about ${dur})`,
     if_practice:'If I work on this…',yrs:'yr',mos:'mo',days:'d',
     sim_result_tpl:(d,dur)=>`→ ${d} (about ${dur}) <i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'No sessions yet',recent_sessions:'Recent sessions',
-    empty_txt:'Add a skill and begin\nyour mastery journey',empty_hall:'Skills you\'ve mastered\nwill appear here',
+    empty_txt:'Add a skill and begin\nyour mastery journey',empty_hall:'Skills you have mastered\nwill appear here',
     hall_achieved:'achieved',timer_session:'Timer session',
     timer_discard:'Discard',timer_paused:'PAUSED',timer_resume:'Resume',timer_save_btn:'Save',timer_save_title:'Save session',
-    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,confirm_del_skill:'Delete this skill?',
-    confirm_del_sess:'Delete this session?',confirm_del_hall:'Remove from Hall of Fame?',
-    done_title:'Goal Achieved! 🎉',done_sub:'What\'s next?',
+    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,
+    confirm_del_skill:'Delete this skill?',confirm_del_sess:'Delete this session?',confirm_del_hall:'Remove from Hall of Fame?',
+    done_title:'Goal Achieved!',done_sub:'Next steps?',
     btn_hall:'Hall of Fame',btn_extend:'Extend goal',start_timer:'Start timer',log_session:'Log session',
     forecast_no_data:'Record sessions to see your forecast',
     min_unit:'min',h_unit:'h',times_unit:'',
@@ -635,51 +638,55 @@ const I18N={
     lv_expert:'Expert',lv_master:'Master',lv_legend:'Legend',
     gr_100:'Beginner',gr_500:'Foundation',gr_1000:'Intermediate',gr_3000:'Advanced',gr_10000:'Mastery',
     er_500:'Next milestone',er_1000:'Solid foundation',er_3000:'Advanced level',er_10000:'True mastery',
-    settings_title:'Settings',    settings_lang:'Language',    settings_notif:'Notifications',    settings_data:'Data',    notif_daily:'Daily reminder',    notif_daily_sub:'Reminds you when no session today',    notif_time:'Notification time',    import_btn:'Import data (JSON)',import_ok:'Imported successfully!',import_err:'Invalid file',
-    import_warn:'This will overwrite your current data. Continue?',        export_btn:'Export data (JSON)',    active_days:'total days practiced',active_days_pre:'total',active_days_post:'days practiced',
-    total_this_week:'This week',    forecast_achieve:'Estimated completion',
-    subtitle:'skill tracker',
+    settings_title:'Settings',settings_lang:'Language',settings_notif:'Notifications',settings_data:'Data',
+    notif_daily:'Daily reminder',notif_daily_sub:'Reminds you when no session today',notif_time:'Notification time',
+    import_btn:'Import data (JSON)',import_ok:'Imported successfully!',import_err:'Invalid file',
+    import_warn:'This will overwrite your current data. Continue?',export_btn:'Export data (JSON)',
+    active_days_pre:'total',active_days_post:'days logged',
+    total_this_week:'This week',forecast_achieve:'Estimated completion',subtitle:'skill tracker',
   },
   pt:{
-    tab_skills:'Habilidades',tab_hall:'Hall da Fama',install_msg:'Adicionar à Tela Inicial',install_btn:'Adicionar',
+    tab_skills:'Habilidades',tab_hall:'Hall da Fama',install_msg:'Adicionar ao Ecrã Inicial',install_btn:'Adicionar',
     timer_now:'a trabalhar agora',timer_stop:'Parar e Guardar',sort_label:'Ordenar',sort_added:'Adicionado',
     sort_progress:'Progresso',sort_recent:'Recente',add_skill_btn:'Adicionar habilidade',
-    add_title:'Registrar nova habilidade',add_icon:'Escolher ícone',add_name:'Nome da habilidade',
+    add_title:'Registar nova habilidade',add_icon:'Escolher ícone',add_name:'Nome da habilidade',
     add_name_ph:'ex: Guitarra, Programação…',add_goal:'Meta em horas',add_btn:'Adicionar',
-    back:'Voltar',delete:'Excluir',log_time:'Tempo (min)',log_note:'Nota (opcional)',
+    back:'Voltar',delete:'Eliminar',log_time:'Tempo (min)',log_note:'Nota (opcional)',
     log_note_ph:'O que fizeste hoje?',log_btn:'Guardar sessão',hours:'horas',
     cel_title:'Meta Alcançada!',cel_hint:'toque para fechar',
     cel_sub_tpl:(n)=>`"${n}"\nfoi dominada!`,
-    ext_title:'Definir próxima meta',ext_sub:'Escolha uma meta motivadora',
+    ext_title:'Definir próxima meta',ext_sub:'Escolhe uma meta motivadora',
     ext_ok:'Definir meta',cancel:'Cancelar',save:'Guardar',edit_name_title:'Editar nome',
     week:'Esta Semana',month:'Este Mês',skills_lbl:'Habilidades',active:'ativo',
     goal_lbl:'Meta',remaining_lbl:'Restante',exceeded_lbl:'Excedido',sessions_lbl:'Sessões',
-    avg_lbl:'Média / sessão',forecast_lbl:'Previsão',pace_lbl:'/ dia (média recente)',
+    avg_lbl:'Média / sessão',forecast_lbl:'Previsão',pace_lbl:'/ dia',
     forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d} (cerca de ${dur})`,
     if_practice:'Se eu dedicar…',yrs:'ano',mos:'mês',days:'d',
     sim_result_tpl:(d,dur)=>`→ ${d} (cerca de ${dur}) <i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'Sem sessões ainda',recent_sessions:'Sessões recentes',
-    empty_txt:'Adicione uma habilidade e\ncomece sua jornada',empty_hall:'As habilidades dominadas\naparecerão aqui',
-    hall_achieved:'alcançado',timer_session:'Sessão de timer',
-    timer_discard:'Descartar',timer_paused:'PAUSADO',timer_resume:'Retomar',timer_save_btn:'Guardar',timer_save_title:'Salvar sessão',
-    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,confirm_del_skill:'Eliminar esta habilidade?',
-    confirm_del_sess:'Eliminar esta sessão?',confirm_del_hall:'Remover do Hall da Fama?',
-    done_title:'Meta Alcançada! 🎉',done_sub:'O que se segue?',
-    btn_hall:'Hall da Fama',btn_extend:'Ampliar meta',start_timer:'Iniciar timer',log_session:'Registrar sessão',
+    empty_txt:'Adiciona uma habilidade e\ncomece a tua jornada',empty_hall:'As habilidades dominadas\naparecerão aqui',
+    hall_achieved:'alcançado',timer_session:'Sessão de temporizador',
+    timer_discard:'Descartar',timer_paused:'PAUSADO',timer_resume:'Retomar',timer_save_btn:'Guardar',timer_save_title:'Guardar sessão',
+    timer_save_min_tpl:(m)=>`${m} min (${(m/60).toFixed(2)}h)`,
+    confirm_del_skill:'Eliminar esta habilidade?',confirm_del_sess:'Eliminar esta sessão?',confirm_del_hall:'Remover do Hall da Fama?',
+    done_title:'Meta Alcançada!',done_sub:'O que se segue?',
+    btn_hall:'Hall da Fama',btn_extend:'Ampliar meta',start_timer:'Iniciar temporizador',log_session:'Registar sessão',
     forecast_no_data:'Regista sessões para veres a tua previsão',
     min_unit:'min',h_unit:'h',times_unit:'',
     lv_beginner:'Iniciante',lv_novice:'Novato',lv_intermediate:'Intermediário',lv_advanced:'Avançado',
     lv_expert:'Especialista',lv_master:'Mestre',lv_legend:'Lenda',
     gr_100:'Iniciante',gr_500:'Base sólida',gr_1000:'Intermediário',gr_3000:'Avançado',gr_10000:'Maestria',
     er_500:'Próximo marco',er_1000:'Acumulação gradual',er_3000:'Nível avançado',er_10000:'Maestria real',
-    settings_title:'Configurações',    settings_lang:'Idioma',    settings_notif:'Notificações',    settings_data:'Dados',    notif_daily:'Lembrete diário',    notif_daily_sub:'Avisa quando não há sessão hoje',    notif_time:'Horário da notificação',    import_btn:'Importar dados (JSON)',import_ok:'Importado com sucesso!',import_err:'Ficheiro inválido',
-    import_warn:'Isto irá substituir os dados actuais. Continuar?',        export_btn:'Exportar dados (JSON)',    active_days:'total dias praticados',active_days_pre:'total',active_days_post:'dias praticados',
-    total_this_week:'Esta semana',    forecast_achieve:'Conclusão estimada',
-    subtitle:'rastreador de habilidades',
+    settings_title:'Definições',settings_lang:'Idioma',settings_notif:'Notificações',settings_data:'Dados',
+    notif_daily:'Lembrete diário',notif_daily_sub:'Avisa quando não há sessão hoje',notif_time:'Hora da notificação',
+    import_btn:'Importar dados (JSON)',import_ok:'Importado com sucesso!',import_err:'Ficheiro inválido',
+    import_warn:'Isto irá substituir os dados actuais. Continuar?',export_btn:'Exportar dados (JSON)',
+    active_days_pre:'total',active_days_post:'dias de trabalho',
+    total_this_week:'Esta semana',forecast_achieve:'Conclusão estimada',subtitle:'rastreador de habilidades',
   },
   zh:{
     tab_skills:'技能列表',tab_hall:'名人堂',install_msg:'加入主畫面',install_btn:'加入',
-    timer_now:'取り組み中',timer_stop:'停止並儲存',sort_label:'排序',sort_added:'加入順序',
+    timer_now:'進行中',timer_stop:'停止並儲存',sort_label:'排序',sort_added:'加入順序',
     sort_progress:'進度',sort_recent:'最近',add_skill_btn:'新增技能',
     add_title:'登錄新技能',add_icon:'選擇圖示',add_name:'技能名稱',
     add_name_ph:'例：吉他、程式設計…',add_goal:'目標時數',add_btn:'新增',
@@ -690,33 +697,35 @@ const I18N={
     ext_title:'設定下一個目標',ext_sub:'選擇能持續激勵你的目標',
     ext_ok:'設定目標',cancel:'取消',save:'儲存',edit_name_title:'編輯技能名稱',
     week:'本週',month:'本月',skills_lbl:'技能',active:'進行中',
-    goal_lbl:'目標',remaining_lbl:'剩餘',exceeded_lbl:'超出',sessions_lbl:'練習次數',
-    avg_lbl:'平均/次',forecast_lbl:'預測',pace_lbl:'/ 天（近期平均）',
+    goal_lbl:'目標',remaining_lbl:'剩餘',exceeded_lbl:'超出',sessions_lbl:'次數',
+    avg_lbl:'平均/次',forecast_lbl:'預測',pace_lbl:'/ 天',
     forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d}（約${dur}）`,
     if_practice:'如果每天投入…',yrs:'年',mos:'個月',days:'天',
     sim_result_tpl:(d,dur)=>`→ ${d}（約${dur}）<i class='ph ph-sparkle' style='font-size:11px'></i>`,
     no_sessions:'尚無記錄',recent_sessions:'最近記錄',
     empty_txt:'新增技能\n開始你的精通之旅',empty_hall:'達成目標的技能\n將出現在這裡',
-    hall_achieved:'已達成',timer_session:'計時器記錄',
+    hall_achieved:'已達成',timer_session:'計時記錄',
     timer_discard:'放棄',timer_paused:'已暫停',timer_resume:'繼續',timer_save_btn:'儲存',timer_save_title:'儲存記錄',
-    timer_save_min_tpl:(m)=>`${m} 分（${(m/60).toFixed(2)}小時）`,confirm_del_skill:'刪除此技能？',
-    confirm_del_sess:'刪除此記錄？',confirm_del_hall:'從名人堂移除？',
-    done_title:'恭喜達成目標！🎉',done_sub:'接下來要做什麼？',
+    timer_save_min_tpl:(m)=>`${m} 分（${(m/60).toFixed(2)}小時）`,
+    confirm_del_skill:'刪除此技能？',confirm_del_sess:'刪除此記錄？',confirm_del_hall:'從名人堂移除？',
+    done_title:'恭喜達成目標！',done_sub:'接下來要做什麼？',
     btn_hall:'加入名人堂',btn_extend:'延伸目標',start_timer:'開始計時',log_session:'手動記錄',
-    forecast_no_data:'記錄練習後即可查看預測',
+    forecast_no_data:'記錄後即可查看預測',
     min_unit:'分',h_unit:'小時',times_unit:'次',
     lv_beginner:'初學者',lv_novice:'新手',lv_intermediate:'中級者',lv_advanced:'進階者',
     lv_expert:'專家',lv_master:'達人',lv_legend:'傳奇',
     gr_100:'入門',gr_500:'基礎習得',gr_1000:'中級',gr_3000:'進階',gr_10000:'精通',
     er_500:'下一里程碑',er_1000:'穩步積累',er_3000:'進階水準',er_10000:'真正精通',
-    settings_title:'設定',    settings_lang:'語言',    settings_notif:'通知',    settings_data:'資料',    notif_daily:'每日提醒',    notif_daily_sub:'沒有記錄時發送通知',    notif_time:'通知時間',    import_btn:'匯入資料（JSON）',import_ok:'匯入成功！',import_err:'檔案無效',
-    import_warn:'將覆蓋目前資料，確定嗎？',        export_btn:'匯出資料（JSON）',    active_days:'累計 天的記錄',active_days_pre:'累計',active_days_post:'天的記錄',
-    total_this_week:'本週合計',    forecast_achieve:'預計完成',
-    subtitle:'技能追蹤',
+    settings_title:'設定',settings_lang:'語言',settings_notif:'通知',settings_data:'資料',
+    notif_daily:'每日提醒',notif_daily_sub:'沒有記錄時發送通知',notif_time:'通知時間',
+    import_btn:'匯入資料（JSON）',import_ok:'匯入成功！',import_err:'檔案無效',
+    import_warn:'將覆蓋目前資料，確定嗎？',export_btn:'匯出資料（JSON）',
+    active_days_pre:'累計',active_days_post:'天的記錄',
+    total_this_week:'本週合計',forecast_achieve:'預計完成',subtitle:'技能追蹤',
   },
   ko:{
     tab_skills:'스킬 목록',tab_hall:'명예의 전당',install_msg:'홈 화면에 추가',install_btn:'추가',
-    timer_now:'연습 중',timer_stop:'중지 & 저장',sort_label:'정렬',sort_added:'추가순',
+    timer_now:'임하는 중',timer_stop:'중지 & 저장',sort_label:'정렬',sort_added:'추가순',
     sort_progress:'진도순',sort_recent:'최근순',add_skill_btn:'새 스킬 추가',
     add_title:'새 스킬 등록',add_icon:'아이콘 선택',add_name:'스킬 이름',
     add_name_ph:'예: 기타, 프로그래밍…',add_goal:'목표 시간',add_btn:'추가하기',
@@ -727,8 +736,8 @@ const I18N={
     ext_title:'다음 목표 설정',ext_sub:'동기를 유지할 목표를 선택하세요',
     ext_ok:'목표 설정',cancel:'취소',save:'저장',edit_name_title:'스킬 이름 편집',
     week:'이번 주',month:'이번 달',skills_lbl:'스킬',active:'진행 중',
-    goal_lbl:'목표',remaining_lbl:'남은 시간',exceeded_lbl:'초과',sessions_lbl:'세션 수',
-    avg_lbl:'평균/회',forecast_lbl:'예측',pace_lbl:'/ 일 (최근 평균)',
+    goal_lbl:'목표',remaining_lbl:'남은 시간',exceeded_lbl:'초과',sessions_lbl:'세션',
+    avg_lbl:'평균/회',forecast_lbl:'예측',pace_lbl:'/ 일',
     forecast_date_tpl:(d,dur)=>`<i class='ph ph-calendar-blank' style='font-size:12px'></i> ${d} (약 ${dur})`,
     if_practice:'매일 임한다면…',yrs:'년',mos:'개월',days:'일',
     sim_result_tpl:(d,dur)=>`→ ${d} (약 ${dur}) <i class='ph ph-sparkle' style='font-size:11px'></i>`,
@@ -736,9 +745,9 @@ const I18N={
     empty_txt:'스킬을 추가하고\n습득의 여정을 시작하세요',empty_hall:'달성한 스킬이\n여기 나타납니다',
     hall_achieved:'달성',timer_session:'타이머 기록',
     timer_discard:'버리기',timer_paused:'일시정지',timer_resume:'재개',timer_save_btn:'저장',timer_save_title:'세션 저장',
-    timer_save_min_tpl:(m)=>`${m}분（${(m/60).toFixed(2)}시간）`,confirm_del_skill:'이 스킬을 삭제할까요?',
-    confirm_del_sess:'이 세션을 삭제할까요?',confirm_del_hall:'명예의 전당에서 삭제할까요?',
-    done_title:'목표 달성을 축하합니다! 🎉',done_sub:'다음 단계를 선택하세요',
+    timer_save_min_tpl:(m)=>`${m}분（${(m/60).toFixed(2)}시간）`,
+    confirm_del_skill:'이 스킬을 삭제할까요?',confirm_del_sess:'이 세션을 삭제할까요?',confirm_del_hall:'명예의 전당에서 삭제할까요?',
+    done_title:'목표 달성을 축하합니다!',done_sub:'다음 단계를 선택하세요',
     btn_hall:'명예의 전당',btn_extend:'목표 연장',start_timer:'타이머 시작',log_session:'수동 기록',
     forecast_no_data:'세션을 기록하면 예측을 볼 수 있어요',
     min_unit:'분',h_unit:'시간',times_unit:'회',
@@ -746,10 +755,12 @@ const I18N={
     lv_expert:'전문가',lv_master:'마스터',lv_legend:'레전드',
     gr_100:'입문',gr_500:'기초 습득',gr_1000:'중급자',gr_3000:'상급자',gr_10000:'마스터',
     er_500:'다음 이정표',er_1000:'착실한 쌓기',er_3000:'상급자 수준',er_10000:'진정한 마스터',
-    settings_title:'설정',    settings_lang:'언어',    settings_notif:'알림',    settings_data:'데이터',    notif_daily:'매일 알림',    notif_daily_sub:'기록이 없는 날 알림을 보냅니다',    notif_time:'알림 시간',    import_btn:'데이터 가져오기 (JSON)',import_ok:'가져오기 성공!',import_err:'잘못된 파일',
-    import_warn:'현재 데이터를 덮어씁니다. 계속할까요?',        export_btn:'데이터 내보내기 (JSON)',    active_days:'총 일 동안 해왔다',active_days_pre:'총',active_days_post:'일 동안 해왔다',
-    total_this_week:'이번 주 합계',    forecast_achieve:'예상 완료',
-    subtitle:'스킬 트래커',
+    settings_title:'설정',settings_lang:'언어',settings_notif:'알림',settings_data:'데이터',
+    notif_daily:'매일 알림',notif_daily_sub:'기록이 없는 날 알림을 보냅니다',notif_time:'알림 시간',
+    import_btn:'데이터 가져오기 (JSON)',import_ok:'가져오기 성공!',import_err:'잘못된 파일',
+    import_warn:'현재 데이터를 덮어씁니다. 계속할까요?',export_btn:'데이터 내보내기 (JSON)',
+    active_days_pre:'총',active_days_post:'일 기록',
+    total_this_week:'이번 주 합계',forecast_achieve:'예상 완료',subtitle:'스킬 트래커',
   }
 };
 
@@ -954,6 +965,7 @@ function renderDetail(){
   const weekGraphHtml=`<div class="week-graph">
     <div class="week-graph-title">
       <span style="display:flex;align-items:center;gap:5px"><i class="ph ph-chart-bar"></i> Last 7 days</span>
+      <span id="week-graph-total-inline" style="font-size:11px;color:var(--text2)"></span>
     </div>
     <div class="week-graph-bars">
       ${weekMins.map(d=>`<div class="week-bar-wrap">
@@ -961,7 +973,7 @@ function renderDetail(){
         <div class="week-bar-label">${d.day}</div>
       </div>`).join('')}
     </div>
-    <div class="week-graph-total">${t('total_this_week')} ${(weekMins.reduce((a,d)=>a+d.m,0)/60).toFixed(2)}h</div>
+    <div id='wgt-placeholder'></div>
   </div>`;
 
   let forecastHtml='';
@@ -1002,13 +1014,14 @@ function renderDetail(){
       <button class="btn-ext" onclick="openExtend('${sk.id}',${sk.goalMinutes})"><i class="ph ph-arrow-up-right"></i> ${t('btn_extend')}</button>
     </div></div>`:'';
   const timerBtn=(timerInterval&&timerSkillId===sk.id)
-    ?`<button class="action-icon-btn" style="background:#b05050;color:#fff;border:none" onclick="stopTimer()"><i class="ph ph-stop-circle"></i></button>`
-    :`<button class="action-icon-btn" onclick="startTimer('${sk.id}')"${timerInterval?' disabled':''}><i class="ph ph-timer"></i></button>`;
+    ?`<button class="action-icon-btn primary" style="background:#b05050;border-color:#b05050" onclick="stopTimer()"><i class="ph ph-stop-circle"></i> Stop</button>`
+    :`<button class="action-icon-btn primary" onclick="startTimer('${sk.id}')"${timerInterval?' disabled':''} ><i class="ph ph-timer"></i> Start</button>`;
   const sessions=sk.sessions.slice(0,10).map(s=>`<div class="sess-item">
     <div><div class="sess-t">${fmtTime(s.minutes)}</div>${s.note?`<div class="sess-n">${s.note}</div>`:''}</div>
     <div style="display:flex;align-items:center;gap:6px"><div class="sess-d">${new Date(s.date).toLocaleDateString()}</div>
     <button class="sess-del" onclick="deleteSession('${sk.id}','${s.id}')"><i class="ph ph-x-circle"></i></button></div>
   </div>`).join('');
+  window._weekTotal=null;
   document.getElementById('detail-content').innerHTML=`
     ${doneBanner}
     <div class="detail-hero">
@@ -1037,9 +1050,9 @@ function renderDetail(){
         </div>
       </div>
     </div>
-    <div style="display:flex;justify-content:center;gap:32px;margin-bottom:18px">
+    <div style="display:flex;gap:10px;margin-bottom:18px">
       ${timerBtn}
-      <button class="action-icon-btn" onclick="switchView('log')"><i class="ph ph-plus-circle"></i></button>
+      <button class="action-icon-btn" onclick="switchView('log')"><i class="ph ph-plus-circle"></i> Log</button>
     </div>
 
     ${weekGraphHtml}
@@ -1047,11 +1060,16 @@ function renderDetail(){
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)">
       <div class="sec-label" style="margin-bottom:0">${t('recent_sessions')}</div>
       <div style="display:flex;gap:14px">
-        <div style="text-align:right"><div style="font-size:9px;color:var(--text3);letter-spacing:1px">${t('sessions_lbl')}</div><div class="font-display" style="font-size:13px;color:var(--accent)">${sk.sessions.length}${t('times_unit')?'<span style="font-size:9px"> '+t('times_unit')+'</span>':''}</div></div>
-        <div style="text-align:right"><div style="font-size:9px;color:var(--text3);letter-spacing:1px">${t('avg_lbl')}</div><div style="font-size:12px;color:var(--accent)">${sk.sessions.length?fmtTime(Math.round(sk.totalMinutes/sk.sessions.length)):'—'}</div></div>
+        <div style="text-align:right"><div style="font-size:9px;color:var(--text3);letter-spacing:1px">${t('sessions_lbl')}</div><div style="font-size:13px;color:var(--accent);font-weight:500">${sk.sessions.length}${t('times_unit')?` <span style='font-size:9px'>${t('times_unit')}</span>`:''}</div></div>
+        <div style="text-align:right"><div style="font-size:9px;color:var(--text3);letter-spacing:1px">${t('avg_lbl')}</div><div style="font-size:12px;color:var(--accent);font-weight:500">${sk.sessions.length?fmtTime(Math.round(sk.totalMinutes/sk.sessions.length)):'—'}</div></div>
       </div>
     </div>
     ${sk.sessions.length?sessions:`<div style="color:var(--text3);font-size:12px;text-align:center;padding:18px">${t('no_sessions')}</div>`}`;
+  // Update week total inline
+  setTimeout(()=>{
+    const el=document.getElementById('week-graph-total-inline');
+    if(el&&window._weekTotal!==null) el.textContent=window._weekTotal+'h';
+  },0);
 }
 function calcSim(rem,hpd){ if(!rem||!hpd)return ''; const days=rem/60/hpd; return t('sim_result_tpl',new Date(Date.now()+days*24*60*60*1000).toLocaleDateString(),fmtDuration(days)); }
 function simUpdate(h,btn){ simHours=h; document.querySelectorAll('.forecast-chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk)return; const el=document.getElementById('sim-result'); if(el)el.textContent=calcSim(Math.max(0,sk.goalMinutes-sk.totalMinutes),h); }
@@ -1207,7 +1225,7 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPro
 document.getElementById('install-btn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('install-bar').classList.add('hidden');});
 const mf={name:'Mastery',short_name:'Mastery',display:'standalone',background_color:'#c47878',theme_color:'#c47878',orientation:'portrait',start_url:'./',icons:[{src:'data:image/svg+xml,'+iconSvg,sizes:'512x512',type:'image/svg+xml'}]};
 document.getElementById('manifest-link').href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/json'}));
-if('serviceWorker' in navigator){const sw=`const C='mt-v22';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
+if('serviceWorker' in navigator){const sw=`const C='mt-v25';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['.']))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('.')))));`;navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});}
 
 // ===== SETTINGS =====
 function openSettings(){
