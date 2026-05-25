@@ -34,7 +34,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 /* ===== BASE FONTS ===== */
-body { font-family: 'DM Sans','Noto Sans JP',sans-serif; font-weight: 300; min-height: 100dvh; transition: background 1.4s ease, color 0.8s ease; overflow-x: hidden; padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+body { font-family: 'DM Sans','Noto Sans JP',sans-serif; font-weight: 300; min-height: 100dvh; transition: background 1.4s ease, color 0.8s ease; overflow-x: hidden; }
 body.lang-ja { font-family: 'DM Sans','Noto Sans JP',sans-serif; }
 body.lang-en { font-family: 'DM Sans',sans-serif; }
 body.lang-pt { font-family: 'DM Sans',sans-serif; }
@@ -128,9 +128,6 @@ body { background: var(--grad); color: var(--text); }
 
 /* ===== LAYOUT ===== */
 #app { max-width: 480px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; }
-
-
-}
 #header { padding: max(env(safe-area-inset-top,16px),20px) 20px 0; }
 #content { flex: 1; overflow-y: auto; padding-bottom: calc(env(safe-area-inset-bottom,0px) + 80px); }
 
@@ -1102,8 +1099,7 @@ function renderDetail(){
     <div style="display:flex;align-items:center;gap:6px"><div class="sess-d">${new Date(s.date).toLocaleDateString()}</div>
     <button class="sess-del" onclick="deleteSession('${sk.id}','${s.id}')"><i class="ph ph-x-circle"></i></button></div>
   </div>`).join('');
-  const _detailEl=document.getElementById('detail-content');
-  _detailEl.innerHTML=`
+  document.getElementById('detail-content').innerHTML=`
     ${doneBanner}
     <div class="detail-hero">
       <div class="d-name">${iconEl(sk.icon||'target',16)} ${sk.name}<button class="btn-edit-name" onclick="openEditName('${sk.id}')"><i class="ph ph-pencil-simple"></i></button></div>
@@ -1146,7 +1142,6 @@ function renderDetail(){
       </div>
     </div>
     ${sk.sessions.length?sessions:`<div style="color:var(--text3);font-size:12px;text-align:center;padding:18px">${t('no_sessions')}</div>`}`;
-
 
 }
 function calcSim(rem,hpd){ if(!rem||!hpd)return ''; const days=rem/60/hpd; return t('sim_result_tpl',new Date(Date.now()+days*24*60*60*1000).toLocaleDateString(),fmtDuration(days)); }
@@ -1848,7 +1843,6 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
-
 <!-- Update Banner -->
 <div class="update-banner hidden" id="update-banner">
   <div class="update-banner-text">
