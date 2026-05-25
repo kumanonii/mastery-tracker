@@ -1,4 +1,4 @@
-# Mastery Tracker
+# Mastery - Skill Tracker
 
 ピアノの練習を100時間したくて作った、スキルの習熟時間を記録できる習熟トラッカーアプリです。
 
