@@ -1,17 +1,21 @@
 # Mastery Tracker
 
 ピアノの練習を100時間したくて作った、スキルの習熟時間を記録できる習熟トラッカーアプリです。
+
+個人用に作ったものなので、今後も使いやすいように勝手に更新していきます。
+fork free / 改造自由です。MITライセンスに準拠して自由に使ってください。
+
 A tiny tracker I made for practicing piano for 100 hours.
 
-![main](./.github/images/dashboard.jpg)
+This was built as a personal tool, so I’ll probably keep updating it casually in whatever ways make it more usable for myself.
+Feel free to modify it however you like.  
+Released under the MIT License.
+
+<img src="./.github/images/dashboard.jpg" width="300" />
 
 ## Screens
 
-<img src="./.github/images/onboarding .PNG" width="600" />
-
-<img src="./.github/images/timer.jpg" width="600" />
-
-<img src="./.github/images/create-skill.PNG" width="600" />
+<img src="./.github/images/onboarding .PNG" width="300" /> <img src="./.github/images/timer.jpg" width="300" /> <img src="./.github/images/create-skill.PNG" width="300" />
 
 
 ## 特徴
