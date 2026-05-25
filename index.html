@@ -1042,8 +1042,8 @@ function renderDetail(){
   }
   const weekGraphHtml=`<div class="week-graph">
     <div class="week-graph-title">
-      <span style="display:flex;align-items:center;gap:5px"><i class="ph ph-chart-bar"></i> Last 7 days</span>
-      <span id="week-graph-total-inline" style="font-size:11px;color:var(--text2)"></span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3)"><i class="ph ph-chart-bar" style="font-size:12px"></i> LAST 7 DAYS</span>
+      <span style="font-size:12px;color:var(--text2);font-weight:500">${(weekMins.reduce((a,d)=>a+d.m,0)/60).toFixed(1)}h</span>
     </div>
     <div class="week-graph-bars">
       ${weekMins.map(d=>`<div class="week-bar-wrap">
@@ -1099,7 +1099,6 @@ function renderDetail(){
     <div style="display:flex;align-items:center;gap:6px"><div class="sess-d">${new Date(s.date).toLocaleDateString()}</div>
     <button class="sess-del" onclick="deleteSession('${sk.id}','${s.id}')"><i class="ph ph-x-circle"></i></button></div>
   </div>`).join('');
-  window._weekTotal=null;
   document.getElementById('detail-content').innerHTML=`
     ${doneBanner}
     <div class="detail-hero">
@@ -1143,11 +1142,7 @@ function renderDetail(){
       </div>
     </div>
     ${sk.sessions.length?sessions:`<div style="color:var(--text3);font-size:12px;text-align:center;padding:18px">${t('no_sessions')}</div>`}`;
-  // Update week total inline
-  setTimeout(()=>{
-    const el=document.getElementById('week-graph-total-inline');
-    if(el&&window._weekTotal!==null) el.textContent=window._weekTotal+'h';
-  },0);
+
 }
 function calcSim(rem,hpd){ if(!rem||!hpd)return ''; const days=rem/60/hpd; return t('sim_result_tpl',new Date(Date.now()+days*24*60*60*1000).toLocaleDateString(),fmtDuration(days)); }
 function simUpdate(h,btn){ simHours=h; document.querySelectorAll('.forecast-chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const sk=data.skills.find(s=>s.id===currentSkillId); if(!sk)return; const el=document.getElementById('sim-result'); if(el)el.innerHTML=calcSim(Math.max(0,sk.goalMinutes-sk.totalMinutes),h); }
