@@ -18,7 +18,7 @@ Released under the MIT License.
 
 ## Screens
 
-<img src="./.github/images/onboarding .PNG" width="300" /> <img src="./.github/images/timer.jpg" width="300" /> <img src="./.github/images/create-skill.PNG" width="300" />
+<img src="./.github/images/onboarding .PNG" width="250" /> <img src="./.github/images/timer.jpg" width="250" /> <img src="./.github/images/create-skill.PNG" width="250" />
 
 
 ## 特徴
