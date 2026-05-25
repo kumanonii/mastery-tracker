@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mastery-v45';
+const CACHE_NAME = 'mastery-v46';
 const ASSETS = ['./'];
 
 // Install - cache app shell
