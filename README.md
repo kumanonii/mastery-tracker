@@ -3,11 +3,14 @@
 ピアノの練習を100時間したくて作った、スキルの習熟時間を記録できる習熟トラッカーアプリです。
 
 個人用に作ったものなので、今後も使いやすいように勝手に更新していきます。
-fork free / 改造自由です。MITライセンスに準拠して自由に使ってください。
+PCでも一応動きますが、safariでスマホのホーム画面に追加して使う想定で作りました。
+使用・改造お好きにどうぞ。MITライセンスに準拠して自由にお役立てください。
 
 A tiny tracker I made for practicing piano for 100 hours.
 
 This was built as a personal tool, so I’ll probably keep updating it casually in whatever ways make it more usable for myself.
+
+It also works on desktop, but it was mainly designed to be used from the iPhone home screen via Safari.
 Feel free to modify it however you like.  
 Released under the MIT License.
 
