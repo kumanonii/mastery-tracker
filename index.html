@@ -1275,9 +1275,14 @@ function togglePause(){
   const icon=document.getElementById('tfs-pause-icon');
   const pausedLabel=document.getElementById('tfs-paused');
   if(timerPaused){
+    // 一時停止：今の時刻を記録
+    timerPauseTimestamp=Date.now();
     icon.className='ph ph-play';
     pausedLabel.classList.remove('hidden');
   } else {
+    // 再開：一時停止していた時間を合計に加算
+    if(timerPauseTimestamp) timerPausedTotal+=Date.now()-timerPauseTimestamp;
+    timerPauseTimestamp=0;
     icon.className='ph ph-pause';
     pausedLabel.classList.add('hidden');
   }
