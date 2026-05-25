@@ -1202,7 +1202,7 @@ function logSession(skillId,minutes,note){
 }
 
 // ===== TIMER =====
-let timerPaused=false;
+let timerPaused=false,timerStartTimestamp=0,timerPauseTimestamp=0;
 
 // ===== WAKE LOCK =====
 let _wakeLock=null;
@@ -1217,13 +1217,23 @@ function releaseWakeLock(){
   if(_wakeLock){ _wakeLock.release().catch(()=>{}); _wakeLock=null; }
 }
 document.addEventListener('visibilitychange',async()=>{
-  if(document.visibilityState==='visible'&&timerInterval&&!_wakeLock){
-    await requestWakeLock();
+  if(document.visibilityState==='visible'&&timerInterval){
+    // Recalculate elapsed time after coming back from lock screen
+    if(!timerPaused){
+      const elapsed=Math.floor((Date.now()-timerStartTimestamp-timerPausedTotal)/1000);
+      timerSeconds=elapsed;
+      updateTimerDisplay();
+    } else {
+      // Was paused when locked - don't count locked time
+      // Just update pause timestamp to now to avoid counting lock time
+    }
+    if(!_wakeLock) await requestWakeLock();
   }
 });
 
 function startTimer(skillId){
   timerSkillId=skillId; timerSeconds=0; timerPaused=false;
+  timerStartTimestamp=Date.now(); timerPausedTotal=0; timerPauseTimestamp=0;
   const sk=data.skills.find(s=>s.id===skillId);
   // show fullscreen
   const fs=document.getElementById('timer-fullscreen');
@@ -1241,7 +1251,9 @@ function startTimer(skillId){
   requestWakeLock();
   timerInterval=setInterval(()=>{
     if(timerPaused) return;
-    timerSeconds++;
+    // Use real elapsed time to handle screen lock/background
+    const elapsed=Math.floor((Date.now()-timerStartTimestamp-timerPausedTotal)/1000);
+    timerSeconds=elapsed;
     updateTimerDisplay();
   },1000);
   renderDetail();
